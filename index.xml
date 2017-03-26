@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title></title>
+    <link>https://d-dorazio.github.io/index.xml</link>
+    <description>Recent content on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 26 Mar 2017 01:30:06 +0100</lastBuildDate>
+    <atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Signals from the past</title>
+      <link>https://d-dorazio.github.io/post/signals-from-the-past/</link>
+      <pubDate>Sun, 26 Mar 2017 01:30:06 +0100</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/signals-from-the-past/</guid>
+      <description>
+
+&lt;p&gt;It&amp;rsquo;s just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell.
+How cool is that? But, how does it work?&lt;/p&gt;
+
+&lt;p&gt;Every developer that has done some little system programming on Linux knows that the answer is &lt;em&gt;signals&lt;/em&gt;.
+They are defined in the POSIX standard and are a (very) limited form of inter-process communication.
+The idea is really simple: a signal is sent to a program to notify it that an event has occured.
+It could be the Ctrl-C event(aka &lt;code&gt;SIGINT&lt;/code&gt;) or the request of program termination(&lt;code&gt;SIGTERM&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;The really interesting part is that programs can react to those events providing really cool features.
+It&amp;rsquo;s extremely convenient to abort the compilation(without corrupting anything)
+of the Linux kernel just by pressing Ctrl-C, isn&amp;rsquo;t it? Therefore one would think that such a useful
+thing to have would be &lt;em&gt;trivial&lt;/em&gt; to implement, right? Wrong. It&amp;rsquo;s really a pain. Let&amp;rsquo;s see why.&lt;/p&gt;
+
+&lt;h2 id=&#34;at-the-beginning-there-was-signal&#34;&gt;At the beginning there was signal&lt;/h2&gt;
+
+&lt;p&gt;As defined in the POSIX standard, the primitive for registering a callback to a signal is
+&lt;a href=&#34;http://man7.org/linux/man-pages/man7/signal.7.html&#34;&gt;&lt;code&gt;signal&lt;/code&gt;&lt;/a&gt;. The semantic is pretty easy,
+just call it with the signal you&amp;rsquo;re interested in and provide the proper callback.&lt;/p&gt;
+
+&lt;p&gt;It turns out writing a correct signal handler is way more harder than writing a multi-threaded
+program. The problem is that your program stops as soon as it catches the signal, no matter what it was
+doing. That means that &lt;em&gt;everything&lt;/em&gt; could possibly be in an unconsistent state(yes, even if you protect
+your code with locks). At this point I&amp;rsquo;m hearing you saying: &amp;ldquo;hey, what can I do in the handler then?&amp;rdquo;. Well,
+there are some system calls that are &lt;em&gt;guaranteed&lt;/em&gt; to work(&lt;code&gt;open&lt;/code&gt; for example), but they&amp;rsquo;re really
+just a few and even basic functions like &lt;code&gt;printf&lt;/code&gt; are not in there because they acquire locks internally.&lt;/p&gt;
+
+&lt;p&gt;The probably safest way to write a signal handler is to set a &lt;code&gt;sig_atomic_t&lt;/code&gt; flag(that is guaranteed to work)
+once a signal arrives and then poll that flag and do something useful when it&amp;rsquo;s set. Polling is always your friend.&lt;/p&gt;
+
+&lt;p&gt;But let&amp;rsquo;s ignore the above for now, there is another pitfall in using &lt;code&gt;signal&lt;/code&gt;: the signal handler gets reset
+after the signal is received. Ok, you say, I&amp;rsquo;m gonna register the handler again in the handler itself and that&amp;rsquo;s it.
+Unfortunately no, because it&amp;rsquo;s possible that another signal arrives in the meantime and that&amp;rsquo;s a race condition.&lt;/p&gt;
+
+&lt;p&gt;Ok, &lt;code&gt;signal&lt;/code&gt; is broken, let&amp;rsquo;s build something new.&lt;/p&gt;
+
+&lt;h2 id=&#34;then-sigaction-came&#34;&gt;Then sigaction came&amp;hellip;&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;signal&lt;/code&gt; was replaced by &lt;a href=&#34;http://man7.org/linux/man-pages/man2/rt_sigaction.2.html&#34;&gt;&lt;code&gt;sigaction&lt;/code&gt;&lt;/a&gt; and
+obviously that works perfectly&amp;hellip;&amp;lt;/sarcasm&amp;gt; It suffers the same usability problem of &lt;code&gt;signal&lt;/code&gt;. However,
+it introduced some interesting ideas. For example it&amp;rsquo;s possible to retrieve some useful information
+about the signal like the sender process pid or the user id(see the &lt;code&gt;siginfo_t&lt;/code&gt; struct
+and the &lt;code&gt;sa_sigaction&lt;/code&gt; attribute in &lt;code&gt;sigaction&lt;/code&gt;).&lt;/p&gt;
+
+&lt;h2 id=&#34;along-with-sigwait&#34;&gt;along with sigwait&amp;hellip;&lt;/h2&gt;
+
+&lt;p&gt;Then some clever folks thought that we could just block the current thread until a signal arrives;
+&lt;a href=&#34;http://man7.org/linux/man-pages/man3/sigwait.3.html&#34;&gt;&lt;code&gt;sigwait&lt;/code&gt;&lt;/a&gt; was born. It turns out that&amp;rsquo;s a pretty usable
+and easy API. Just spawn another thread that blocks until one of a given set of signals arrives and do something
+according to the signal received. This way the code would run &amp;ldquo;normally&amp;rdquo; without interrupting the normal execution
+of the code eliminating the limitation of the signal handler. That&amp;rsquo;s awesome.&lt;/p&gt;
+
+&lt;p&gt;Though, with threads come great responsibility. You need to properly protect shared variables with locks
+and so forth, but we&amp;rsquo;re more confident with these kind of problems than with weird interrupt ones.
+Moreover, threads have their own sigmask and that can cause some problems, because a thread could
+ignore some signals that are worth catching.&lt;/p&gt;
+
+&lt;p&gt;This works, but we can do better.&lt;/p&gt;
+
+&lt;h2 id=&#34;and-signalfd-eventually-killed-them-all&#34;&gt;and signalfd eventually killed them all&lt;/h2&gt;
+
+&lt;p&gt;Some other folks then thought that we could just expose the events via a file descriptor following
+the UNIX philosophy. That rocks, UNIX rocks. Once we have a file descriptor we can rule the world!
+We can integrate with existing event loops such as &lt;a href=&#34;http://man7.org/linux/man-pages/man7/epoll.7.html&#34;&gt;&lt;code&gt;epoll&lt;/code&gt;&lt;/a&gt;
+or &lt;a href=&#34;http://man7.org/linux/man-pages/man2/select.2.html&#34;&gt;&lt;code&gt;select&lt;/code&gt;&lt;/a&gt; or we can just call the
+sync functions. Everything that&amp;rsquo;s left to us is just reading the &lt;code&gt;siginfo_t&lt;/code&gt; from the file descriptor
+and call the appropriate function for the signal received. That&amp;rsquo;s what I mean for &amp;ldquo;easy&amp;rdquo;.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;funny-things&#34;&gt;Funny things&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;signals are aggregated, that means that on the imaginary &amp;ldquo;signals queue&amp;rdquo; there will be at most one
+instance of any signals. This problem affects &lt;a href=&#34;http://man7.org/linux/man-pages/man2/signalfd.2.html&#34;&gt;&lt;code&gt;signalfd&lt;/code&gt;&lt;/a&gt;
+as well as &lt;code&gt;signal&lt;/code&gt; and &lt;code&gt;sigaction&lt;/code&gt;, but I don&amp;rsquo;t really see where the problem is, because you eventually get
+the signal&amp;hellip;;&lt;/li&gt;
+&lt;li&gt;most system calls can be interrupted by a signal and in those cases they return &lt;code&gt;EINTR&lt;/code&gt; that is
+&amp;ldquo;the call was interrupted, please retry but consider what we&amp;rsquo;ve done so far&amp;rdquo;; I always wondered
+why there are that big warnings in several programming languages docs saying that the API could
+return less things than it was asked for. This is certainly a reason.
+&lt;br /&gt;
+&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;useful-resources&#34;&gt;Useful resources&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Unix_signal&#34;&gt;https://en.wikipedia.org/wiki/Unix_signal&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://ldpreload.com/blog/signalfd-is-useless&#34;&gt;https://ldpreload.com/blog/signalfd-is-useless&lt;/a&gt; &amp;lt;- this is really interesting&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.linuxprogrammingblog.com/all-about-linux-signals?page=1&#34;&gt;http://www.linuxprogrammingblog.com/all-about-linux-signals?page=1&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://d-dorazio.github.io/about/</link>
+      <pubDate>Sun, 26 Mar 2017 01:28:21 +0100</pubDate>
+      
+      <guid>https://d-dorazio.github.io/about/</guid>
+      <description>
+
+&lt;p&gt;I&amp;rsquo;m a software developer based in Florence with a strong passion for open source and&lt;/p&gt;
+
+&lt;p&gt;I&amp;rsquo;m currently employed at &lt;a href=&#34;https://develer.com&#34;&gt;Develer&lt;/a&gt;. It&amp;rsquo;s an amazing company where I work
+with great people on great projects and no, they didn&amp;rsquo;t pay me to say that.
+The cool thing is that Develer does literally everything, from low-level embedded projects to
+the most innovative websites. This way I&amp;rsquo;ve got the chance to explore all the sides of software
+developing.&lt;/p&gt;
+
+&lt;p&gt;I haven&amp;rsquo;t got a favourite programming language, but I enjoy writing in Haskell and Rust.&lt;/p&gt;
+
+&lt;h3 id=&#34;what-s-this-blog-all-about&#34;&gt;What&amp;rsquo;s this blog all about?&lt;/h3&gt;
+
+&lt;p&gt;This blog will contain my ramblings about whatever I find interesting or worth to be
+written down. I don&amp;rsquo;t really expect anyone to read(and like) any of my posts, because I&amp;rsquo;m writing for
+myself only.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
