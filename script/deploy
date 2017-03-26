@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -eux
+
+hugo
+
+git add .
+git commit || true
+
+git push origin HEAD
+git subtree push --prefix public origin master
