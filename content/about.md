@@ -4,7 +4,7 @@ title = "About Me"
 
 +++
 
-I'm a software developer based in Florence with a strong passion for open source and
+I'm a software developer based in Florence with a strong passion for open source and free software.
 
 I'm currently employed at [Develer](https://develer.com). It's an amazing company where I work
 with great people on great projects and no, they didn't pay me to say that.
@@ -14,7 +14,8 @@ developing.
 
 I haven't got a favourite programming language, but I enjoy writing in Haskell and Rust.
 
+
 ### What's this blog all about?
 This blog will contain my ramblings about whatever I find interesting or worth to be
-written down. I don't really expect anyone to read(and like) any of my posts, because I'm writing for
+written down. I don't really expect anyone to read(and like) any of my posts, I write for
 myself only.
