@@ -1,21 +1,3 @@
 baseURL = "https://d-dorazio.github.io"
-
-author = "Daniele D'Orazio"
-
 languageCode = "en-us"
-
-theme = "simple"
-
-pygmentsstyle       = "bw"
-pygmentscodefences = true
-
-[params]
-  sitename = "VogonShip"
-
-[[menu.main]]
-    name = "About me"
-    url = "about"
-
-[[menu.main]]
-    name = "Github"
-    url = "https://github.com/d-dorazio"
+title = "Vogon's Ship"

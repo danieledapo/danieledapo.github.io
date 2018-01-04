@@ -1,0 +1,27 @@
+/* sticky footer */
+.site {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.site-content {
+    flex: 1;
+}
+/* end sticky footer */
+
+.post-title {
+    font-weight: 200;
+}
+
+.post-description {
+    margin-top: 15px;
+}
+
+.blog-footer {
+    padding: 2vh 0;
+}
+
+.post > h2, .post > h3 {
+    font-weight: 250;
+}

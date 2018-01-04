@@ -1,0 +1,26 @@
+{{ partial "header.html" . }}
+{{ partial "navbar.html" . }}
+
+<section class="section">
+  <div class="container">
+
+    <div class="columns">
+      <div class="column is-three-fifths is-offset-one-fifth">
+        <span>
+          {{ .Date.Format "Jan 2, 2006" }}
+        </span>
+        <p class="title post-title is-1 is-spaced">
+          <a href="{{ .Permalink }}">
+            {{ .Title }}
+          </a>
+        </p>
+        <div class="post content">
+          {{ .Content }}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{{ partial "footer.copyright.html" . }} {{ partial "footer.html" . }}

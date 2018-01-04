@@ -1,0 +1,41 @@
+<section class="section">
+    <div class="container">
+
+        <div class="columns">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <nav class="level">
+
+                    <div class="level-left">
+                        <div class="level-item">
+                            <a class="title" href="{{ .Site.BaseURL }}">
+                                <h1>
+                                    {{ .Site.Title }}
+                                </h1>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a href='{{ .Site.BaseURL }}'>
+                                <span class="subtitle">
+                                    Blog
+                                </span>
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a href='{{ relURL "/about/" }}'>
+                                <span class="subtitle">
+                                    About
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                </nav>
+
+            </div>
+        </div>
+
+    </div>
+</section>
