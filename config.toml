@@ -1,3 +1,5 @@
 baseURL = "https://d-dorazio.github.io"
 languageCode = "en-us"
 title = "Vogon's Ship"
+
+enableEmoji = true
