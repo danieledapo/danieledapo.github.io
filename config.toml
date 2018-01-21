@@ -3,3 +3,6 @@ languageCode = "en-us"
 title = "Vogon's Ship"
 
 enableEmoji = true
+
+[author]
+    name = "Daniele D'Orazio"
