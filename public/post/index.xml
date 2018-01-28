@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Vogon&#39;s Ship</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Jan 2018 23:22:02 +0100</lastBuildDate>
+    <lastBuildDate>Tue, 23 Jan 2018 21:30:52 +0100</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Functional Turing Machine</title>
+      <link>https://d-dorazio.github.io/post/functional-turing-machine/</link>
+      <pubDate>Tue, 23 Jan 2018 21:30:52 +0100</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/functional-turing-machine/</guid>
+      <description>A week ago or so I managed to complete the Advent of Code 2017 and it was a really fun experience. Most of the problems was really interesting(the spiral memory is probably my favourite), but the problem for day 25 especially attracted me. Basically it was about implementing a Turing Machine.
+This is not rocket science since a Turing Machine is a simple idea(like all the brilliant ideas) and a lot of ink has been spilled on it.</description>
+    </item>
     
     <item>
       <title>2018 Resolutions</title>
