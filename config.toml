@@ -4,5 +4,11 @@ title = "Vogon's Ship"
 
 enableEmoji = true
 
+pygmentsCodeFences = true
+pygmentsStyle = "friendly"
+
+# chroma is still too immature
+pygmentsUseClassic = true
+
 [author]
     name = "Daniele D'Orazio"
