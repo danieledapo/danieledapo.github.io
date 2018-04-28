@@ -25,3 +25,12 @@
 .post > h2, .post > h3 {
     font-weight: 250;
 }
+
+.content blockquote {
+  font-size: 1.2em;
+  margin: 25px auto;
+  color: #555555;
+  padding: 10px 15px 10px 30px;
+  border-left: 6px solid darkturquoise;
+  background: #f9f9f9;
+}
