@@ -6,10 +6,19 @@
     <description>Recent content on Vogon&#39;s Ship</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Jan 2018 21:30:52 +0100</lastBuildDate>
+    <lastBuildDate>Mon, 30 Apr 2018 12:08:32 +0200</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>My Take on Documenting Code and Readability</title>
+      <link>https://d-dorazio.github.io/post/my-take-on-documenting-code/</link>
+      <pubDate>Mon, 30 Apr 2018 12:08:32 +0200</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/my-take-on-documenting-code/</guid>
+      <description>Recently we had a workshop at my workplace about how to document code. Unfortunately I wasn&amp;rsquo;t able to attend it, but the topic was in the air in the following days and I chatted about it a few times with my colleagues. I thought this was a solved problem because a lot of ink has already been spilled on it, but after a lot of discussions it became clear to me that it is not the case.</description>
+    </item>
     
     <item>
       <title>Functional Turing Machine</title>
