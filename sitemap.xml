@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://d-dorazio.github.io/library/</loc>
+    <lastmod>2018-05-21T17:39:13+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://d-dorazio.github.io/post/my-take-on-documenting-code/</loc>
     <lastmod>2018-04-30T12:08:32+02:00</lastmod>
   </url>
@@ -45,7 +50,7 @@
   
   <url>
     <loc>https://d-dorazio.github.io/</loc>
-    <lastmod>2018-04-30T12:08:32+02:00</lastmod>
+    <lastmod>2018-05-21T17:39:13+02:00</lastmod>
     <priority>0</priority>
   </url>
   

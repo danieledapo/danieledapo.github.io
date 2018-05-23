@@ -47,6 +47,13 @@
                                 </span>
                             </a>
                         </div>
+                        <div class="level-item">
+                            <a href='/library/'>
+                                <span class="subtitle">
+                                    Library
+                                </span>
+                            </a>
+                        </div>
                     </div>
 
                 </nav>
@@ -82,7 +89,7 @@ but after a lot of discussions it became clear to me that it is not the case.</p
 
 <p>I&rsquo;m going to use the following snippet(that I slightly adapted from real
 production code) to show the guidelines I tend to use in most cases.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">should_analyze</span>(obj):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">should_analyze</span>(obj):
     <span style="color: #60a0b0; font-style: italic"># ...business logic</span>
     <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020">True</span>
 
@@ -159,7 +166,7 @@ notions my brain will likely forget them. Therefore, I think it&rsquo;s best to 
 variables near to the location of first use.</p>
 
 <p>Let&rsquo;s reorganize the above snippet following this idea.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">analyze_all</span>(objects):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">analyze_all</span>(objects):
     res <span style="color: #666666">=</span> {}
 
     <span style="color: #007020; font-weight: bold">for</span> obj <span style="color: #007020; font-weight: bold">in</span> objects:
@@ -250,7 +257,7 @@ well commented and the comments are there for a purpose. Well, imho the comments
 in the <code>analyze</code> function are quite useless. They do not provide any additional
 information I don&rsquo;t already know just by looking at the code. Let&rsquo;s consider the
 very first comment for example:</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #60a0b0; font-style: italic"># Find object&#39;s last event timestamp</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #60a0b0; font-style: italic"># Find object&#39;s last event timestamp</span>
 last_event_timestamp <span style="color: #666666">=</span> get_last_event_timestamp(obj)
 </code></pre></div>
 
@@ -264,7 +271,7 @@ can be applied to the second and fourth comments.</p>
 
 <p>The third comment is worse imho and I&rsquo;ll go as far as to say that it&rsquo;s actually
 misleading and is harming code clarity.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #60a0b0; font-style: italic"># Calculate the delta and add the result to the category</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #60a0b0; font-style: italic"># Calculate the delta and add the result to the category</span>
 timestamp <span style="color: #666666">=</span> datetime<span style="color: #666666">.</span>datetime<span style="color: #666666">.</span>now()
 analysis <span style="color: #666666">=</span> {
     <span style="color: #4070a0">&quot;timestamp&quot;</span>: timestamp,
@@ -281,7 +288,7 @@ code is not appending anything to anything. I think the comment got outdated and
 I think I also see how. At the origin there was no <code>analyze_all</code> function and
 everything was done in <code>analyze</code> and as such there was some code like the
 following:</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #60a0b0; font-style: italic"># Calculate the delta and add the result to the category</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #60a0b0; font-style: italic"># Calculate the delta and add the result to the category</span>
 timestamp <span style="color: #666666">=</span> datetime<span style="color: #666666">.</span>datetime<span style="color: #666666">.</span>now()
 analysis <span style="color: #666666">=</span> {
     <span style="color: #4070a0">&quot;timestamp&quot;</span>: timestamp,
@@ -298,7 +305,7 @@ confusion than other. Remember, the source of truth is <em>always</em> the code.
 think that at this point we all agree to nuke that misleading comment.</p>
 
 <p>The resulting code of the <code>analyze</code> function looks like the following now.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">analyze</span>(obj):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">analyze</span>(obj):
     last_event_timestamp <span style="color: #666666">=</span> get_last_event_timestamp(obj)
     analyze <span style="color: #666666">=</span> should_analyze(obj)
     <span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020; font-weight: bold">not</span> analyze <span style="color: #007020; font-weight: bold">or</span> <span style="color: #007020; font-weight: bold">not</span> last_event_timestamp:
@@ -331,7 +338,7 @@ paragraphs). I usually group lines in the following sections:</p>
 </ul>
 
 <p>Let&rsquo;s modify the <code>analyze</code> function to follow this principle.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">analyze</span>(obj):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">analyze</span>(obj):
     last_event_timestamp <span style="color: #666666">=</span> get_last_event_timestamp(obj)
     analyze <span style="color: #666666">=</span> should_analyze(obj)
 
