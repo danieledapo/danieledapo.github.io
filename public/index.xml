@@ -6,10 +6,20 @@
     <description>Recent content on Vogon&#39;s Ship</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Apr 2018 12:08:32 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 21 May 2018 17:39:13 +0200</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Library</title>
+      <link>https://d-dorazio.github.io/library/</link>
+      <pubDate>Mon, 21 May 2018 17:39:13 +0200</pubDate>
+      
+      <guid>https://d-dorazio.github.io/library/</guid>
+      <description>Just a collection of random thoughts about books and papers that I read or that I&amp;rsquo;m reading.
+Learn you a Haskell for great good! This was the first book that I read when learning Haskell. It&amp;rsquo;s easy to read and it presents all the basic Haskell features in a simple yet effective way. On the other hand, to make it beginner friendly it barely scratches the surface about what Haskell can do and it&amp;rsquo;s not enough to write production ready Haskell.</description>
+    </item>
     
     <item>
       <title>My Take on Documenting Code and Readability</title>
