@@ -1,10 +1,19 @@
 ---
 title: "Library"
-date: 2018-05-21T17:39:13+02:00
+date: 2018-08-11T17:39:13+02:00
 ---
 
 Just a collection of random thoughts about books and papers that I read or that
 I'm reading.
+
+## Programming Rust
+
+Do you feel like Rust is too complicated to learn? This is the book you should
+read then. It covers not only the basics, but also some of the most difficult
+topics of the language in a such a linear and comprehensible way that you'll
+think Rust is not that complicated after all. Unfortunately, that's a lie. Rust
+_is_ complicated, but that doesn't mean that learning it should be the same.
+Highly recommended as a comprehensive introduction to the language.
 
 ## Learn you a Haskell for great good!
 
