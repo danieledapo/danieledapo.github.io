@@ -2,12 +2,7 @@
 
 set -eux
 
-if ! command -v pygmentize; then
-    echo "Please install pygments with pip install pygments"
-    exit 1
-fi
-
-hugo
+pipenv run hugo
 
 git add .
 git commit

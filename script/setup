@@ -3,3 +3,5 @@
 set -eux
 
 sudo snap install hugo
+
+pipenv sync
