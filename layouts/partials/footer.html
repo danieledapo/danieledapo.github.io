@@ -26,9 +26,11 @@
                                 </a>
                             </div>
                             <div class="level-item">
-                                <a href="{{ .URL }}" type="application/rss+xml" target="_blank">
-                                    <i class="fa fa-rss" aria-hidden="true"></i>
-                                </a>
+                                {{ if .RSSLink }}
+                                    <a href="{{ .RSSLink }}" type="application/rss+xml" target="_blank">
+                                        <i class="fa fa-rss" aria-hidden="true"></i>
+                                    </a>
+                                {{ end }}
                             </div>
 
                         </div>
