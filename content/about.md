@@ -1,6 +1,5 @@
 ---
 title: "About"
-date: 2018-01-04T22:20:23+01:00
 ---
 
 I am a developer working at [develer](https://develer.com) where I can build a

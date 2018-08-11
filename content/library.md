@@ -1,6 +1,5 @@
 ---
 title: "Library"
-date: 2018-08-11T17:39:13+02:00
 ---
 
 Just a collection of random thoughts about books and papers that I read or that

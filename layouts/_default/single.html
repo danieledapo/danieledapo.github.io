@@ -6,7 +6,9 @@
     <div class="columns">
       <div class="column is-three-fifths is-offset-one-fifth">
         <span>
-          {{ .Date.Format "Jan 2, 2006" }} - {{ .ReadingTime }} Minute Read
+          {{ if not .Date.IsZero }}
+            {{ .Date.Format "Jan 2, 2006" }} - {{ .ReadingTime }} Minute Read
+          {{ end }}
         </span>
         <p class="title post-title is-1 is-spaced">
           <a href="{{ .Permalink }}">
