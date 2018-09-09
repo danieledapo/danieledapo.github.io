@@ -1,7 +1,6 @@
 ---
 title: "My Take on Documenting Code and Readability"
 date: 2018-04-30T12:08:32+02:00
-description: "Here I present my tips I use to write readable and well commented code."
 ---
 
 Recently we had a workshop at my workplace about how to document code.

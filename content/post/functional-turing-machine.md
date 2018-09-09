@@ -1,7 +1,6 @@
 ---
 title: "Functional Turing Machine"
 date: 2018-01-23T21:30:52+01:00
-description: "A view at the Turing machine under a functional programming perspective"
 ---
 
 A week ago or so I managed to complete the [Advent of Code

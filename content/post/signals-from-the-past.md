@@ -1,7 +1,6 @@
 ---
 title: "Signals from the past"
 date: 2017-03-26T01:30:06+01:00
-description: "A brief history of signals and how to handle them easily"
 ---
 
 It's just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell.

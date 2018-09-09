@@ -1,7 +1,6 @@
 ---
 title: "2018 Resolutions"
 date: 2018-01-07T23:22:02+01:00
-description: "With a new year comes a great resolution"
 ---
 
 I've just finished watching
