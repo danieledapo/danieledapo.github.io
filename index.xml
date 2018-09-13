@@ -6,10 +6,19 @@
     <description>Recent content on Vogon&#39;s Ship</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Apr 2018 12:08:32 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 13 Sep 2018 23:03:31 +0200</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Property base test whatever you can!</title>
+      <link>https://d-dorazio.github.io/post/property-based-testing/</link>
+      <pubDate>Thu, 13 Sep 2018 23:03:31 +0200</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/property-based-testing/</guid>
+      <description>Recently I had to implement some geometric data structures and algorithms in Rust so that I could use them in matto. In particular, I built a simple K-d tree, an algorithm to find the convex hull, the K-means clustering algorithm and a couple of polygon related utilities. Building such things is relatively easy for the most part, but the corner cases are really tricky to handle properly. In this post I&amp;rsquo;d like to show how I used property based testing to even recognize those corner cases.</description>
+    </item>
     
     <item>
       <title>My Take on Documenting Code and Readability</title>
