@@ -1,7 +1,6 @@
 ---
 title: "Property base test whatever you can!"
 date: 2018-09-13T23:03:31+02:00
-draft: true
 ---
 
 Recently I had to implement some geometric data structures and algorithms in
