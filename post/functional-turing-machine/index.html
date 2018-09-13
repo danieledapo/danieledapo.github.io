@@ -120,7 +120,7 @@ current state. For the sake of simplicity let&rsquo;s assume that the instructio
 known ahead of time and that we can model them as functions in the source code.</p>
 
 <p>Here&rsquo;s some example python code that should make the idea crystal clear:</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">TuringMachine</span>:
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">TuringMachine</span>:
     <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">__init__</span>(<span style="color: #007020">self</span>):
       <span style="color: #007020">self</span><span style="color: #666666">.</span>tape <span style="color: #666666">=</span> [<span style="color: #40a070">0</span>] <span style="color: #666666">*</span> <span style="color: #40a070">32</span>
       <span style="color: #007020">self</span><span style="color: #666666">.</span>cursor <span style="color: #666666">=</span> <span style="color: #40a070">0</span>
@@ -160,7 +160,7 @@ the benefits. Therefore we could allocate more space than what we actually need
 to overcome this issue. Let&rsquo;s ignore the fact that in this way we loose the
 possibility of knowing which cells were actually visited(without adding other
 variables). A possible implementation could look like the following:</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">get_current_cell</span>(<span style="color: #007020">self</span>):
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">get_current_cell</span>(<span style="color: #007020">self</span>):
   <span style="color: #007020; font-weight: bold">if</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>cursor <span style="color: #666666">&lt;</span> <span style="color: #40a070">0</span>:
     <span style="color: #007020">self</span><span style="color: #666666">.</span>tape <span style="color: #666666">=</span> [<span style="color: #40a070">0</span>] <span style="color: #666666">*</span> <span style="color: #40a070">32</span> <span style="color: #666666">+</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>tape
     <span style="color: #007020">self</span><span style="color: #666666">.</span>cursor <span style="color: #666666">=</span> <span style="color: #40a070">32</span>
@@ -214,7 +214,7 @@ popping in O(1) time then all the operations on the tape are O(1)! Nice!</p>
 <p>Here is an Haskell implementation of this idea(note that the left stack is
 actually in reverse order because lists in Haskell support O(1) deletes from the
 head only):</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span style="color: #007020; font-weight: bold">data</span> <span style="color: #902000">Tape</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Tape</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span></span><span style="color: #007020; font-weight: bold">data</span> <span style="color: #902000">Tape</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Tape</span>
  { _leftCells  <span style="color: #007020; font-weight: bold">::</span> [<span style="color: #902000">Int</span>] <span style="color: #60a0b0; font-style: italic">-- reverse order</span>
  , _curCell    <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">Int</span>
  , _rightCells <span style="color: #007020; font-weight: bold">::</span> [<span style="color: #902000">Int</span>]
@@ -244,7 +244,7 @@ should do in these cases. Well, the tape is actually infinite so an empty list
 can be seen as full of 0.</p>
 
 <p>Here are the final versions that support the infiniteness of the tape.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span style="color: #06287e">moveRight</span> <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">Tape</span> <span style="color: #007020; font-weight: bold">-&gt;</span> <span style="color: #902000">Tape</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span></span><span style="color: #06287e">moveRight</span> <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">Tape</span> <span style="color: #007020; font-weight: bold">-&gt;</span> <span style="color: #902000">Tape</span>
 <span style="color: #06287e">moveRight</span> (<span style="color: #902000">Tape</span> l c <span style="color: #902000">[]</span>    ) <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Tape</span> (c <span style="color: #902000">:</span> l) <span style="color: #40a070">0</span> <span style="color: #902000">[]</span>
 <span style="color: #06287e">moveRight</span> (<span style="color: #902000">Tape</span> l c (c&#39;<span style="color: #902000">:</span>r)) <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Tape</span> (c <span style="color: #902000">:</span> l) c&#39; r
 
@@ -258,7 +258,7 @@ it actually forced us to implement a feature! This is super cool!</p>
 
 <p>Now that we have an efficient model to represent a <code>Tape</code> it&rsquo;s not hard to write
 the definition of a <code>TuringMachine</code>.</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span style="color: #007020; font-weight: bold">data</span> <span style="color: #902000">TuringMachine</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">TuringMachine</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span></span><span style="color: #007020; font-weight: bold">data</span> <span style="color: #902000">TuringMachine</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">TuringMachine</span>
  { _state <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">Int</span>
  , _tape  <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">Tape</span>
  } <span style="color: #007020; font-weight: bold">deriving</span> (<span style="color: #902000">Show</span>)
@@ -272,7 +272,7 @@ them given a <code>Tape</code>, but we&rsquo;ll keep it simple for now.</p>
 
 <p>Here&rsquo;s the <code>example_instruction</code> from before implemented in Haskell along with
 an example <code>main</code> function:</p>
-<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span style="color: #06287e">exampleInstruction</span> <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">TuringMachine</span> <span style="color: #007020; font-weight: bold">-&gt;</span> <span style="color: #902000">TuringMachine</span>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span></span><span style="color: #06287e">exampleInstruction</span> <span style="color: #007020; font-weight: bold">::</span> <span style="color: #902000">TuringMachine</span> <span style="color: #007020; font-weight: bold">-&gt;</span> <span style="color: #902000">TuringMachine</span>
 <span style="color: #06287e">exampleInstruction</span> ma
   <span style="color: #666666">|</span> _state ma <span style="color: #666666">==</span> <span style="color: #40a070">0</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">TuringMachine</span>
     { _state <span style="color: #007020; font-weight: bold">=</span> <span style="color: #40a070">1</span>
