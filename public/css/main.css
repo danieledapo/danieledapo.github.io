@@ -8,6 +8,7 @@
 .site-content {
     flex: 1;
 }
+
 /* end sticky footer */
 
 .post-title {
@@ -19,18 +20,19 @@
 }
 
 .blog-footer {
-    padding: 2vh 0;
+    padding: 2vh;
 }
 
-.post > h2, .post > h3 {
+.post>h2,
+.post>h3 {
     font-weight: 250;
 }
 
 .content blockquote {
-  font-size: 1.2em;
-  margin: 25px auto;
-  color: #555555;
-  padding: 10px 15px 10px 30px;
-  border-left: 6px solid darkturquoise;
-  background: #f9f9f9;
+    font-size: 1.2em;
+    margin: 25px auto;
+    color: #555555;
+    padding: 10px 15px 10px 30px;
+    border-left: 6px solid darkturquoise;
+    background: #f9f9f9;
 }
