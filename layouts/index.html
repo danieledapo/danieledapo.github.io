@@ -1,17 +1,1 @@
-{{ partial "header.html" . }}
-{{ partial "navbar.html" . }}
-
-<section class="section">
-    <div class="container">
-
-        <div class="columns">
-            <div class="column is-three-fifths is-offset-one-fifth">
-                {{ range first 10 .Data.Pages }} {{ .Render "summary" }} {{ end }}
-            </div>
-        </div>
-
-    </div>
-</section>
-
-{{ partial "footer.copyright.html" . }}
-{{ partial "footer.html" . }}
+{{ .Render "post/list" }}
