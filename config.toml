@@ -10,5 +10,7 @@ pygmentsStyle = "friendly"
 # chroma is still too immature
 pygmentsUseClassic = true
 
+disableKinds = ["taxonomy", "taxonomyTerm"]
+
 [author]
     name = "Daniele D'Orazio"
