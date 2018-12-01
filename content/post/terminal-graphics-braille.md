@@ -5,39 +5,41 @@ date: 2018-11-30T21:21:53+01:00
 
 At work, I'm currently developing a 3D web CAD for modeling shoes which is a
 really interesting project, but also very challenging! Since writing geometric
-code is really tricky, we spend a lot of time writing tests and making sure the
-code is [well documented][my-take-on-docs]. However, documentation is made up by
-text for the most part, but sometimes a drawing is way more useful than a lot of
-words. For example, try to explain what perpendicular and parallel mean without
-drawing anything. Chanches are you already understand what they mean, but try to
-give a text only definition nonetheless. It's quite hard.
+code is really tricky, we spend a lot of time writing
+[tests][property-based-testing] and making sure the code is [well
+documented][my-take-on-docs]. However, documentation is made up by text for the
+most part, but sometimes a drawing is way more useful than a lot of words. For
+example, try to explain what perpendicular and parallel mean without drawing
+anything. Chanches are you already understand what they mean, but try to give a
+text only definition nonetheless. It's quite hard.
 
 The obvious way to add drawings to the documentation is to add links to images
-and then rendered it in a browser or something. However, I don't really this
+and then render it in a browser or something. However, I'm not a big fan of this
 solution because I don't like to context switch between my editor and the
-browser. The only other option I could think of is to use ASCII art! I really
-love ASCII art, but I find it really difficult to do by hand.
+browser.
 
-Being a lazy programmer, I did what I do best: search existing solutions to use.
-Unfortunately, there didn't seem to be any tools that would allow me to draw
-arbitrary shapes using only text. I was surprised by this because I saw a lot of
-cool projects that draw complex shapes on the terminal over the years. As I was
-googling more and more I was getting convinced that drawing 3D geometries on the
-terminal is possible, but that nobody was crazy enough to do. Since I had a free
-weekend, I decided to give it a shot.
+The only other option I could think of is to use ASCII art! I really love ASCII
+art, but I find it really difficult to do by hand. Being a lazy programmer, I
+did what I do best: search existing solutions to use. Unfortunately, there
+didn't seem to be any tools that would allow me to draw arbitrary shapes using
+only text. I was surprised by this because I saw a lot of cool projects that
+draw complex shapes on the terminal over the years. As I was googling more and
+more I was getting convinced that drawing 3D geometries on the terminal is
+possible, but that nobody was crazy enough to do. Since I had a free weekend, I
+decided to give it a shot.
 
 ## Braille characters
 
 Initially, I tried to use the canonical `/`, `|`, `-`, `_` and `\` characters to
 draw lines but that didn't work well because I couldn't find a way to draw a non
-vertical or horizintal line that doesn't look like a staircase.
+vertical or horizintal line that didn't look like a staircase.
 
 I did some research and eventually I stumbled upon the [`drawille`][drawille]
 project which looked quite promising! By going through the `README.md` and the
-examples I quickly noticed that the curves were rendered smoothly and that lines
-didn't look as staircases too much. Also, among the examples I found a program
-that renders a 3D rotating cube in the terminal. This was quite reassuring
-because it was a proof that what I wanted to do was possible!
+examples I quickly noticed that it was able to render curves and lines in the
+terminal very smoothly. Also, among the examples I found a program that renders
+a 3D rotating cube in the terminal. This was quite reassuring because it was a
+proof that what I wanted to do was doable!
 
 However, `drawille` is written in Python, but I planned to use Rust to build the
 tool so I needed to understand how `drawille` worked in order to port it to
@@ -51,15 +53,14 @@ on the symbol itself. We can then see each symbol as a collection of 8 pixels
 that we can turn on and off independently and since each pixel is represented by
 a circle drawing curves would not look too bad. Neat!
 
-Obviously, the Unicode standard supports the whole Braille Patterns block which
-contains 256 distinct symbols but it is also quite clever in how it defines the
-codepoints. In fact, it maps each of the eight dots of a Braille symbol to one
-bit in a byte which is the offset from the start of the Braille block that is
-`U+2800`. This means that we can create the a Braille character by simply
-turning on the bits that map to a raised dot of a byte and add that value to
-`U+2800`. It also means that if we have two different Braille characters we can
-combine them into a character that has all the raised dots of both characters by
-simply doing a bitwise or between the offsets.
+The Unicode standard obviously supports the whole Braille Patterns block, but it
+is also quite clever in how it defines the codepoints. In fact, it maps each of
+the eight dots of a Braille symbol to one bit in a byte which is the offset from
+the start of the Braille block that is `U+2800`. This means that we can create a
+Braille character by simply turning on the bits that map to a raised dot of a
+byte and add that value to `U+2800`. It also means that if we have two different
+Braille characters we can combine them into a character that has all the raised
+dots of both characters by simply doing a bitwise or between the offsets.
 
 In Python this idea can be summarized by the following snippet.
 
@@ -78,7 +79,7 @@ braille(0x1 | 0x2 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80) # '⣿'
 
 Ok, so back where we started. I decided to use the same underlying ideas of
 `drawille` to build [`termesh`][termesh-repo]: an interactive mesh explorer in
-your terminal.
+the terminal.
 
 I started with implementing a very simple canvas inspired by `drawille` that
 would allow me to turn on dots in a grid of Braille characters according to
@@ -102,7 +103,7 @@ They're far from being perfect, but I can live with those.
 
 The only problem that bothers me a bit is that I cannot set the color of each
 pixel separately because I can only change the color on a by character
-granularity, but each character contains more pixels! This is particularly
+granularity, but each character can contain 8 pixels! This is particularly
 annoying for intersections because the intersecting lines could be of different
 colors. Unfortunately, I have no idea how to solve this.
 
@@ -114,9 +115,9 @@ the lines directly in the documentation.
 
 However I was still a bit unsatisfied because I still had to manually create an
 STL to then render. Therefore I decided to write a very simple domain specific
-language (DSL) that I could use to describe arbitrary shapes. Also, a bonus
-point of having a DSL is that I can version control the shapes description
-easily because it's not a binary format, but just text!
+language (DSL) that I could use to describe arbitrary shapes in. Also, a bonus
+point of having a DSL is that I can version control the "programs" easily
+because it's not a binary format, but just text!
 
 Here's an example of the language.
 
@@ -142,23 +143,24 @@ line v0 v1
 
 As you can see, the language is really minimal as of now, but it's already
 possible to build relatively complex objects. However, I plan to add more
-features to the language to make it more ergonic to use (namely I'd like to
-support arithmetic operations at least).
+features to the language to make it more ergonic to use in the nearish
+future(namely I'd like to support arithmetic operations at least).
 
 ## Conclusion
 
-This was probably the most fun project I did in a while. Not only because I
-knew, and I still know only a few things about meshes and 3D in general, but
-because it was about terminals which I love!
+This was probably the most fun project I did in a while. Not only because I knew
+only a few things about meshes and 3D in general, but because it was also about
+terminals which I love!
 
 Also, I find quite funny that symbols made for blind people can make non-blind
-people seemore. Now that I think about it, it's probably more philosophical than
-funny, but that's really not my thing.
+people see more. Now that I think about it, it's probably more philosophical
+than funny, but that's really not my thing.
 
 Anyway, if you'd like to give a look at the code you can checkout the [`termesh`
 repo][termesh-repo].
 
 [my-take-on-docs]: {{< relref "my-take-on-documenting-code.md" >}}
+[property-based-testing]: {{< relref "property-based-testing.md" >}}
 [drawille]: https://github.com/asciimoo/drawille
-[braille-patters]: https://en.wikipedia.org/wiki/Braille_Patterns
+[braille-patterns]: https://en.wikipedia.org/wiki/Braille_Patterns
 [termesh-repo]: https://github.com/d-dorazio/termesh
