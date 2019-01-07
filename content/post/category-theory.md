@@ -299,28 +299,188 @@ parameter but `Either` is not because it requires 2 type parameters. Note that
 also `Either String Int` or `Int` are not type constructors because they're
 types which require no additional type parameters.
 
+<!-- TODO: provide an example implementation and refine this -->
+
 If we try hard enough we can also see how `fmap` is doing the mapping between
-morphism, that is functions, from one category to another one. In fact it takes
-the morphism `a -> b` which it maps to the morphism `f a -> f b` in category
+morphisms, that is functions, from one category to another one. In fact it takes
+the morphism `a -> b` which is mapped to the morphism `f a -> f b` in category
 **F**.
+
+The dual of a functor isn't particularly exciting though, because by inverting
+the direction of the mapping we still get a functor.
 
 ## Monoid
 
-<!-- Monoid builds
-Comonoid destroys -->
+Another interesting pattern is the *Monoid*. A *Monoid* is an object equipped
+with a unit arrow and an associative multiplication arrow.
+
+In Haskell this could be expressed as
+
+```haskell
+class Monoid m where
+  mempty :: m
+  mappend :: m -> m -> m
+```
+
+Note that in Haskell `mempty` is not actually an arrow but a value of type `m`
+because it's quite easy to show that `m` is isomorphic to `() -> m`.
+
+These morphisms must satisfy the following laws
+
+```haskell
+mappend mempty m = m
+mappend m mempty = m
+
+(mappend x . mappend y) . mappend z = mappend x . (mappend y . mappend z)
+```
+
+To put it simply, mappend is associative "multiplication-like" morphism and
+mempty is the identity value under mappend.
+
+I know this definition isn't very clear, hopefully an example helps. Probably
+the simplest example of a Monoid is the product of numbers. In fact it's easy to
+show that the mempty value is 1 and that mappend is simply the `*` operator.
+
+Here's a possible implementation in Haskell
+
+```haskell
+data ProductM = ProductM Int
+
+instance Monoid ProductM where
+  mempty = ProductM 1
+  mappend (ProductM a) (ProductM b) = ProductM (a * b)
+```
+
+The real definition is a bit different because ProductM must also be a
+*Semigroup* in order to be a Monoid. Let's ignore this detail by just saying
+that a Semigroup is a Monoid without the identity value that is it just has an
+associative morphism.
+
+Besides the usual unwrapping and rewrapping this should be quite straightforward
+to follow. I won't bother demonstrating that `ProductM` indeed satisfies the
+monoid requirements because I think we can all agree that it's just
+multiplication.
+
+However numbers form a monoid over addition too. In this case the mempty value is
+0 and mapped is simply the `+` operator.
+
+Monoids are everywhere though! For example basically every container I can think
+of is a Monoid under the concatenation morphism. Here's an hopefully easy to
+understand implementation for lists in Haskell
+
+```haskell
+instance Monoid [a] where
+  mempty = []
+  mappend = concat
+```
+
+It should be quite evident how this definition can be mapped to nearly every
+container.
+
+Also note how the implementation of Monoid for lists is totally generic over the
+contained value. That's why lists are also known as *Free monoids* because they
+give you a Monoid _for free_.
+
+To show you how much monoids are useful let's pick a simple task: find the sum
+and product of a sequence of numbers in a single pass. Here's how it could be
+done in Haskell
+
+```haskell
+f :: [Int] -> (Product Int, Sum Int)
+f = foldl1 mappend . map (\n -> (Product n, Sum n))
+```
+
+The realization here is that the tuple is also a Monoid as long as its
+components do!
+
+## Comonoid
+
+If there is a Monoid there must be also a *Comonoid* in the opposite category,
+right? Indeed there is. Unfortunately I don't understand it fully.
+
+After reversing the arrows eventually we get to a definition like the following
+
+```haskell
+class Comonoid m where
+  destroy :: m -> ()
+  dup :: m -> (m, m)
+```
+
+where dup must be associative and must return an exact copy of the input. In
+Haskell the only possible definitions of these morphisms are
+
+```haskell
+destroy :: a -> ()
+destroy _ = ()
+
+dup :: a -> (a, a)
+dup a = (a, a)
+```
+
+And that's why it's hard for me to understand. With only this possible
+definition I'm not able to see a general pattern here. My intuition is that
+since a Monoid builds a somewhat bigger object at each mappend the Comonoid, its
+dual, must gradually destroy the already built object. I don't think that's 100%
+accurate though.
+
+It seems [that a Comonoid could be used to model a linear type
+system][comonoid-linear-types] upon which many new languages are based upon.
+Rust and Idris are examples of languages with a linear type system. It seems
+interesting but I haven't found the time to explore this topic yet.
+
 
 ## Monad
 
-<!-- > A monad is just a monoid in the category of endofunctors.
+It's time for the big one: the *Monad*.
 
-Clearly. Well, I still don't think I understand that.
+> A monad is _just_ a monoid in the category of endofunctors.
 
-In the category of endofunctors the objects are represented by functors and the
-morpshism by natural transformations. A monad can be seen as a monoid where
-`join` is the `mappend` rule.
+If the definition doesn't say anything to you then I'll try my best to explain
+my intuition. First of all, the definition says we're in the category of
+*endofunctors* which means that objects in this category are functors. Since a
+monad is a monoid by definition, it means that there must be an arrow that
+somehow multiplies two endfunctors to get a new one. This arrow is called a
+*natural transformation*. Moreover, there must also be the unit arrow too. I
+know this is still a bit nebulous, so let's take a look at how this definition
+looks in Haskell
 
-Monad creates values in context
-Comonad evaluates context -->
+```haskell
+class Functor m => Monad m where
+  unit :: a -> m a
+  join :: m (m a) -> m a
+```
+
+If you're familiar with Haskell this doesn't seem the typical monad
+definition(there's no *bind* operator), but the two are equivalent. I think we
+can vaguely see how *unit* is similar to mempty, it just takes a value and wraps
+it inside the monad. The join function is a bit more difficult to relate to
+mappend, but the intuition is that join is actually doing the product with
+itself essentially flattening the structure.
+
+<!-- TODO: complete me -->
+
+The canonical Haskell definition of the Monad requires the definition of the
+bind operator or `>>=`. We can show how it's possible to automatically implement
+it for any monad defined the "category theory" way. Here's how it could be
+automatically implemented
+
+```haskell
+(>>=) :: Monad m => (a -> m b) -> m a -> m b
+f (>>=) m = join . fmap f $ m
+```
+
+My intuition for the Monad is that it's just a way of composing functions
+running in a given context.
+
+## Comonad
+
+This is the last pattern we'll talk about: the *Comonad* that is the dual of the
+Monad.
+
+<!-- TODO: complete me -->
+
+My intuition for the Comonad is that since the Monad builds up a computation in
+a context by composing functions then a Comonad runs such a computation.
 
 ## Yoneda lemma
 
@@ -368,3 +528,4 @@ Mathematicians like greek notation and complicated names. -->
 https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/
 [set-theory]: https://en.wikipedia.org/wiki/Set_theory
 [curry-howard-isomorphism]: https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence
+[comonoid-linear-types]: https://stackoverflow.com/questions/23855070/what-does-a-nontrivial-comonoid-look-like
