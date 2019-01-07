@@ -83,8 +83,6 @@ optimizations because theoretically a compiler could substitute a data type with
 another data type that is isomorphic to the original one but that's more
 efficient.
 
-<!-- TODO: mention that a product type is isomorphic to a function? -->
-
 ## Duality
 
 Since a category is just a collection of objects and arrows it's always possible
@@ -242,7 +240,7 @@ data Zero
 
 In Haskell it's possible to define a type without any value constructors which
 actually means that we can never create any value of this type. This is also
-known as the `Void` type (which is not `void` in c/c++).
+known as the `Void` type (which is not the same as `void` in c/c++).
 
 Note how Zero is the identity for Sum as well as One is for Product. Also note
 how any Product with Zero ends up in no ways to build that type.
@@ -255,7 +253,30 @@ implement a lot of typeclasses automatically.
 
 ## Curry-Howard isomorphism
 
-<!-- All of this can be translated to logic where Product is & and Sum is |. -->
+It's possible to show that products and sums can be transformed into constructs
+in logic. In particular a product would be *logical and* or `&&` and a sum
+would be a *logical or* or `||`. Moreover, Zero would correspond to false and
+One to _true_.
+
+It's quite easy to show that the familiar properties about such constructs hold.
+For example `a && false = false` holds because if we translate the proposition
+to sums and products it eventually evaluates to `Product a Zero` which we know
+is always `Zero`. This same approach can be used to show that `a || true =
+true`.
+
+We can also show how functions can be mapped to *logical implication* or `a ->
+b` meaning that if _a_ is _true_ then we can say _b_. The obvious question is
+here is what happens when _a_ is _false_? Well, the function would be of type
+`Zero -> b` but if we stare long at it we might realize that we can never call
+that function because Zero doesn't have any values! Therefore we cannot conclude
+the proposition with _b_.
+
+An interesting interpretation of this is that since all the possible types are a
+combination of products and that we can map sums and products to logical
+constructs then we can say that there's an isomorphism between types and logic!
+This is known as the [Curry-Howard isomorphism][curry-howard-isomorphism]. Under
+this point a view, checking if a program type checks is no different than
+checking whether a logical proposition holds or not.
 
 ## Functor
 
@@ -346,3 +367,4 @@ Mathematicians like greek notation and complicated names. -->
 [cats-for-programmers]:
 https://bartoszmilewski.com/2014/10/28/category-theory-for-programmers-the-preface/
 [set-theory]: https://en.wikipedia.org/wiki/Set_theory
+[curry-howard-isomorphism]: https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence
