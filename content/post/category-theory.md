@@ -281,15 +281,16 @@ checking whether a logical proposition holds or not.
 ## Functor
 
 A *functor* is a mapping between categories which maps both objects and
-morphisms. However, in programming we don't usually have multiple categories
-because we live only in the category of types. When the target category of the
-functor is the same as the source then the functor is called *endofunctor*.
+morphisms. When the target category of the functor is the same as the source
+category then the functor is called *endofunctor*. In programming we don't
+usually have multiple categories because we live only in the category of types
+therefore in this context a functor actually is an endofunctor.
 
-In Haskell a functor can be defined in the following way:
+In Haskell a (endo)functor can be defined in the following way:
 
 ```haskell
 class Functor f where
-  fmap :: (a -> b) -> (f a -> fb)
+  fmap :: (a -> b) -> (f a -> f b)
 ```
 
 The mapping between objects is in the fact that `f` must be a type constructor
@@ -297,14 +298,23 @@ that is a type that needs another type to be instantiated. For example, `Maybe`
 and `Either String` are type constructors because they require only another type
 parameter but `Either` is not because it requires 2 type parameters. Note that
 also `Either String Int` or `Int` are not type constructors because they're
-types which require no additional type parameters.
+types and as such they require no type parameters. Here's an example
+implementation of functor for Maybe
 
-<!-- TODO: provide an example implementation and refine this -->
+```haskell
+instance Functor Maybe where
+  fmap f (Just x) = Just (f x)
+  fmap _ Nothing = Nothing
+```
 
 If we try hard enough we can also see how `fmap` is doing the mapping between
 morphisms, that is functions, from one category to another one. In fact it takes
 the morphism `a -> b` which is mapped to the morphism `f a -> f b` in category
 **F**.
+
+Functors are really common in programming and my intuition is that they're some
+sort of containers. For example the Maybe type can be seen as container of an
+optional value and a list is just a container of values.
 
 The dual of a functor isn't particularly exciting though, because by inverting
 the direction of the mapping we still get a functor.
@@ -419,9 +429,9 @@ dup a = (a, a)
 
 And that's why it's hard for me to understand. With only this possible
 definition I'm not able to see a general pattern here. My intuition is that
-since a Monoid builds a somewhat bigger object at each mappend the Comonoid, its
-dual, must gradually destroy the already built object. I don't think that's 100%
-accurate though.
+since a Monoid builds a somewhat bigger object at each mappend then the
+Comonoid, its dual, must gradually destroy the already built object. I don't
+think that's 100% accurate though.
 
 It seems [that a Comonoid could be used to model a linear type
 system][comonoid-linear-types] upon which many new languages are based upon.
@@ -435,93 +445,128 @@ It's time for the big one: the *Monad*.
 
 > A monad is _just_ a monoid in the category of endofunctors.
 
-If the definition doesn't say anything to you then I'll try my best to explain
-my intuition. First of all, the definition says we're in the category of
-*endofunctors* which means that objects in this category are functors. Since a
-monad is a monoid by definition, it means that there must be an arrow that
-somehow multiplies two endfunctors to get a new one. This arrow is called a
-*natural transformation*. Moreover, there must also be the unit arrow too. I
-know this is still a bit nebulous, so let's take a look at how this definition
-looks in Haskell
+If the definition doesn't say anything to you don't worry, you're not alone.
+I'll try my best to explain this definition as simple as I can.
+
+First of all, the definition says we're in the category of *endofunctors* which
+means that objects in this category are endofunctors. Since a monad is a monoid
+by definition, there must be an arrow that somehow multiplies two endofunctors
+together and there must be a unit arrow as well. This arrows are called *natural
+transformation*s. I know this is still a bit nebulous, so let's cut it short and
+take a look at its definition in Haskell
 
 ```haskell
 class Functor m => Monad m where
-  unit :: a -> m a
+  return :: a -> m a
   join :: m (m a) -> m a
 ```
 
-If you're familiar with Haskell this doesn't seem the typical monad
-definition(there's no *bind* operator), but the two are equivalent. I think we
-can vaguely see how *unit* is similar to mempty, it just takes a value and wraps
-it inside the monad. The join function is a bit more difficult to relate to
-mappend, but the intuition is that join is actually doing the product with
-itself essentially flattening the structure.
+I think we can vaguely see how *return* is similar to mempty: it takes a value
+and simply wraps it inside the monad. Like mempty this can be seen as the entry
+point of a monad.
 
-<!-- TODO: complete me -->
+On the other hand, the *join* function is a bit more difficult to relate to
+mappend, but the intuition is that join is actually doing the product within the
+monad itself.
 
-The canonical Haskell definition of the Monad requires the definition of the
-bind operator or `>>=`. We can show how it's possible to automatically implement
-it for any monad defined the "category theory" way. Here's how it could be
-automatically implemented
+Let's see how `Maybe` implements Monad
+
+```haskell
+instance Monad Maybe where
+  return = Just
+
+  join (Just a) = a
+  join Nothing = Nothing
+```
+
+However, in Haskell the monad is not defined in terms of join but instead in
+terms of the *bind* operator or `>>=`. However, we can show how it's possible to
+automatically implement it for any monad defined the "category theory" way.
+Here's how it could be automatically implemented
 
 ```haskell
 (>>=) :: Monad m => (a -> m b) -> m a -> m b
 f (>>=) m = join . fmap f $ m
 ```
 
-My intuition for the Monad is that it's just a way of composing functions
-running in a given context.
+However, I don't think this categorical definition of a monad explains very well
+what a monad is in the context of programming. My intuition for the monad is
+that it's a context inside which we can encapsulate values into and compose
+functions within the context without ever exiting from it. For example, in the
+case of Maybe the context is uncertainty because we don't know for sure if
+there's a value or not and every function that works on a Maybe kind of inherits
+this uncertainty.
 
 ## Comonad
 
 This is the last pattern we'll talk about: the *Comonad* that is the dual of the
 Monad.
 
-<!-- TODO: complete me -->
+If we try to reverse the definition of a monad we eventually get to the
+following Haskell definition of a comonad
 
-My intuition for the Comonad is that since the Monad builds up a computation in
-a context by composing functions then a Comonad runs such a computation.
+```haskell
+class Functor m => Comonad m where
+  extract :: m a -> a
+  duplicate :: m a -> m (m a)
+```
+
+If you look at it long enough you might see similarities to the Comonoid. In
+fact
+
+> A comonad is just a comonoid in the category of endofunctors
+
+However, I think I understand the comonad more than the comonoid. My intuition
+is that if the monad provides a way of encapsulating a value in a context
+without providing a way to access it if not inside the context then the comonad
+must be all about extracting values from an already built object. The *extract*
+function should reflect this logic quite clearly. On the other hand, *duplicate*
+is the exact opposite of join because it adds another layer of nesting in the
+comonad.
 
 ## Yoneda lemma
 
-Every object is completely defined by the morphism towards the other objects.
+Maths has always been connected to philosophy from its root and category theory
+is no exception.
 
-I find this quite fascinating because if we apply it to the category of the real
-world where objects are people and arrows are the relationships between them
-then it means that everyone of us can be defined by the people connected to us.
-I don't think that's too far away from the truth.
+The Yoneda lemma (semantically) says
 
-## Haskell things I learned
+> Every object is completely defined by the morphism towards the other objects.
 
-Along the way I learned why some Haskell-y terms are named like that.
+I have not understood what it actually means in category theory, but I find it
+quite fascinating when it's applied to the category of the real world. In this
+category where objects correspond to people and arrows correspond to the
+relationships between them the Yoneda lemma means that each one of us is
+uniquely defined by our relationships. I don't think that's too far away from
+the truth.
 
-For instance it's called *point free notation* because it doesn't mention the
-arguments which can also be called "points" (e.g. calculate the fuction at the
-given points). The fact that to achieve this we must use the composition
-operator which is represened by a point is a coincidence.
+## Haskell point free notation
 
-## Category theory is hard
+While reading the book among all these things I also learned why it's called
+point free notation in Haskell. If you don't know what it is it's a style of
+writing fuctions without mentioning the arguments. The main tool to achieve it
+is by using function composition. Here's an example
 
-Some of the things I didn't get: T-Algebras, Adjunctions, Kan extensions,
-Lawvere theory and a lot more!
+```haskell
+oddSquares :: [Int] -> [Int]
+oddSquares = map (* 2) . filter odd
+```
 
-<!-- General idea is too abstract for me and I need examples or something I can
-relate to in order to better understand things. In fact, the parts that I
-understood the most are the ones that provided code examples. Generally speaking
-I wasn't able to follow all the demonstrations completely but I think I
-understand only some parts of them. -->
+It's so named because in maths the arguments can also be called points in the
+sense of *calculating the function at the given points*. The fact that the
+function composition operator is a point is an unfortunate coincidence.
 
 ## Conclusions
 
+Category theory has way more concepts than what I've described here and I didn't
+understand most of them. For example I didn't get T-Algebras, Adjunctions, Kan
+extensions, the Lawvere theory and a lot more! My main problem with category
+theory is that I cannot relate to most of its concepts. In other words, I'm not
+able to understand what I cannot use. I want to improve with regard to this.
 
-<!-- My favourite chapter was "F-Algebras" because it showed how it's possible to use
-*F-Algebras* to factor out explicit recursion in data types using fixed points
-making the data type more reusable. I think it's the foundation of
-`recursion-schemes` which seems really cool!
+However, I think that even with this tiny subset of category theory the
+structure of a lot of problems can be revelead.
 
-Eventually I understood how a lot of problems share the same "structure".
-
-Mathematicians like greek notation and complicated names. -->
 
 [category-theory]: https://en.wikipedia.org/wiki/Category_theory
 [cats-for-programmers]:
