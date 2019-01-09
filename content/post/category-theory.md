@@ -38,9 +38,9 @@ properties:
 
 If the second property sounds like the definition of function composition then
 you're absolutely right! In fact, it turns out there is a category where the
-objects are all the possible types and the arrows are the functions between
-them. In Haskell this cateogyr is called *Hask*, but this concepts can be
-translated to other type systems with almost no changes.
+objects are types and the arrows are the functions between them. In Haskell this
+category is called *Hask*, but this concepts can be translated to other type
+systems with almost no changes.
 
 Here's an example of a simple category
 
@@ -80,7 +80,7 @@ same type), but they actually carry the same amount of information albeit in a
 different shape.
 
 A use case I find quite interesting for isomorphisms is in compiler
-optimizations because theoretically a compiler could substitute a data type with
+optimizations. Theoretically a compiler could substitute a data type with
 another data type that is isomorphic to the original one but that's more machine
 efficient.
 
@@ -102,7 +102,7 @@ same object.
 
 Also note that the dual of the dual of a category is the category itself that is
 (**C**<sup>_op_</sup>) <sup>_op_</sup> = **C**. This is why you can give a nut
-to a category theorist even when he asked you a *coco*-nut.
+to a category theorist even though he asked you a *coco*-nut.
 
 ## Product
 
@@ -160,7 +160,7 @@ This is the product diagram with the arrows inverted.
 <img src="/post/category-theory/sum.svg" alt="sum" class="image-centered">
 
 The intuition behind this is that a *coproduct* is an object that can be built
-either by **A** or by **B**. In fact, there are two morphism, also known as
+either by **A** or by **B**. In fact, there are two morphisms, also known as
 injections, that create a coproduct. Sure enough, there could be multiple
 coproducts for the same pair of objects, but just like a product, the coproduct
 cannot be built from any other coproduct candidate.
@@ -243,10 +243,10 @@ the definition
 data Zero
 ```
 
-In Haskell it's possible to define a type without any value constructors which
-actually means that we can never create any value of this type. This is also
-known as the `Void` type (which is not the same as `void` in c/c++). In C++ zero
-can be defined in terms of a class with a private constructor.
+In Haskell it's possible to define a type without any value constructors. This
+means that we can never create any value of this type. This is also known as the
+`Void` type (which is not the same as `void` in c/c++). In C++ a type isomorphic
+to zero can be defined in terms of a class with a private constructor.
 
 Note how Zero is the identity for Sum as well as One is for Product. Also note
 how any Product with Zero ends up in no ways of building that type.
@@ -274,8 +274,7 @@ We can also show how functions can be mapped to *logical implication* or `a ->
 b` meaning that if _a_ is _true_ then we can say _b_. The obvious question is
 here is what happens when _a_ is _false_? Well, the function would be of type
 `Zero -> b` but if we look closely we might realize that we can never call that
-function because Zero doesn't have any values! Therefore we cannot conclude the
-proposition with _b_.
+function because Zero doesn't have any values! Therefore we cannot conclude _b_.
 
 An interesting interpretation of this is that, since all the possible types are
 a combination of products and sums and that we can map sums and products to
@@ -306,13 +305,15 @@ For example, `Maybe` and `Either String` are both type constructors because they
 require only another type parameter but `Either` is not because it requires 2
 type parameters. Note that also `Either String Int` or `Int` are not type
 constructors because they're types and as such they require no type parameters.
+We can see a type constructor **T** as taking the type parameter and mapping it
+into category **T**.
 
 If we try hard enough we can also see how `fmap` is doing the mapping between
 morphisms, that is functions, from one category to another one. In fact it takes
 the morphism `a -> b` which is mapped to the morphism `f a -> f b` in category
 **F**.
 
-Here's an example implementation of functor for Maybe
+Here's an example implementation of Functor for Maybe
 
 ```haskell
 instance Functor Maybe where
@@ -320,10 +321,9 @@ instance Functor Maybe where
   fmap _ Nothing = Nothing
 ```
 
-Functors are really common in programming and my intuition is that they
-represent some sort of containers. For example, the Maybe type can be seen as a
-container of an optional value and a list can be seen as a plain container of
-values.
+Functors are really common in programming. My intuition is that they represent
+some sort of containers. For example, the Maybe type can be seen as a container
+of an optional value and a list can be seen as a plain container of values.
 
 ## Monoid
 
@@ -338,8 +338,9 @@ class Monoid m where
   mappend :: m -> m -> m
 ```
 
-Note that in Haskell `mempty` is not actually an arrow but a value of type `m`
-because it's quite easy to show that `m` is isomorphic to `() -> m`.
+Note that in Haskell mempty is not actually an arrow but a value of type `m`
+because it can be shown that `m` is isomorphic to `() -> m` (there's only a
+single way of calling `() -> m`).
 
 These morphisms must satisfy the following laws
 
@@ -370,7 +371,7 @@ instance Monoid ProductM where
 
 The real definition is a bit different because ProductM must also be a
 *Semigroup* in order to be a Monoid. Let's ignore this detail by just saying
-that a Semigroup is a Monoid without the identity value, it's just the
+that a Semigroup is a Monoid without the identity value; it's just the
 associative morphism.
 
 Besides the usual unwrapping and rewrapping the implementation should be quite
@@ -457,8 +458,8 @@ I'll try my best to explain this definition as simple as I can.
 First of all, the definition says we're in the category of *endofunctors* which
 means that objects in this category are endofunctors. Since a monad is a monoid
 by definition, there must be an arrow that somehow multiplies two endofunctors
-together. In addition, there must be a unit arrow as well. This arrows are
-called *natural transformation*s. I know this is still a bit nebulous, so let's
+together. In addition, there must be a unit arrow as well. These arrows are
+called *natural transformation* s. I know this is still a bit nebulous, so let's
 cut it short and take a look at its definition in Haskell
 
 ```haskell
@@ -467,13 +468,13 @@ class Functor m => Monad m where
   join :: m (m a) -> m a
 ```
 
-I think we can vaguely see how *return* is similar to mempty: it takes a value
-and simply wraps it inside the monad. Like mempty this can be seen as the entry
-point of a monad.
+I think we can vaguely see how *return* is similar to mempty (especially to `()
+-> m`): it takes a value and simply wraps it inside the monad. Like mempty this
+can be seen as the entry point of a monad.
 
 On the other hand, the *join* function is a bit more difficult to relate to
 mappend, but the intuition is that join is actually doing the product within the
-monad itself.
+monad itself. This ends up in a flattening of the structure of the Monad.
 
 Let's see how `Maybe` implements Monad
 
@@ -487,20 +488,20 @@ instance Monad Maybe where
 
 However, in Haskell the monad is not defined in terms of join but instead in
 terms of the *bind* operator or `>>=`. It's possible to show that bind can be
-defined in terms of the join. Here's how it could be done
+defined in terms of join. Here's how it could be done
 
 ```haskell
 (>>=) :: Monad m => (a -> m b) -> m a -> m b
 f (>>=) m = join . fmap f $ m
 ```
 
-I don't think this categorical definition of a monad explains very well what a
-monad is in the context of programming. My intuition for the monad is that it's
-a context inside which we can encapsulate values and compose functions without
-ever leaving the context. For example, in the case of Maybe the context is
-uncertainty because we don't know for sure whether a value is present or not.
-Note how every function that works on a Maybe kind of inherits this uncertainty
-because the bind operator must return a value in the context.
+However, I don't think this categorical definition of a monad explains very well
+what a monad is in the context of programming. My intuition for the monad is
+that it's a context inside which we can encapsulate values and compose functions
+without ever leaving the context. For example, in the case of Maybe the context
+is uncertainty because we don't know for sure whether a value is present or not.
+Every function that works on a Maybe inherits this uncertainty because it must
+remain in context.
 
 ## Comonad
 
@@ -518,7 +519,7 @@ class Functor m => Comonad m where
 If you look at it long enough you might see similarities to the Comonoid. In
 fact
 
-> A comonad is just a comonoid in the category of endofunctors
+> A comonad is _just_ a comonoid in the category of endofunctors
 
 I think I understand the comonad more than the comonoid even though the former
 is defined on the latter. My intuition is that, if the monad provides a way of
@@ -530,14 +531,15 @@ layer of nesting in the comonad.
 
 ## Yoneda lemma
 
-I've talked enough about category theory under a mathematical point of view,
-Maths has always been connected to philosophy from its root and sure enough
+I've talked enough about category theory under a mathematical point of view.
+Maths has always been connected to philosophy from its origins and sure enough
 category theory is no exception.
 
 In particular, I'd like to mention the Yoneda lemma which (semantically) says
 that
 
-> Every object is completely defined by the morphisms towards the other objects.
+> Every object is completely identified by the morphisms towards the other
+> objects.
 
 I have not understood what it actually means in category theory, but I find it
 quite fascinating when applied to the category of the real world. In this
@@ -550,30 +552,33 @@ the truth.
 
 During my journey in category theory, I also learned why the point free notation
 is so named in Haskell. If you don't know what it is it's a style of writing
-fuctions without mentioning the arguments. The main tool to achieve this is by
-using function composition. Here's an example
+fuctions where arguments are not explicitly mentioned. The main tool to achieve
+this is by using function composition. Here's an example
 
 ```haskell
 oddSquares :: [Int] -> [Int]
 oddSquares = map (* 2) . filter odd
 ```
 
-It's so named because in maths arguments can also be called points in the sense
-of *calculating the function at the given points*. The fact that the function
-composition operator is a point is an unfortunate coincidence.
+As you can see, this function takes a single parameter, a list of numbers, which
+is not mentioned explictly in the function definition.
+
+It's so named because arguments can also be called points in the sense of
+*calculating the function at the given points*. The fact that the function
+composition operator is a point too is an unfortunate coincidence.
 
 ## Conclusions
 
-Category theory has way more concepts than what I've described here and I didn't
-understand most of them. For example, I didn't get T-Algebras, Adjunctions, Kan
-extensions, the Lawvere theory and a lot more!
+Category theory has way more concepts than what I tried to describe here and I
+didn't understand most of them. For example, I didn't get T-Algebras,
+Adjunctions, Kan extensions, the Lawvere theory and many more!
 
 My main problem with category theory is that I cannot relate to most of its
 concepts. In other words, I'm not able to understand what I cannot use. I want
 to improve with regard to this, but it's hard.
 
 However, I think that even with this tiny subset of category theory the inner
-structure of a lot of problems can be revelead. Hopefully it also helps building
+structure of a lot of problems can be revealed. Hopefully it also helps building
 well structured software.
 
 
