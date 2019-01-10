@@ -1,0 +1,11 @@
+// dot -Tsvg -o static/post/category-theory/product.svg static/post/category-theory/product.dot
+
+digraph G {
+  ranksep = 1
+  "P" -> "A" [label = "f"]
+  "P" -> "B" [label = " g"]
+
+  "P'" -> "A" [label = "f'"]
+  "P'" -> "B" [label = " g'"]
+  "P'" -> "P" [label = " h" style = "dashed"]
+}

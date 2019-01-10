@@ -1,0 +1,11 @@
+// dot -Tsvg -o static/post/category-theory/simple-category.svg static/post/category-theory/simple-category.dot
+
+digraph G {
+  rankdir = LR
+  "A" -> "A" [label = "id"]
+  "A" -> "B" [label = "f"]
+  "B" -> "C" [label = "g"]
+  "B" -> "B" [label = "id"]
+  "A" -> "C" [label = "f . g"]
+  "C" -> "C" [label = "id"]
+}
