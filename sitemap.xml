@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://d-dorazio.github.io/post/category-theory/</loc>
+    <lastmod>2019-01-10T13:39:08+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://d-dorazio.github.io/post/terminal-graphics-braille/</loc>
     <lastmod>2018-11-30T21:21:53+01:00</lastmod>
   </url>
@@ -42,13 +47,13 @@
   
   <url>
     <loc>https://d-dorazio.github.io/post/</loc>
-    <lastmod>2018-11-30T21:21:53+01:00</lastmod>
+    <lastmod>2019-01-10T13:39:08+01:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://d-dorazio.github.io/</loc>
-    <lastmod>2018-11-30T21:21:53+01:00</lastmod>
+    <lastmod>2019-01-10T13:39:08+01:00</lastmod>
     <priority>0</priority>
   </url>
   

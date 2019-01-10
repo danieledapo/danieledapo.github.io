@@ -1,0 +1,9 @@
+// dot -Tsvg -o static/post/category-theory/isomorphism-example.svg static/post/category-theory/isomorphism-example.dot
+
+digraph G {
+  rankdir = LR
+  "Maybe ()" -> "Maybe ()" [label = "id"]
+  "Maybe ()" -> "Bool" [label = "isJust"]
+  "Bool" -> "Bool" [label = "id"]
+  "Bool" -> "Maybe ()" [label = "justIf"]
+}

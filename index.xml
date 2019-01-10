@@ -6,10 +6,20 @@
     <description>Recent content on Vogon&#39;s Ship</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 30 Nov 2018 21:21:53 +0100</lastBuildDate>
+    <lastBuildDate>Thu, 10 Jan 2019 13:39:08 +0100</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Notes on Category Theory</title>
+      <link>https://d-dorazio.github.io/post/category-theory/</link>
+      <pubDate>Thu, 10 Jan 2019 13:39:08 +0100</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/category-theory/</guid>
+      <description>During the holiday season I finally decided to learn something about Category theory because it seems to be the hot topic in the Haskell community. The book I used to guide me in this journey is Category theory for programmers by Bartosz Milewski.
+I cannot say I fully understood it, I&amp;rsquo;m far away from doing so, but I want to write down what I think I learned nonenthless. I hope this will clarify my thoughts and maybe help someone else.</description>
+    </item>
     
     <item>
       <title>Terminal graphics with Braille characters</title>
