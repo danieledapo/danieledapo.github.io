@@ -1,6 +1,6 @@
 ---
 title: "Notes on Category Theory"
-date: 2019-01-04T13:48:08+01:00
+date: 2019-01-10T13:39:08+01:00
 ---
 
 During the holiday season I finally decided to learn something about [Category
@@ -191,7 +191,7 @@ data Product a b = Product a b
 data Sum a b = SumA a | SumB b
 ```
 
-One of the questions we can ask is how many ways are there to create one of
+One of the questions we can ask is how many ways are there to create any of
 these patterns.
 
 Let's start with the product. If it had a single type parameter then the number
@@ -226,8 +226,8 @@ type Two = Sum One One
 type Four = Product Two Two
 ```
 
-Let's check if this actualy works by enumerating the all the ways we can build
-those types:
+Let's check if this actualy works by enumerating all the ways we can build those
+types:
 
 - we can build a Two using either `SumA One` or `SumB One`;
 - a Four can be built with `Product (SumA One) (SumA One)`, `Product (SumA One)
@@ -249,7 +249,8 @@ means that we can never create any value of this type. This is also known as the
 to zero can be defined in terms of a class with a private constructor.
 
 Note how Zero is the identity for Sum as well as One is for Product. Also note
-how any Product with Zero ends up in no ways of building that type.
+how any Product with Zero ends up in no ways of building that type because at
+some point you will have to instantiate a Zero which is impossible.
 
 If we substitute numbers with types it becomes evident that creating new types
 is just a composition over Sums and Products (if we can create any number we can
@@ -271,9 +272,9 @@ is always `Zero`. This same approach can be used to show that `a || true =
 true`.
 
 We can also show how functions can be mapped to *logical implication* or `a ->
-b` meaning that if _a_ is _true_ then we can say _b_. The obvious question is
-here is what happens when _a_ is _false_? Well, the function would be of type
-`Zero -> b` but if we look closely we might realize that we can never call that
+b` meaning that if _a_ is _true_ then we can say _b_. The obvious question here
+is what happens when _a_ is _false_? Well, the function would be of type `Zero
+-> b` but if we look closely we might realize that we can never call that
 function because Zero doesn't have any values! Therefore we cannot conclude _b_.
 
 An interesting interpretation of this is that, since all the possible types are
@@ -405,7 +406,10 @@ be done in Haskell
 
 ```haskell
 f :: [Int] -> (Product Int, Sum Int)
-f = foldl1 mappend . map (\n -> (Product n, Sum n))
+f = foldl mappend mempty . map (\n -> (Product n, Sum n))
+
+-- or using mconcat which is equivalent to the above manual foldl
+-- f = mconcat . map (\n -> (Product n, Sum n))
 ```
 
 Pretty sick, isn't it? The key point here is that also the tuple is a Monoid as
