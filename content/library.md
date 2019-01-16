@@ -5,6 +5,15 @@ title: "Library"
 Just a collection of random thoughts about books and papers that I read or that
 I'm reading.
 
+## Category theory for programmers
+
+I read this book as an introduction to category theory which was intriguing me
+for a long time. Even though it explicitly says "for programmers" I think it was
+still too math-y for me and it's a bit light on programming. Anyway, it was an
+enjoyable read and I was able to understand a lot of the math concepts. I would
+recommend this book if and only if you want to know something about category
+theory.
+
 ## Programming Rust
 
 Do you feel like Rust is too complicated to learn? This is the book you should
