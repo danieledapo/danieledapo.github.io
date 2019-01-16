@@ -3,12 +3,10 @@ title: "About"
 ---
 
 I am a developer working at [develer](https://develer.com) where I can build a
-lot of cool stuff working with great people. My main interests are functional
-programming and programming language design. In my spare time I like solving
-twisty puzzles like the [megaminx](https://en.wikipedia.org/wiki/Megaminx), but
-my favourite one is the plain old Rubik's cube of course. I am not fast by any
-means though :sweat_smile: but I enjoy the experience a lot. I also play guitar
-and basketball, sometimes.
+lot of cool stuff working with great people. Currently I'm working on a 3D CAD
+for fashion shoes that runs in the broser!
+
+My interests are functional programming and programming language design.
 
 This blog will collect my ramblings about whatever I find interesting or worth
 to be written down.
