@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vogon&#39;s Ship</title>
+    <title>d&amp;#39;</title>
     <link>https://d-dorazio.github.io/</link>
-    <description>Recent content on Vogon&#39;s Ship</description>
+    <description>Recent content on d&amp;#39;</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 10 Jan 2019 13:39:08 +0100</lastBuildDate>
@@ -83,7 +83,10 @@ Every developer that has done some little system programming on Linux knows that
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://d-dorazio.github.io/about/</guid>
-      <description>I am a developer working at develer where I can build a lot of cool stuff working with great people. My main interests are functional programming and programming language design. In my spare time I like solving twisty puzzles like the megaminx, but my favourite one is the plain old Rubik&amp;rsquo;s cube of course. I am not fast by any means though 😅 but I enjoy the experience a lot. I also play guitar and basketball, sometimes.</description>
+      <description>I am a developer working at develer where I can build a lot of cool stuff working with great people. Currently I&amp;rsquo;m working on a 3D CAD for fashion shoes that runs in the broser!
+My interests are functional programming and programming language design.
+This blog will collect my ramblings about whatever I find interesting or worth to be written down.
+If you wish to reach out to me, you can find me on twitter and github.</description>
     </item>
     
     <item>
@@ -93,7 +96,7 @@ Every developer that has done some little system programming on Linux knows that
       
       <guid>https://d-dorazio.github.io/library/</guid>
       <description>Just a collection of random thoughts about books and papers that I read or that I&amp;rsquo;m reading.
-Programming Rust Do you feel like Rust is too complicated to learn? This is the book you should read then. It covers not only the basics, but also some of the most difficult topics of the language in a such a linear and comprehensible way that you&amp;rsquo;ll think Rust is not that complicated after all.</description>
+Category theory for programmers I read this book as an introduction to category theory which was intriguing me for a long time. Even though it explicitly says &amp;ldquo;for programmers&amp;rdquo; I think it was still too math-y for me and it&amp;rsquo;s a bit light on programming. Anyway, it was an enjoyable read and I was able to understand a lot of the math concepts.</description>
     </item>
     
   </channel>
