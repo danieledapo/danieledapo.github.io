@@ -4,7 +4,7 @@ title: "About"
 
 I am a developer working at [develer](https://develer.com) where I can build a
 lot of cool stuff working with great people. Currently I'm working on a 3D CAD
-for fashion shoes that runs in the broser!
+for fashion shoes that runs in the browser!
 
 My interests are functional programming and programming language design.
 
