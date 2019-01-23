@@ -1,8 +1,9 @@
 baseURL = "https://d-dorazio.github.io"
 languageCode = "en-us"
 
-# escape & in d&#39; because otherwise feed readers see an "'"
-title = "d&amp;#39;"
+# this title is used only for rss readers which do not agree upon whether to
+# interpret them as html text or not.
+title = "dapo"
 
 enableEmoji = true
 
