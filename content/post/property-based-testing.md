@@ -21,7 +21,7 @@ neighbors searching. Glossing over the details, a K-d tree is built by
 recursively partitioning the points by a plane of a different axis at each level
 of the tree. The algorithms for performing a range search or a nearest neighbors
 search are a bit more involved, but they both exploit the partitioning nature of
-the tree to prune which branches of the tree to visit in order to spped up the
+the tree to prune which branches of the tree to visit in order to speed up the
 search. For a more detailed introduction Wikipedia has a good [article on
 this][kdtree].
 
@@ -57,7 +57,7 @@ because it shifts the focus from what the test data is to what we're testing.
 
 What's super damn cool is that since you specify a type or model of inputs for
 which the property holds, the test framework is allowed to generate multiple
-different input values conferming to the model to test your function. Moreover,
+different input values conforming to the model to test your function. Moreover,
 most of the frameworks also implement some form of input shrinking so that they
 try to find the minimal failing input that breaks the test.
 
@@ -221,9 +221,9 @@ fn _prop_convex_hull_lies_on_boundary(points: Vec<(u8, u8)>) {
 }
 ```
 
-It's not as comphrensive as the definition since it doesn't ensure the
-convex hull is correct, but `proptest` was still able to find a nasty bug when
-there are multiple points on the same y. Impressive.
+It's not as comprehensive as the definition since it doesn't ensure the convex
+hull is correct, but `proptest` was still able to find a nasty bug when there
+are multiple points on the same y. Impressive.
 
 Eventually I had to implement the polygon `contains` method anyway, so I was
 also able to add the following test which closely matches the definition of a
@@ -271,16 +271,16 @@ actually cover multiple algorithms. In fact this test ensures that the polygon
 `contains` method is coherent with my `convex_hull` implementation. This means
 that I don't need to write a bunch of other tests for `contains` because a lot
 of cases are already covered by the `convex_hull` test. Less code to write and
-mantain, yay!
+maintain, yay!
 
 ## Conclusions
 
 I already used property based testing before in Haskell and I always liked the
 idea. However, the problem domain was different and I don't think I fully
 appreciated the power of this tool. After this experience, I can definitely say
-that I'll empower this techinique as often as possible because it allows me to
+that I'll empower this technique as often as possible because it allows me to
 use a mentality where I can just write the algorithm and then let the test
-framework verify it holds the properties. It's a rudimental version of a formal
+framework verify it holds the properties. It's a primitive version of a formal
 proof if you wish.
 
 Property based testing isn't perfect though, there are a couple of gotchas to

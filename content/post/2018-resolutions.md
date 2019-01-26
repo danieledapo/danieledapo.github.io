@@ -10,7 +10,7 @@ is amazing and it adds a completely new dimension to the movie. The plot is
 literally mind blowing, but I know that a lot of people don't get it. I don't
 care, I understand the amount of pieces I need to find it interesting and that's
 enough for me. It should come as no surprise that Interstellar is one of my
-favourite movies. If you haven't watched it yet then stop reading and go watch
+favorite movies. If you haven't watched it yet then stop reading and go watch
 it.
 
 Anyway, I've digressed enough, let's talk about new my year's resolutions. I

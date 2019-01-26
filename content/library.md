@@ -57,8 +57,8 @@ Bonus point: so damn funny.
 Heavily inspired by [Land of Lisp](#land-of-lisp) both in the contents and in
 the style of writing. It's really fluent and easy to read, but unfortunately it
 doesn't go into much details about advanced features of Racket(such as how to
-build DSLs), but it's a really good guide to the whole Racket ecosystem
-nonetheless.
+build domain specific languages), but it's a really good guide to the whole
+Racket ecosystem nonetheless.
 
 Bonus point: so damn funny.
 

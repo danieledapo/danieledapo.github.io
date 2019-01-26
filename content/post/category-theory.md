@@ -9,7 +9,7 @@ community. The book I used to guide me in this journey is [Category theory for
 programmers][cats-for-programmers] by Bartosz Milewski.
 
 I cannot say I fully understood it, I'm far away from doing so, but I want to
-write down what I think I learned nonenthless. I hope this will clarify my
+write down what I think I learned nonetheless. I hope this will clarify my
 thoughts and maybe help someone else.
 
 ## What is category theory
@@ -226,8 +226,8 @@ type Two = Sum One One
 type Four = Product Two Two
 ```
 
-Let's check if this actualy works by enumerating all the ways we can build those
-types:
+Let's check if this actually works by enumerating all the ways we can build
+those types:
 
 - we can build a Two using either `SumA One` or `SumB One`;
 - a Four can be built with `Product (SumA One) (SumA One)`, `Product (SumA One)
@@ -282,7 +282,7 @@ a combination of products and sums and that we can map sums and products to
 logical constructs then we can say that there's an isomorphism between types and
 logic! This is known as the [Curry-Howard
 isomorphism][curry-howard-isomorphism]. Under this point a view, checking if a
-program typechecks is no different than checking whether a logical proposition
+program type-checks is no different than checking whether a logical proposition
 holds or not.
 
 ## Functor
@@ -556,7 +556,7 @@ the truth.
 
 During my journey in category theory, I also learned why the point free notation
 is so named in Haskell. If you don't know what it is it's a style of writing
-fuctions where arguments are not explicitly mentioned. The main tool to achieve
+functions where arguments are not explicitly mentioned. The main tool to achieve
 this is by using function composition. Here's an example
 
 ```haskell
@@ -565,7 +565,7 @@ oddSquares = map (* 2) . filter odd
 ```
 
 As you can see, this function takes a single parameter, a list of numbers, which
-is not mentioned explictly in the function definition.
+is not mentioned explicitly in the function definition.
 
 It's so named because arguments can also be called points in the sense of
 *calculating the function at the given points*. The fact that the function

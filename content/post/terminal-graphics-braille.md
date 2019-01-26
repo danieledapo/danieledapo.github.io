@@ -10,7 +10,7 @@ code is really tricky, we spend a lot of time writing
 documented][my-take-on-docs]. However, documentation is made up by text for the
 most part, but sometimes a drawing is way more useful than a lot of words. For
 example, try to explain what perpendicular and parallel mean without drawing
-anything. Chanches are you already understand what they mean, but try to give a
+anything. Chances are you already understand what they mean, but try to give a
 text only definition nonetheless. It's quite hard.
 
 The obvious way to add drawings to the documentation is to add links to images
@@ -32,7 +32,7 @@ decided to give it a shot.
 
 Initially, I tried to use the canonical `/`, `|`, `-`, `_` and `\` characters to
 draw lines but that didn't work well because I couldn't find a way to draw a non
-vertical or horizintal line that didn't look like a staircase.
+vertical or horizontal line that didn't look like a staircase.
 
 I did some research and eventually I stumbled upon the [`drawille`][drawille]
 project which looked quite promising! By going through the `README.md` and the
@@ -78,8 +78,8 @@ braille(0x1 | 0x2 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80) # '⣿'
 ## Termesh
 
 Ok, so back where we started. I decided to use the same underlying ideas of
-`drawille` to build [`termesh`][termesh-repo]: an interactive mesh explorer in
-the terminal.
+`drawille` to build [`termesh`][termesh-repository]: an interactive mesh
+explorer in the terminal.
 
 I started with implementing a very simple canvas inspired by `drawille` that
 would allow me to turn on dots in a grid of Braille characters according to
@@ -143,7 +143,7 @@ line v0 v1
 
 As you can see, the language is really minimal as of now, but it's already
 possible to build relatively complex objects. However, I plan to add more
-features to the language to make it more ergonic to use in the nearish
+features to the language to make it more ergonomic to use in the near
 future(namely I'd like to support arithmetic operations at least).
 
 ## Conclusion
@@ -157,10 +157,10 @@ people see more. Now that I think about it, it's probably more philosophical
 than funny, but that's really not my thing.
 
 Anyway, if you'd like to give a look at the code you can checkout the [`termesh`
-repo][termesh-repo].
+repository][termesh-repository].
 
 [my-take-on-docs]: {{< relref "my-take-on-documenting-code.md" >}}
 [property-based-testing]: {{< relref "property-based-testing.md" >}}
 [drawille]: https://github.com/asciimoo/drawille
 [braille-patterns]: https://en.wikipedia.org/wiki/Braille_Patterns
-[termesh-repo]: https://github.com/d-dorazio/termesh
+[termesh-repository]: https://github.com/d-dorazio/termesh

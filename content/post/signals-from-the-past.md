@@ -6,10 +6,11 @@ date: 2017-03-26T01:30:06+01:00
 It's just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell.
 How cool is that? But, how does it work?
 
-Every developer that has done some little system programming on Linux knows that the answer is *signals*.
-They are defined in the POSIX standard and are a (very) limited form of inter-process communication.
-The idea is really simple: a signal is sent to a program to notify it that an event has occured.
-It could be the Ctrl-C event(aka `SIGINT`) or the request of program termination(`SIGTERM`).
+Every developer that has done some little system programming on Linux knows that
+the answer is *signals*. They are defined in the POSIX standard and are a (very)
+limited form of inter-process communication. The idea is really simple: a signal
+is sent to a program to notify it that an event has occurred. It could be the
+Ctrl-C event(aka `SIGINT`) or the request of program termination(`SIGTERM`).
 
 The really interesting part is that programs can react to those events providing really cool features.
 It's extremely convenient to abort the compilation(without corrupting anything)
@@ -24,7 +25,7 @@ just call it with the signal you're interested in and provide the proper callbac
 
 It turns out writing a correct signal handler is way more harder than writing a multi-threaded
 program. The problem is that your program stops as soon as it catches the signal, no matter what it was
-doing. That means that *everything* could possibly be in an unconsistent state(yes, even if you protect
+doing. That means that *everything* could possibly be in an inconsistent state(yes, even if you protect
 your code with locks). At this point I'm hearing you saying: "hey, what can I do in the handler then?". Well,
 there are some system calls that are *guaranteed* to work(`open` for example), but they're really
 just a few and even basic functions like `printf` are not in there because they acquire locks internally.

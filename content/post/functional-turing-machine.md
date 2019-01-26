@@ -5,7 +5,7 @@ date: 2018-01-23T21:30:52+01:00
 
 A week ago or so I managed to complete the [Advent of Code
 2017](http://adventofcode.com/2017) and it was a really fun experience. Most of
-the problems was really interesting(the spiral memory is probably my favourite),
+the problems was really interesting(the spiral memory is probably my favorite),
 but the problem for day 25 especially attracted me. Basically it was about
 implementing a [Turing Machine](https://en.wikipedia.org/wiki/Turing_machine).
 
@@ -237,8 +237,8 @@ faster than the mutable Python version, but I don't think it can beat a mutable
 Rust implementation.
 
 On the other hand, if you're interested in pure algorithm complexity, then the
-functional Turing machine is, theorically speaking, always O(1) while the naive
-Turing machine one is O(1) amortized.
+functional Turing machine is, theoretically speaking, always O(1) while the
+naive Turing machine one is O(1) amortized.
 
 ### Links
 
