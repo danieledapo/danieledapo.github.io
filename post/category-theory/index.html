@@ -88,7 +88,7 @@ community. The book I used to guide me in this journey is <a href="https://barto
 programmers</a> by Bartosz Milewski.</p>
 
 <p>I cannot say I fully understood it, I&rsquo;m far away from doing so, but I want to
-write down what I think I learned nonenthless. I hope this will clarify my
+write down what I think I learned nonetheless. I hope this will clarify my
 thoughts and maybe help someone else.</p>
 
 <h2 id="what-is-category-theory">What is category theory</h2>
@@ -293,8 +293,8 @@ products! Take a look at the following type definitions</p>
 <span style="color: #007020; font-weight: bold">type</span> <span style="color: #902000">Four</span> <span style="color: #007020; font-weight: bold">=</span> <span style="color: #902000">Product</span> <span style="color: #902000">Two</span> <span style="color: #902000">Two</span>
 </code></pre></div>
 
-<p>Let&rsquo;s check if this actualy works by enumerating all the ways we can build those
-types:</p>
+<p>Let&rsquo;s check if this actually works by enumerating all the ways we can build
+those types:</p>
 
 <ul>
 <li>we can build a Two using either <code>SumA One</code> or <code>SumB One</code>;</li>
@@ -349,7 +349,7 @@ a combination of products and sums and that we can map sums and products to
 logical constructs then we can say that there&rsquo;s an isomorphism between types and
 logic! This is known as the <a href="https://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence">Curry-Howard
 isomorphism</a>. Under this point a view, checking if a
-program typechecks is no different than checking whether a logical proposition
+program type-checks is no different than checking whether a logical proposition
 holds or not.</p>
 
 <h2 id="functor">Functor</h2>
@@ -602,14 +602,14 @@ the truth.</p>
 
 <p>During my journey in category theory, I also learned why the point free notation
 is so named in Haskell. If you don&rsquo;t know what it is it&rsquo;s a style of writing
-fuctions where arguments are not explicitly mentioned. The main tool to achieve
+functions where arguments are not explicitly mentioned. The main tool to achieve
 this is by using function composition. Here&rsquo;s an example</p>
 <div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-haskell" data-lang="haskell"><span></span><span style="color: #06287e">oddSquares</span> <span style="color: #007020; font-weight: bold">::</span> [<span style="color: #902000">Int</span>] <span style="color: #007020; font-weight: bold">-&gt;</span> [<span style="color: #902000">Int</span>]
 <span style="color: #06287e">oddSquares</span> <span style="color: #007020; font-weight: bold">=</span> map (<span style="color: #666666">*</span> <span style="color: #40a070">2</span>) <span style="color: #666666">.</span> filter odd
 </code></pre></div>
 
 <p>As you can see, this function takes a single parameter, a list of numbers, which
-is not mentioned explictly in the function definition.</p>
+is not mentioned explicitly in the function definition.</p>
 
 <p>It&rsquo;s so named because arguments can also be called points in the sense of
 <em>calculating the function at the given points</em>. The fact that the function

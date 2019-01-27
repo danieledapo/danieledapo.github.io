@@ -6,10 +6,19 @@
     <description>Recent content on dapo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 10 Jan 2019 13:39:08 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 27 Jan 2019 22:31:44 +0100</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Chip8 emulator in Rust!</title>
+      <link>https://d-dorazio.github.io/post/chip8-emulator-rs/</link>
+      <pubDate>Sun, 27 Jan 2019 22:31:44 +0100</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/chip8-emulator-rs/</guid>
+      <description>Some coworkers of mine are really into game development and emulators in particular. In fact, these days they&amp;rsquo;re building emulators for the Playstation 1 and the Game Boy! I decided to write an emulator too just for fun. However, I didn&amp;rsquo;t want to implement such complex consoles, but I wanted to start off with a simpler platform first. According to the internet the simplest emulator you can build is a Chip8 emulator so I went for it.</description>
+    </item>
     
     <item>
       <title>Notes on Category Theory</title>
@@ -18,7 +27,7 @@
       
       <guid>https://d-dorazio.github.io/post/category-theory/</guid>
       <description>During the holiday season I finally decided to learn something about Category theory because it seems to be the hot topic in the Haskell community. The book I used to guide me in this journey is Category theory for programmers by Bartosz Milewski.
-I cannot say I fully understood it, I&amp;rsquo;m far away from doing so, but I want to write down what I think I learned nonenthless. I hope this will clarify my thoughts and maybe help someone else.</description>
+I cannot say I fully understood it, I&amp;rsquo;m far away from doing so, but I want to write down what I think I learned nonetheless. I hope this will clarify my thoughts and maybe help someone else.</description>
     </item>
     
     <item>
@@ -54,7 +63,7 @@ I cannot say I fully understood it, I&amp;rsquo;m far away from doing so, but I 
       <pubDate>Tue, 23 Jan 2018 21:30:52 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/functional-turing-machine/</guid>
-      <description>A week ago or so I managed to complete the Advent of Code 2017 and it was a really fun experience. Most of the problems was really interesting(the spiral memory is probably my favourite), but the problem for day 25 especially attracted me. Basically it was about implementing a Turing Machine.
+      <description>A week ago or so I managed to complete the Advent of Code 2017 and it was a really fun experience. Most of the problems was really interesting(the spiral memory is probably my favorite), but the problem for day 25 especially attracted me. Basically it was about implementing a Turing Machine.
 This is not rocket science since a Turing Machine is a simple idea(like all the brilliant ideas) and a lot of ink has been spilled on it.</description>
     </item>
     
@@ -74,7 +83,7 @@ This is not rocket science since a Turing Machine is a simple idea(like all the 
       
       <guid>https://d-dorazio.github.io/post/signals-from-the-past/</guid>
       <description>It&amp;rsquo;s just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell. How cool is that? But, how does it work?
-Every developer that has done some little system programming on Linux knows that the answer is signals. They are defined in the POSIX standard and are a (very) limited form of inter-process communication. The idea is really simple: a signal is sent to a program to notify it that an event has occured.</description>
+Every developer that has done some little system programming on Linux knows that the answer is signals. They are defined in the POSIX standard and are a (very) limited form of inter-process communication. The idea is really simple: a signal is sent to a program to notify it that an event has occurred.</description>
     </item>
     
     <item>

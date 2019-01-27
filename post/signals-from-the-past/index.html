@@ -85,10 +85,11 @@
 <p>It&rsquo;s just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell.
 How cool is that? But, how does it work?</p>
 
-<p>Every developer that has done some little system programming on Linux knows that the answer is <em>signals</em>.
-They are defined in the POSIX standard and are a (very) limited form of inter-process communication.
-The idea is really simple: a signal is sent to a program to notify it that an event has occured.
-It could be the Ctrl-C event(aka <code>SIGINT</code>) or the request of program termination(<code>SIGTERM</code>).</p>
+<p>Every developer that has done some little system programming on Linux knows that
+the answer is <em>signals</em>. They are defined in the POSIX standard and are a (very)
+limited form of inter-process communication. The idea is really simple: a signal
+is sent to a program to notify it that an event has occurred. It could be the
+Ctrl-C event(aka <code>SIGINT</code>) or the request of program termination(<code>SIGTERM</code>).</p>
 
 <p>The really interesting part is that programs can react to those events providing really cool features.
 It&rsquo;s extremely convenient to abort the compilation(without corrupting anything)
@@ -103,7 +104,7 @@ just call it with the signal you&rsquo;re interested in and provide the proper c
 
 <p>It turns out writing a correct signal handler is way more harder than writing a multi-threaded
 program. The problem is that your program stops as soon as it catches the signal, no matter what it was
-doing. That means that <em>everything</em> could possibly be in an unconsistent state(yes, even if you protect
+doing. That means that <em>everything</em> could possibly be in an inconsistent state(yes, even if you protect
 your code with locks). At this point I&rsquo;m hearing you saying: &ldquo;hey, what can I do in the handler then?&rdquo;. Well,
 there are some system calls that are <em>guaranteed</em> to work(<code>open</code> for example), but they&rsquo;re really
 just a few and even basic functions like <code>printf</code> are not in there because they acquire locks internally.</p>
