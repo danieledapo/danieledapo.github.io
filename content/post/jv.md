@@ -16,11 +16,7 @@ JSON document
 
 ```json
 {
-    "people": [
-        {"name": "Dan"},
-        {"name": "Luke"},
-        {"name": "Frank"}
-    ]
+  "people": [{ "name": "Dan" }, { "name": "Luke" }, { "name": "Frank" }]
 }
 ```
 
@@ -38,11 +34,11 @@ store the paths to each person's brothers.
 
 ```json
 {
-    "people": [
-        {"name": "Dan", "brothers": ["#/people/2"]},
-        {"name": "Luke"},
-        {"name": "Frank", "brothers": ["#/people/0"]}
-    ]
+  "people": [
+    { "name": "Dan", "brothers": ["#/people/2"] },
+    { "name": "Luke" },
+    { "name": "Frank", "brothers": ["#/people/0"] }
+  ]
 }
 ```
 
@@ -67,29 +63,57 @@ until one night I realized I was doing it all wrong.
 
 All the code I wrote up until that point was assuming that each character would
 take up exactly one column when printed to the terminal, but that is not always
-the case! A lot of Unicode characters, namely emojis or [CJK ideographs], can
-span multiple columns!
+the case! A lot of Unicode characters, namely emojis or [CJK ideographs][cjk ideographs], can span multiple columns!
 
 After all, terminals were built way before Unicode was a thing so that makes
 sense. Armed with hope, I tried to understand if there was some sort of list
 that defines the width for each unicode symbol. I went through the [Unicode
-Annex #11] page which describes how to interoperate with Asian character sets
-and I realized that the thing is tricky to say the least.
+Annex #11][unicode annex #11]] page which describes how to interoperate with
+Asian character sets and I realized that the thing is tricky to say the least.
 
 Since I don't have to deal with Unicode documents at work, I took the shortest
-route that is enforce only ASCII characters.
+route that is to enforce that the text contains only ASCII characters.
 
 ## Tabs
 
-tabs are not always 8, they depend on the position they're rendered to.
-a lot of frameworks do not handle them.
+If I can live without supporting Unicode characters, I did want to support tabs
+for a matter of honour. I think tabs should not be used anymore because they're
+thing of the past, but lots of software(e.g. Go, Make, the Linux kernel, etc...)
+do not agree and instead they make heavy use of tabs.
 
-Tabs are a thing of the past, right? Make and Go still use them...
+Initially I thought that I could just simply replace each 8 spaces and get away
+with it. Poor me.
 
+Tabs are not always of a fixed size, because they depend on the position they're
+rendered from! In fact a tab is the number of columns to span until the next tab
+stop which usually is 8 columns. Hopefully the following examples will make it
+more clear.
+
+```shell
+$ printf '########\tciaociao\t########'
+# output: ########        ciaociao        ########
+
+$ printf '########\tciao\t########'
+# output: ########        ciao    ########
+
+$ printf '#######\tX\t########'
+# output: ####### X       ########
+```
+
+This was really annoying to implement because I don't like that the model has to
+know how it will be rendered in order to change its representation. It doesn't
+sound right to me.
 
 ## JV
 
-Demo
+After I managed to implement all of this, adding the core functionality was
+pretty much straightforward and I'm ok with the results.
+
+Here's a small demo that showcases some of its features as of now. I plan to add
+some more, namely it really needs a search mode where you can search for plain
+strings inside the document.
+
+[![asciicast](https://asciinema.org/a/233199.svg)](https://asciinema.org/a/233199)
 
 ## Conclusions
 
@@ -103,5 +127,5 @@ so I'm ok with it. After all, an ugly tool is still better that nothing.
 
 [jq]: https://stedolan.github.io/jq/
 [jv]: https://github.com/d-dorazio/jv
-[CJK ideographs]: https://en.wikipedia.org/wiki/CJK_Unified_Ideographs
-[Unicode Annex #11]: http://www.unicode.org/reports/tr11/
+[cjk ideographs]: https://en.wikipedia.org/wiki/CJK_Unified_Ideographs
+[unicode annex #11]: http://www.unicode.org/reports/tr11/
