@@ -4,7 +4,7 @@ date: 2019-03-17T10:35:15+01:00
 draft: true
 ---
 
-JSON is a really common format and I think it gets the job done 90% of the time.
+JSON is a really common format and I think it works well 90% of the time.
 However, it's not perfect and it lacks some features that would be handy
 sometimes.
 
@@ -12,7 +12,7 @@ In particular, it doesn't have a way to specify a reference to a value in the
 document. A common solution is to store the id of the referenced object, but
 it's not always possible (or convenient) to do so.
 
-Anyway, it's trivial to come up with a custom string format that represent a
+Anyway, it's trivial to come up with a custom string format that represents a
 path to a value. For example, consider the following JSON document
 
 ```json
@@ -43,16 +43,16 @@ every object in the "people" array.
 }
 ```
 
-At work I have to deal with JSON documents like the above and I can say they're
-particularly annoying to manually inspect because I cannot easily jump to a
-path. I could use [jq] to query the document but, besides having to convert the
-reference format to the one jq likes, there doesn't seem to exist a sort of
-"interactive jq" that supports moving inside the document without entering a
-query first.
+At work I have to deal with JSON documents like these all the time and I can say
+they're particularly annoying to inspect because they require a lot of jumping
+between values. At the time, I was using [jq] to query the document but, besides
+having to convert the above reference format to the one jq likes, there doesn't
+seem to exist a sort of "interactive jq" that supports moving inside a JSON
+document and jumping to the reference under the cursor.
 
-Therefore, I decided to shave this yak by myself and I started working on [jv]:
-a terminal application to quickly inspect json documents that provides a quick
-jump to path functionality.
+Eventually I was so frustrated that I decided to shave this yak by myself and I
+started [jv]: a terminal application to quickly inspect json documents with
+first class support for jumping to references.
 
 ## Viewer
 
@@ -66,14 +66,17 @@ the case! In fact, a lot of Unicode characters, namely emojis or [CJK
 ideographs][cjk ideographs], can span multiple columns!
 
 Armed with hope, I tried to understand if there was some sort of table that
-defines the width for each unicode symbol. I went through the [Unicode Annex
-#11][unicode annex #11]] page which describes how to interoperate with Asian
-character sets and I realized that the thing is tricky to handle to say the
-least.
+defines the width of every Unicode symbol when rendered. I went through the
+[Unicode Annex #11][unicode annex #11] page which describes how to interoperate
+with Asian character sets and I realized that the thing is tricky to handle to
+say the least.
 
 Since I don't have to deal with Unicode documents at work (and I'm lazy) I took
-the shortest route that is to enforce that the text contains only ASCII
+the shortest route that is to enforce that the input text contains only ASCII
 characters.
+
+Initially I thought this was the easiest part of the project, but I was so
+wrong. This was the most annoying and energy consuming part of the project.
 
 ## Tabs
 
@@ -82,12 +85,13 @@ mostly for a matter of honour. I think tabs should not be used anymore because
 they're a thing of the past, but lots of software(e.g. Go, Make, the Linux
 kernel, etc...) do not agree and instead they make heavy use of tabs.
 
-Initially I thought that I could just simply replace each tab with 8 spaces and
-get away with it. Poor me.
+Initially I thought that I could just simply replace each tab with 8 spaces or
+whatever the tab width is and be done with it. Poor me.
 
-Tabs are not always of a fixed size, because they depend on the position they're
-rendered from! In fact a tab spans all the columns until the next tab stop which
-is usually 8 columns. Hopefully the following examples will make it more clear.
+Tabs are not always of a fixed size because they depend on the position they're
+rendered from! In fact, a tab spans all the columns until the next tab stop
+which is usually at every 8 columns. Hopefully the following examples will make
+it more clear.
 
 ```shell
 $ printf '########\tciaociao\t########'
@@ -102,7 +106,7 @@ $ printf '#######\tX\t########'
 
 This was really annoying to implement because I don't like that the model has to
 know how and where it will be rendered in order to change its representation. It
-doesn't sound right to me. Anyway, with enough hacks I was able to get something
+doesn't sound right to me. Anyway, with enough hacks I was able to get it
 working.
 
 ## JV
@@ -114,19 +118,19 @@ Here's a small demo that shows some of what [jv] can do.
 
 [![asciicast](https://asciinema.org/a/233199.svg)](https://asciinema.org/a/233199)
 
-I plan to add some more features in the near-ish future, namely it really needs
-a search mode where you can search for plain strings inside the document.
+I plan to add some more features in the near-ish future. For example, it really
+needs a search mode where you can search for plain strings inside the document.
 
 ## Conclusions
 
 I'm not proud of the code I've written. I think there are a lot of abstractions
 that I could have come up with to make the code cleaner and my life easier, but
-as soon as I got something working I basically stopped working on it because I
-was frustrated by all the ugly hacks I've put in the code.
+I was so frustrated of all the hacks I had to put in the code that I didn't have
+enough energy and will for refactoring.
 
-Anyway, I think it works quite well now and it's really useful for my daily job
-so I'm ok with it. It's not pretty, but it kinda works and after all, an ugly
-tool is still bettern than nothing.
+Anyway, `jv` is already proving useful at my daily job so I'm done with it as of
+now. It's not pretty, but it kinda works. After all, an ugly tool is still
+better than nothing.
 
 [jq]: https://stedolan.github.io/jq/
 [jv]: https://github.com/d-dorazio/jv
