@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>d&amp;#39;</title>
+    <link rel='icon' href='/favicon.ico' type='image/x-icon' />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+    
+
+</head>
+
+<body class="site">
+    <main class="site-content"> <section class="section">
+    <div class="container">
+
+        <div class="columns">
+            <div class="column is-three-fifths is-offset-one-fifth">
+                <nav class="level" role="navigation">
+
+                    <div class="level-left">
+                        <div class="level-item">
+                            <a href="https://d-dorazio.github.io">
+                                <img src="/logo.svg" alt="d&#39;">
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a href='https://d-dorazio.github.io'>
+                                <span class="subtitle">
+                                    Blog
+                                </span>
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a href='/about/'>
+                                <span class="subtitle">
+                                    About
+                                </span>
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a href='/library/'>
+                                <span class="subtitle">
+                                    Library
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                </nav>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container">
+
+    <div class="columns">
+      <div class="column is-three-fifths is-offset-one-fifth">
+        <span>
+          
+          Mar 22, 2019 - 5 Minute Read
+          
+        </span>
+        <p class="title post-title is-1 is-spaced">
+          <a href="https://d-dorazio.github.io/post/jv/">
+            JV
+          </a>
+        </p>
+        <div class="post content">
+          
+
+<p>JSON is a really common format and I think it works well 90% of the time.
+However, it&rsquo;s not perfect and it lacks some features that would be handy
+sometimes.</p>
+
+<p>In particular, it doesn&rsquo;t have a way to specify a reference to a value in the
+document. A common solution is to store the id of the referenced object, but
+it&rsquo;s not always possible (or convenient) to do so.</p>
+
+<p>Anyway, it&rsquo;s trivial to come up with a custom string format that represents a
+path to a value. For example, consider the following JSON document</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-json" data-lang="json"><span></span>{
+  <span style="color: #062873; font-weight: bold">&quot;people&quot;</span>: [{ <span style="color: #062873; font-weight: bold">&quot;name&quot;</span>: <span style="color: #4070a0">&quot;Dan&quot;</span> }, { <span style="color: #062873; font-weight: bold">&quot;name&quot;</span>: <span style="color: #4070a0">&quot;Luke&quot;</span> }, { <span style="color: #062873; font-weight: bold">&quot;name&quot;</span>: <span style="color: #4070a0">&quot;Frank&quot;</span> }]
+}
+</code></pre></div>
+
+<p>A very simple reference format could support the following queries:</p>
+
+<ul>
+<li><code>#/</code> is the document root;</li>
+<li><code>#/people</code> is the path to the &ldquo;people&rdquo; array;</li>
+<li><code>#/people/0</code> maps to the first object inside the &ldquo;people&rdquo; array;</li>
+<li><code>#/people/0/name</code> maps to the &ldquo;name&rdquo; of the first object inside the &ldquo;people&rdquo;
+array;</li>
+</ul>
+
+<p>We could then store these paths inside the JSON document to express
+relationships between values. For example, we could add a &ldquo;brothers&rdquo; key to
+every object in the &ldquo;people&rdquo; array.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-json" data-lang="json"><span></span>{
+  <span style="color: #062873; font-weight: bold">&quot;people&quot;</span>: [
+    { <span style="color: #062873; font-weight: bold">&quot;name&quot;</span>: <span style="color: #4070a0">&quot;Dan&quot;</span>, <span style="color: #062873; font-weight: bold">&quot;brothers&quot;</span>: [<span style="color: #4070a0">&quot;#/people/2&quot;</span>] },
+    { <span style="color: #062873; font-weight: bold">&quot;name&quot;</span>: <span style="color: #4070a0">&quot;Luke&quot;</span> },
+    { <span style="color: #062873; font-weight: bold">&quot;name&quot;</span>: <span style="color: #4070a0">&quot;Frank&quot;</span>, <span style="color: #062873; font-weight: bold">&quot;brothers&quot;</span>: [<span style="color: #4070a0">&quot;#/people/0&quot;</span>] }
+  ]
+}
+</code></pre></div>
+
+<p>At work I have to deal with JSON documents like these all the time and I can say
+they&rsquo;re particularly annoying to inspect because they require a lot of jumping
+between values. At the time, I was using <a href="https://stedolan.github.io/jq/">jq</a> to query the document but, besides
+having to convert the above reference format to the one jq likes, there doesn&rsquo;t
+seem to exist a sort of &ldquo;interactive jq&rdquo; that supports moving inside a JSON
+document and jumping to the reference under the cursor.</p>
+
+<p>Eventually I was so frustrated that I decided to shave this yak by myself and I
+started <a href="https://github.com/d-dorazio/jv">jv</a>: a terminal application to quickly inspect json documents with
+first class support for jumping to references.</p>
+
+<h2 id="viewer">Viewer</h2>
+
+<p>To start things off, I started implementing all the basic features like cursor
+movement, paging, line truncation, JSON syntax highlighting, formatting, etc&hellip;
+and things were going smoothly until one night I realized I was doing it wrong.</p>
+
+<p>All the code I wrote up until that moment was assuming that each character would
+take up exactly one column when printed to the terminal, but that is not always
+the case! In fact, a lot of Unicode characters, namely emojis or <a href="https://en.wikipedia.org/wiki/CJK_Unified_Ideographs">CJK
+ideographs</a>, can span multiple columns!</p>
+
+<p>Armed with hope, I tried to understand if there was some sort of table that
+defines the width of every Unicode symbol when rendered. I went through the
+<a href="http://www.unicode.org/reports/tr11/">Unicode Annex #11</a> page which describes how to interoperate
+with Asian character sets and I realized that the thing is tricky to handle to
+say the least.</p>
+
+<p>Since I don&rsquo;t have to deal with Unicode documents at work (and I&rsquo;m lazy) I took
+the shortest route that is to enforce that the input text contains only ASCII
+characters.</p>
+
+<p>Initially I thought this was the easiest part of the project, but I was so
+wrong. This was the most annoying and energy consuming part of it.</p>
+
+<h2 id="tabs">Tabs</h2>
+
+<p>If I can live without supporting Unicode characters, I do want to support tabs
+mostly for a matter of honour. I think tabs should not be used anymore because
+they&rsquo;re a thing of the past, but lots of software(e.g. Go, Make, the Linux
+kernel, etc&hellip;) do not agree and instead they make heavy use of tabs.</p>
+
+<p>Initially I thought that I could just simply replace each tab with 8 spaces or
+whatever the tab width is and be done with it. Poor me.</p>
+
+<p>Tabs are not always of a fixed size because they depend on the position they&rsquo;re
+rendered from! In fact, a tab spans all the columns until the next tab stop
+which is usually at every 8 columns. Hopefully the following examples will make
+it more clear.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-shell" data-lang="shell"><span></span>$ <span style="color: #007020">printf</span> <span style="color: #4070a0">&#39;########\tciaociao\t########&#39;</span>
+<span style="color: #60a0b0; font-style: italic"># output: ########        ciaociao        ########</span>
+
+$ <span style="color: #007020">printf</span> <span style="color: #4070a0">&#39;########\tciao\t########&#39;</span>
+<span style="color: #60a0b0; font-style: italic"># output: ########        ciao    ########</span>
+
+$ <span style="color: #007020">printf</span> <span style="color: #4070a0">&#39;#######\tX\t########&#39;</span>
+<span style="color: #60a0b0; font-style: italic"># output: ####### X       ########</span>
+</code></pre></div>
+
+<p>This was really annoying to implement because I don&rsquo;t like that the model has to
+know how and where it will be rendered in order to change its representation. It
+doesn&rsquo;t sound right to me. Anyway, with enough hacks I was able to get it
+working.</p>
+
+<h2 id="jv">JV</h2>
+
+<p>After I managed to implement all of this, adding the real core functionality was
+pretty much straightforward.</p>
+
+<p>Here&rsquo;s a small demo that shows some of what <a href="https://github.com/d-dorazio/jv">jv</a> can do.</p>
+
+<p><a href="https://asciinema.org/a/233199"><img src="https://asciinema.org/a/233199.svg" alt="asciicast" /></a></p>
+
+<p>I plan to add some more features in the near-ish future. For example, it really
+needs a search mode where you can search for plain strings inside the document.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>I&rsquo;m not proud of the code I&rsquo;ve written. I think there are a lot of abstractions
+that I could have come up with to make the code cleaner and my life easier, but
+I was so frustrated of all the hacks I had to put in the code that I didn&rsquo;t have
+enough energy and will for refactoring.</p>
+
+<p>Anyway, <code>jv</code> is already proving useful at my daily job so I&rsquo;m done with it as of
+now. It&rsquo;s not pretty, but it kinda works. After all, an ugly tool is still
+better than nothing.</p>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+ </main>
+
+<footer class="footer blog-footer">
+    <div class="container">
+        <div class="content">
+            <div class="columns">
+
+                <div class="column is-three-fifths is-offset-one-fifth">
+                    <nav class="level is-mobile">
+
+                        <div class="level-left">
+                            <div class="level-item">
+                                © 2019 Daniele D'Orazio
+                            </div>
+                        </div>
+
+                        <div class="level-right">
+                            <div class="level-item">
+                                <a href="https://github.com/d-dorazio">
+                                    <i class="fab fa-github" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="level-item">
+                                <a href="https://twitter.com/danieled__">
+                                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="level-item">
+                                
+                            </div>
+
+                        </div>
+
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>
