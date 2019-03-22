@@ -76,11 +76,11 @@ the shortest route that is to enforce that the input text contains only ASCII
 characters.
 
 Initially I thought this was the easiest part of the project, but I was so
-wrong. This was the most annoying and energy consuming part of the project.
+wrong. This was the most annoying and energy consuming part of it.
 
 ## Tabs
 
-I can live without supporting Unicode characters, but I do want to support tabs
+If I can live without supporting Unicode characters, I do want to support tabs
 mostly for a matter of honour. I think tabs should not be used anymore because
 they're a thing of the past, but lots of software(e.g. Go, Make, the Linux
 kernel, etc...) do not agree and instead they make heavy use of tabs.
