@@ -1,5 +1,5 @@
 ---
-title: "Property base test whatever you can!"
+title: "Use Property based testing whenever you can!"
 date: 2018-09-13T23:03:31+02:00
 ---
 
