@@ -1,46 +1,30 @@
 </main>
 
-<footer class="footer blog-footer">
-    <div class="container">
-        <div class="content">
-            <div class="columns">
+<footer class="footer">
+    <div class="container footer-container">
+        <div style="margin-right: auto">
+            © 2019 Daniele D'Orazio
+        </div>
 
-                <div class="column is-three-fifths is-offset-one-fifth">
-                    <nav class="level is-mobile">
-
-                        <div class="level-left">
-                            <div class="level-item">
-                                © 2019 Daniele D'Orazio
-                            </div>
-                        </div>
-
-                        <div class="level-right">
-                            <div class="level-item">
-                                <a href="https://github.com/d-dorazio">
-                                    <i class="fab fa-github" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="level-item">
-                                <a href="https://twitter.com/danieled__">
-                                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="level-item">
-                                {{ if .RSSLink }}
-                                <a href="{{ .RSSLink }}" type="application/rss+xml" target="_blank">
-                                    <i class="fas fa-rss" aria-hidden="true"></i>
-                                </a>
-                                {{ end }}
-                            </div>
-
-                        </div>
-
-                    </nav>
-                </div>
-
-            </div>
+        <div class="footer-icon">
+            <a href="https://github.com/d-dorazio">
+                <i class="fab fa-github" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            <a href="https://twitter.com/danieled__">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            {{ if .RSSLink }}
+            <a href="{{ .RSSLink }}" type="application/rss+xml" target="_blank">
+                <i class="fas fa-rss" aria-hidden="true"></i>
+            </a>
+            {{ end }}
         </div>
     </div>
+
 </footer>
 </body>
 

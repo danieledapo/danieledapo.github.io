@@ -1,46 +1,25 @@
-<section class="section">
-    <div class="container">
-
-        <div class="columns">
-            <div class="column is-three-fifths is-offset-one-fifth">
-                <nav class="level" role="navigation">
-
-                    <div class="level-left">
-                        <div class="level-item">
-                            <a href="{{ .Site.BaseURL }}">
-                                <img src="/logo.svg" alt="d&#39;">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="level-right">
-                        <div class="level-item">
-                            <a href='{{ .Site.BaseURL }}'>
-                                <span class="subtitle">
-                                    Blog
-                                </span>
-                            </a>
-                        </div>
-                        <div class="level-item">
-                            <a href='{{ relURL "/about/" }}'>
-                                <span class="subtitle">
-                                    About
-                                </span>
-                            </a>
-                        </div>
-                        <div class="level-item">
-                            <a href='{{ relURL "/library/" }}'>
-                                <span class="subtitle">
-                                    Library
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-
-                </nav>
-
-            </div>
-        </div>
-
+<nav class="container navbar" role="navigation">
+    <div class="logo">
+        <a href='{{ relURL "/" }}'>
+            <img src="/logo.svg" alt="d&#39;">
+        </a>
     </div>
-</section>
+
+    <ul class="nav-links">
+        <a href='{{ relURL "/" }}'>
+            <span>
+                Blog
+            </span>
+        </a>
+        <a href='{{ relURL "/about/" }}'>
+            <span>
+                About
+            </span>
+        </a>
+        <a href='{{ relURL "/library/" }}'>
+            <span>
+                Library
+            </span>
+        </a>
+    </ul>
+</nav>
