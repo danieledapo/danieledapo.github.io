@@ -15,33 +15,29 @@
 @media only screen and (max-width: 600px) {
     .container {
         margin: 0 auto;
-        max-width: 100%;
     }
 }
 
 /* portrait tablets and large phones */
-@media only screen and (min-width: 600px) {
+/* @media only screen and (min-width: 600px) {
     .container {
         margin: 0 auto;
-        max-width: 90%;
     }
-}
+} */
 
 /* landscape tablets */
 @media only screen and (min-width: 768px) {
     .container {
-        margin: 0 auto;
-        max-width: 65%;
+        margin: 0 20%;
     }
 }
 
 /* laptops/desktops */
-@media only screen and (min-width: 992px) {
+/* @media only screen and (min-width: 992px) {
     .container {
-        margin: 0 auto;
-        max-width: 40%;
+        margin: 0 20%;
     }
-}
+} */
 
 /*
  * Navbar
