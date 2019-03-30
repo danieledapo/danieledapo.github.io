@@ -9,7 +9,6 @@
     <title>d&amp;#39;</title>
     <link rel='icon' href='/favicon.ico' type='image/x-icon' />
     <link rel="stylesheet" href="/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/bulma.min.css">
     <link rel="stylesheet" href="/css/main.css">
 
     
@@ -21,64 +20,41 @@
 
 <body class="site">
     <main class="site-content">
-<section class="section">
-    <div class="container">
 
-        <div class="columns">
-            <div class="column is-three-fifths is-offset-one-fifth">
-                <nav class="level" role="navigation">
-
-                    <div class="level-left">
-                        <div class="level-item">
-                            <a href="https://d-dorazio.github.io">
-                                <img src="/logo.svg" alt="d&#39;">
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="level-right">
-                        <div class="level-item">
-                            <a href='https://d-dorazio.github.io'>
-                                <span class="subtitle">
-                                    Blog
-                                </span>
-                            </a>
-                        </div>
-                        <div class="level-item">
-                            <a href='/about/'>
-                                <span class="subtitle">
-                                    About
-                                </span>
-                            </a>
-                        </div>
-                        <div class="level-item">
-                            <a href='/library/'>
-                                <span class="subtitle">
-                                    Library
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-
-                </nav>
-
-            </div>
-        </div>
-
+<nav class="container navbar" role="navigation">
+    <div class="logo">
+        <a href='/'>
+            <img src="/logo.svg" alt="d&#39;">
+        </a>
     </div>
-</section>
+
+    <ul class="nav-links">
+        <a href='/'>
+            <span>
+                Blog
+            </span>
+        </a>
+        <a href='/about/'>
+            <span>
+                About
+            </span>
+        </a>
+        <a href='/library/'>
+            <span>
+                Library
+            </span>
+        </a>
+    </ul>
+</nav>
 
 
-<section class="section">
-    <div class="container">
-
-        <div class="columns">
-            <div class="column is-three-fifths is-offset-one-fifth">
-                 <span>
+<section class="container posts-list">
+    <div>
+         <span>
     Mar 22, 2019
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/jv/">
         JV
     </a>
@@ -88,7 +64,7 @@
     Jan 27, 2019
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/chip8-emulator-rs/">
         Chip8 emulator in Rust!
     </a>
@@ -98,7 +74,7 @@
     Jan 10, 2019
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/category-theory/">
         Notes on Category Theory
     </a>
@@ -108,7 +84,7 @@
     Nov 30, 2018
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/terminal-graphics-braille/">
         Terminal graphics with Braille characters
     </a>
@@ -118,9 +94,9 @@
     Sep 13, 2018
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/property-based-testing/">
-        Property base test whatever you can!
+        Use Property based testing whenever you can!
     </a>
 </p>
 <hr>
@@ -128,7 +104,7 @@
     Apr 30, 2018
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/my-take-on-documenting-code/">
         My Take on Documenting Code and Readability
     </a>
@@ -138,7 +114,7 @@
     Jan 23, 2018
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/functional-turing-machine/">
         Functional Turing Machine
     </a>
@@ -148,7 +124,7 @@
     Jan 7, 2018
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/2018-resolutions/">
         2018 Resolutions
     </a>
@@ -158,65 +134,47 @@
     Mar 26, 2017
 </span>
 
-<p class="title post-title is-1 is-spaced">
+<p class="post-title">
     <a href="https://d-dorazio.github.io/post/signals-from-the-past/">
         Signals from the past
     </a>
 </p>
 <hr>
-   
-            </div>
-        </div>
-
+     
     </div>
-</section>
 
+</section>
 
 </main>
 
-<footer class="footer blog-footer">
-    <div class="container">
-        <div class="content">
-            <div class="columns">
+<footer class="footer">
+    <div class="container footer-container">
+        <div style="margin-right: auto">
+            © 2019 Daniele D'Orazio
+        </div>
 
-                <div class="column is-three-fifths is-offset-one-fifth">
-                    <nav class="level is-mobile">
-
-                        <div class="level-left">
-                            <div class="level-item">
-                                © 2019 Daniele D'Orazio
-                            </div>
-                        </div>
-
-                        <div class="level-right">
-                            <div class="level-item">
-                                <a href="https://github.com/d-dorazio">
-                                    <i class="fab fa-github" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="level-item">
-                                <a href="https://twitter.com/danieled__">
-                                    <i class="fab fa-twitter" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="level-item">
-                                
-                                <a href="https://d-dorazio.github.io/index.xml" type="application/rss+xml" target="_blank">
-                                    <i class="fas fa-rss" aria-hidden="true"></i>
-                                </a>
-                                
-                            </div>
-
-                        </div>
-
-                    </nav>
-                </div>
-
-            </div>
+        <div class="footer-icon">
+            <a href="https://github.com/d-dorazio">
+                <i class="fab fa-github" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            <a href="https://twitter.com/danieled__">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            
+            <a href="https://d-dorazio.github.io/index.xml" type="application/rss+xml" target="_blank">
+                <i class="fas fa-rss" aria-hidden="true"></i>
+            </a>
+            
         </div>
     </div>
+
 </footer>
 </body>
 
 </html>
+
 
