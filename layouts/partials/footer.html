@@ -17,8 +17,8 @@
             </a>
         </div>
         <div class="footer-icon">
-            {{ if .RSSLink }}
-            <a href="{{ .RSSLink }}" type="application/rss+xml" target="_blank">
+            {{ with .OutputFormats.Get "rss" -}}
+            {{ printf `<a type="%s" href="%s" target="_blank" />` .MediaType.Type .Permalink | safeHTML }}
                 <i class="fas fa-rss" aria-hidden="true"></i>
             </a>
             {{ end }}
