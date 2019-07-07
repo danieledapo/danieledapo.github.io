@@ -13,7 +13,6 @@ mostly the journey I went through writing Buzz.
 For the impatient, the source code of the whole project lives on
 [github][r3d-repo].
 
-
 ## How it all started
 
 More than a month ago I was watching Toy Story which is a thing I always love
@@ -61,7 +60,6 @@ Conceptually, all it does is to find the closest intersection, if any, between
 the ray and the scene and then according to which object it hit and its
 material it returns a plausible color.
 
-
 ## Materials
 
 Coming up with a faithful representation of materials is hard and it turns out
@@ -84,16 +82,30 @@ look like glass and do not simply reflect incoming rays but instead they let
 some amount of rays go through the object (refraction) and some others are
 reflected. The ratio between reflected and refracted rays are ruled by the
 [Fresnel factor][fresnel-factor] which I decided to simulate by using [Schlick's
-approximation equations][Schlick-approx]. Practically this means that each time
+approximation equations][schlick-approx]. Practically this means that each time
 a ray hits a dielectric material the ray tracer randomly generates a probability
 and according to whether it's greater or smaller than the Fresnel factor for
 that particular material it reflects or refracts the incoming ray.
 
-<!-- TODO: image with examples of these materials -->
+![hello](/post/buzz/hello.png)
+![rtiw](/post/buzz/ray-tracing-in-a-weekend-cover.png)
 
 Note that these are very simple materials and do not look realistic because real
 materials but that's fine to me.
 
+## Mesh
+
+At this point I implemented pretty much everything that Ray tracing in a weekend
+covered, but I wasn't satisfied yet. What I wanted to tackle next was to add
+support for rendering arbitrary meshes so that I would be able to render complex
+objects. It turned out to be quite simple because a mesh can be seen as just a
+collection of faces, triangles in my case, which share the same material. It's
+not that different than inserting such faces directly in the scene as objects
+with the same material. In fact, that is basically what I do. I don't know if
+it's the most correct way to do this, but I think that it's quite simple and
+gives good results.
+
+![suzanne](/post/buzz/suzanne.png)
 
 ## Constructive Solid Geometry
 
@@ -152,28 +164,34 @@ that basically consists in moving along the incoming ray by the distance from
 the SDF object to the ray origin until such distance is 0 that is the
 intersection point.
 
-<!-- TODO: image -->
-
+![csg-image](/post/buzz/csg.png)
 
 ## Conclusion
 
 Ray tracers are pretty cool and are pretty interesting to implement, but it's
 not a walk in the park if you don't know much about 3d math. The best part of
 this journey was that I could see the results of my code changes pretty much
-immediately.
+immediately because they almost always impacted the final images.
 
-I might try to implement [Physically based rendering][pbr] at some point in the
-future, but I'm done with ray tracing for the foreseeable future. The next thing
-is to build a rasterizer to explore the other face of 3D rendering. See you
-then.
+There a lot of features missing in buzz, namely textures and volume rendering,
+but I'm ok with what I have now.
 
-<!-- TODO: Show some images -->
+A feature that I'm considering adding now is some very basic primitives to
+render animations given that I'm able to render static images. However given
+that rendering a single image of good quality takes a bit of time, I fear that
+even making an animation of say 1 minute would require quite a bit of resources
+and time. It'd be pretty cool to produce short movies though.
+
+Also, I might try to implement [Physically based rendering][pbr] at some point
+in the future, but I'm done with ray tracing for the foreseeable future. The
+next thing is to build a rasterizer to explore the other face of 3D rendering.
+See you then.
 
 [r3d-repo]: https://github.com/d-dorazio/r3d.git
 [wrtiw-repo]: https://github.com/petershirley/raytracinginoneweekend
 [rasterisation]: https://en.wikipedia.org/wiki/Rasterisation
 [fresnel-factor]: https://en.wikipedia.org/wiki/Fresnel_equations
-[Schlick-approx]: https://en.wikipedia.org/wiki/Schlick's_approximation
+[schlick-approx]: https://en.wikipedia.org/wiki/Schlick's_approximation
 [pbr]: https://en.wikipedia.org/wiki/Physically_based_rendering
 [csg]: https://en.wikipedia.org/wiki/Constructive_solid_geometry
 [signed-distance-functions]: https://en.wikipedia.org/wiki/Signed_distance_function
