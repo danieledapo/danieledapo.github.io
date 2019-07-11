@@ -8,7 +8,7 @@ Recently I've been working on a toy ray tracer to learn a bit about how 3D
 renderers work. I also took the opportunity to learn a little bit of math and a
 whole ton about computer graphics in general. This post isn't a tutorial on how
 to build a ray tracer because there's a ton of resources online already; it is
-mostly the journey I went through writing Buzz, my toy ray tracer.
+mostly the journey I went through when writing Buzz, my toy ray tracer.
 
 For the impatient, the source code of the whole project lives on
 [github][r3d-repo].
@@ -59,7 +59,7 @@ different colors for the same pixel.
 The difficult part of ray tracing is in writing an efficient `shoot_ray`
 function. Conceptually, all it does is to find the closest intersection (if any)
 between the ray and the objects in the scene and then according to which object
-it hit and its material it returns the color.
+it hit and its material it calculates the color of the pixel.
 
 ## Materials
 
@@ -118,12 +118,13 @@ def dielectric_bounce(ray, obj):
     return refracted
 ```
 
+With just these three types of materials it's possible to render quite
+interesting and pleasing scenes like the following even though the materials do
+not look very realistic because real materials are actually a mix of the
+diffuse, metal and dielectric components, but I'm ok with what I have for now.
+
 ![hello](/post/buzz/hello.png)
 ![rtiw](/post/buzz/ray-tracing-in-a-weekend-cover.png)
-
-Note that these are very simple materials and do not look very realistic because
-real materials are actually a mix of the diffuse, metal and dielectric
-components, but I'm ok with these for now.
 
 ## Mesh
 
@@ -194,29 +195,32 @@ objects because usually ray tracers need to find the intersection point on the
 object to properly calculate the normal for shading, etc... However, CSG can
 only provide distances because that's the whole point of representing models
 using SDF after all. Fear not though, there's a technique known as ray marching
-that basically consists in moving along the incoming ray by the distance from
-the SDF object to the origin until such distance is 0 that is the intersection
-point.
+that basically consists in moving along the incoming ray by its distance from
+the SDF object until such distance is 0 that is when the origin of the ray is
+the intersection point.
+
+Using these simple operators it's possible to describe quite complex objects
+like the following.
 
 ![csg-image](/post/buzz/csg.png)
 
-## Conclusion
+## Conclusions
 
 Ray tracers are pretty cool and are interesting to implement, but it's not a
 walk in the park if you don't know much about 3d math. The best part of this
 journey was that I could see the results of my code changes pretty much
 immediately because they almost always impacted the final images. I didn't like
-debugging though, it's super hard given that it's not always easy to understand
-what's causing a glitch in the final image for example.
+debugging though, it's super hard given that it's not always obvious what's
+causing weird effects in the final image.
 
-There a lot of features missing in buzz, namely textures and volume rendering,
-but I'm ok with what I have now.
+There a lot of features missing in Buzz like textures and volume rendering,
+but I'm ok with what I have.
 
-A feature that I'm considering adding now is some very basic primitives to
-render animations given that I'm able to render images which can be seen as
-frames. However rendering even a single good quality image takes a bit of time,
-I fear that even making an animation of say 1 minute would require quite a bit
-of resources. It'd be pretty cool to produce short movies though.
+A feature that I'm considering adding is some very basic primitives to render
+animations given that I'm able to render images which can be seen as frames.
+However, since rendering a single good quality image takes a bit of time, I fear
+that making an animation of say 1 minute would require quite a bit of resources.
+It'd be pretty cool to produce short movies though.
 
 Also, I might try to implement [Physically based rendering][pbr] at some point,
 but I'm done with ray tracing for the foreseeable future. The next thing is to
