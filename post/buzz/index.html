@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>d&amp;#39;</title>
+    <link rel='icon' href='/favicon.ico' type='image/x-icon' />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+
+    </head>
+
+<body class="site">
+    <main class="site-content">
+ <nav class="container navbar" role="navigation">
+    <div class="logo">
+        <a href='/'>
+            <img src="/logo.svg" alt="d&#39;">
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <a href='/'>
+            <span>
+                Blog
+            </span>
+        </a>
+        <a href='/about/'>
+            <span>
+                About
+            </span>
+        </a>
+        <a href='/library/'>
+            <span>
+                Library
+            </span>
+        </a>
+    </ul>
+</nav>
+
+
+<section class="container">
+
+  <span>
+    
+    Jun 23, 2019 - 8 Minute Read
+    
+  </span>
+  <p class="post-title">
+    <a href="https://d-dorazio.github.io/post/buzz/">
+      Buzz, the ray tracer!
+    </a>
+  </p>
+  <div class="post">
+    
+
+<p>Recently I&rsquo;ve been working on a toy ray tracer to learn a bit about how 3D
+renderers work. I also took the opportunity to learn a little bit of math and a
+whole ton about computer graphics in general. This post isn&rsquo;t a tutorial on how
+to build a ray tracer because there&rsquo;s a ton of resources online already; it is
+mostly the journey I went through when writing Buzz, my toy ray tracer.</p>
+
+<p>For the impatient, the source code of the whole project lives on
+<a href="https://github.com/d-dorazio/r3d.git">github</a>.</p>
+
+<h2 id="how-it-all-started">How it all started</h2>
+
+<p>More than a month ago I was watching Toy Story which is a thing I always love
+to do from time to time. That time I was particularly attracted by a scene
+where Buzz LightYear uses its laser to shoot rays everywhere to locate the
+enemies. That scene reminded me of how ray tracers work and so I decided to
+build one.</p>
+
+<p>I don&rsquo;t know very much about 3D and sure enough ray tracing was no exception, so
+the first thing I had to do was to gather some resources and read some
+documentation. To my surprise, I found out that a lot of ink has been spilled
+over this topic! After a bit of searching, I decided to follow <a href="https://github.com/petershirley/raytracinginoneweekend">Writing a Ray
+Tracer in a Weekend</a> because it seemed a good compromise between
+theory and practice. I don&rsquo;t regret this choice, but probably it was a bit too
+light on theory.</p>
+
+<h2 id="ray-tracing-101">Ray Tracing 101</h2>
+
+<p>A ray tracer is a type of 3D renderer whose only purpose is to transform the
+description of a 3D scene into an image in the most accurate way possible. In
+order to do that it shoots a <em>bunch</em> of light rays into the scene and then it
+simulates how such rays reflect and refract to find out the color of every pixel
+in the final image.</p>
+
+<p>If this sounds expensive to you, you&rsquo;re right! It&rsquo;s really way more expensive
+than <a href="https://en.wikipedia.org/wiki/Rasterisation">rasterisation</a> for example, but on the other hand the
+rendered image is way closer to reality especially when looking at shadows.</p>
+
+<p>The core idea of the algorithm can be summarized by the following code snippet.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">for</span> (x, y) <span style="color: #007020; font-weight: bold">in</span> output_image:
+    <span style="color: #007020; font-weight: bold">for</span> _ <span style="color: #007020; font-weight: bold">in</span> <span style="color: #40a070">0.</span><span style="color: #666666">.</span>nsamples:
+        color <span style="color: #666666">=</span> shoot_ray(ray_going_through(camera, (x, y)))
+        output_image<span style="color: #666666">.</span>blend_pixel(x, y, color)
+</code></pre></div>
+
+<p>Quite neat, isn&rsquo;t it? Obviously I&rsquo;ve omitted where all the magic happens (that
+is in <code>shoot_ray</code>) but I think that is a good overview of how ray tracing
+works. It basically goes through each pixel of the final image, shoots slightly
+different rays into the scene and eventually blends all the potentially
+different colors for the same pixel.</p>
+
+<p>The difficult part of ray tracing is in writing an efficient <code>shoot_ray</code>
+function. Conceptually, all it does is to find the closest intersection (if any)
+between the ray and the objects in the scene and then according to which object
+it hit and its material it calculates the color of the pixel.</p>
+
+<h2 id="materials">Materials</h2>
+
+<p>Coming up with a faithful representation of materials is hard and it turns out
+that this is very much a research area to this day. In fact there are a lot of
+ways to model materials with varying degrees of complexity and realism. I choose
+to implement only the lambertian(aka diffuse), metal and dielectric(aka glass)
+materials because they seemed the easiest to implement.</p>
+
+<p>Among the three, the lambertian material was the easiest to implement because it
+turns out that a relatively good model consists in simply bouncing the incoming
+ray approximately along the normal of the intersected object. This ends up in
+simulating a perfectly diffuse material.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">lambertian_bounce</span>(ray, obj):
+    (intersection_point, normal) <span style="color: #666666">=</span> obj<span style="color: #666666">.</span>intersect(ray)
+    <span style="color: #007020; font-weight: bold">return</span> Ray(intersection_point, normal <span style="color: #666666">+</span> randUnitVector())
+</code></pre></div>
+
+<p>Metal materials were a bit harder to implement because they do not simply make
+the incoming ray bounce in a random direction but instead such ray is reflected
+and then slightly perturbed. Intuitively this makes sense because pure metals
+simply reflect light rays.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">diffuse_bounce</span>(ray, obj):
+    (intersection_point, normal) <span style="color: #666666">=</span> obj<span style="color: #666666">.</span>intersect(ray)
+    <span style="color: #007020; font-weight: bold">return</span> Ray(intersection_point, reflect(ray<span style="color: #666666">.</span>direction, normal) <span style="color: #666666">+</span> randUnitVector())
+</code></pre></div>
+
+<p>Dielectric materials were the hardest to understand and to code. These materials
+look like glass and do not simply reflect incoming rays but instead they let
+some amount of rays go through the object (refraction) and others are reflected.
+The ratio between reflected and refracted rays are ruled by the <a href="https://en.wikipedia.org/wiki/Fresnel_equations">Fresnel
+factor</a> which I decided to simulate by using <a href="https://en.wikipedia.org/wiki/Schlick's_approximation">Schlick&rsquo;s
+approximation equations</a>. Practically this means that each time
+a ray hits a dielectric material Buzz randomly generates a probability and
+according to whether it&rsquo;s greater or smaller than the Fresnel factor for that
+particular material it reflects or refracts the incoming ray. Quite mouthful I
+know, but hopefully the following code snippet will clarify things a bit.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">dielectric_bounce</span>(ray, obj):
+    intersection_point, normal <span style="color: #666666">=</span> obj<span style="color: #666666">.</span>intersect(ray)
+    refracted_ray, cos <span style="color: #666666">=</span> refract(ray, intersection_point, normal)
+
+    <span style="color: #007020; font-weight: bold">if</span> refracted_ray <span style="color: #007020; font-weight: bold">is</span> <span style="color: #007020">None</span>:
+        <span style="color: #007020; font-weight: bold">return</span> reflect(ray<span style="color: #666666">.</span>direction, normal)
+
+    reflect_prob <span style="color: #666666">=</span> schlick(cos, refractive_index)
+
+    <span style="color: #007020; font-weight: bold">if</span> rand() <span style="color: #666666">&lt;</span> reflect_prob:
+        <span style="color: #007020; font-weight: bold">return</span> reflect(ray<span style="color: #666666">.</span>direction, normal)
+
+    <span style="color: #007020; font-weight: bold">return</span> refracted
+</code></pre></div>
+
+<p>With just these three types of materials it&rsquo;s possible to render quite
+interesting and pleasing scenes like the following even though the materials do
+not look very realistic because real materials are actually a mix of the
+diffuse, metal and dielectric components, but I&rsquo;m ok with what I have for now.</p>
+
+<p><img src="/post/buzz/hello.png" alt="hello" />
+<img src="/post/buzz/ray-tracing-in-a-weekend-cover.png" alt="rtiw" /></p>
+
+<h2 id="mesh">Mesh</h2>
+
+<p>At this point I implemented pretty much everything that Ray tracing in a weekend
+covered, but I wasn&rsquo;t satisfied yet. What I wanted to tackle next was to add
+support for rendering arbitrary meshes so that I would be able to render complex
+objects and not just boring geometric shapes.</p>
+
+<p>It turned out to be quite simple because a mesh can be seen as just a collection
+of faces, triangles in my case, which share the same material. It&rsquo;s not that
+different than inserting such faces directly in the scene as objects with the
+same material. In fact, that is basically what I do. I don&rsquo;t know if it&rsquo;s the
+most correct way to do this, but I think that it&rsquo;s quite simple and gives good
+results.</p>
+
+<p><img src="/post/buzz/suzanne.png" alt="suzanne" /></p>
+
+<h2 id="constructive-solid-geometry">Constructive Solid Geometry</h2>
+
+<p>While studying ray tracers and in general learning more about 3D rendering I
+came across the concept of <a href="https://en.wikipedia.org/wiki/Constructive_solid_geometry">Constructive Solid Geometry</a> or CSG. The core
+idea is to have simple primitive objects like spheres, cubes, etc&hellip; and then to
+use boolean operators (i.e. union, intersection and difference) to combine them
+together. Being a big fan of functional programming and composition in general,
+this concept really spoke to me and I decided that Buzz had to be able to render
+this kind of shapes.</p>
+
+<p>The implementation was quite straightforward, I modelled the primitives using
+<a href="https://en.wikipedia.org/wiki/Signed_distance_function">Signed Distance Functions</a> or SDF. Signed distance
+functions are a way to look at objects as functions that return the distance
+from a point to the object&rsquo;s surface. If the distance is negative then the point
+is inside the object, if it&rsquo;s zero then it&rsquo;s exactly on the surface and if it&rsquo;s
+positive it&rsquo;s outside the object. Here&rsquo;s an example SDF for spheres</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">class</span> <span style="color: #0e84b5; font-weight: bold">Sphere</span>:
+    center: Vec3
+    radius: <span style="color: #007020">float</span>
+
+    <span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">dist</span>(<span style="color: #007020">self</span>, point):
+        <span style="color: #007020; font-weight: bold">return</span> (point <span style="color: #666666">-</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>center)<span style="color: #666666">.</span>norm() <span style="color: #666666">-</span> <span style="color: #007020">self</span><span style="color: #666666">.</span>radius
+</code></pre></div>
+
+<p>Implementing the boolean operators on these primitives took me a bit of time,
+but I enjoyed the process nonetheless. The union between two SDF is simply the
+minimum distance between the two while the intersection is simply taking the
+maximum. Intuitively this means that the distance of a union object to a point
+is the distance of the closest object to that point and symmetrically for the
+intersection object. The difference operator is a bit more involved but it boils
+down to taking the intersection between the first object and everything but the
+second that is the intersection between the first object and the negation of the
+second. The negation can be done by simply changing the sign of a SDF.</p>
+<div class="highlight" style="background: #f0f0f0"><pre style="line-height: 125%"><code class="language-python" data-lang="python"><span></span><span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">union</span>(sdf1, sdf2, point):
+    <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020">min</span>(sdf1<span style="color: #666666">.</span>dist(point), sdf2<span style="color: #666666">.</span>dist(point))
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">intersection</span>(sdf1, sdf2, point):
+    <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020">max</span>(sdf1<span style="color: #666666">.</span>dist(point), sdf2<span style="color: #666666">.</span>dist(point))
+
+<span style="color: #007020; font-weight: bold">def</span> <span style="color: #06287e">difference</span>(sdf1, sdf2, point):
+    <span style="color: #007020; font-weight: bold">return</span> <span style="color: #007020">max</span>(sdf1<span style="color: #666666">.</span>dist(point), <span style="color: #666666">-</span>sdf2<span style="color: #666666">.</span>dist(point))
+</code></pre></div>
+
+<p>This is all pretty cool but unfortunately this isn&rsquo;t enough to render CSG
+objects because usually ray tracers need to find the intersection point on the
+object to properly calculate the normal for shading, etc&hellip; However, CSG can
+only provide distances because that&rsquo;s the whole point of representing models
+using SDF after all. Fear not though, there&rsquo;s a technique known as ray marching
+that basically consists in moving along the incoming ray by its distance from
+the SDF object until such distance is 0 that is when the origin of the ray is
+the intersection point.</p>
+
+<p>Using these simple operators it&rsquo;s possible to describe quite complex objects
+like the following.</p>
+
+<p><img src="/post/buzz/csg.png" alt="csg-image" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Ray tracers are pretty cool and are interesting to implement, but it&rsquo;s not a
+walk in the park if you don&rsquo;t know much about 3d math. The best part of this
+journey was that I could see the results of my code changes pretty much
+immediately because they almost always impacted the final images. I didn&rsquo;t like
+debugging though, it&rsquo;s super hard given that it&rsquo;s not always obvious what&rsquo;s
+causing weird effects in the final image.</p>
+
+<p>There a lot of features missing in Buzz like textures and volume rendering,
+but I&rsquo;m ok with what I have.</p>
+
+<p>A feature that I&rsquo;m considering adding is some very basic primitives to render
+animations given that I&rsquo;m able to render images which can be seen as frames.
+However, since rendering a single good quality image takes a bit of time, I fear
+that making an animation of say 1 minute would require quite a bit of resources.
+It&rsquo;d be pretty cool to produce short movies though.</p>
+
+<p>Also, I might try to implement <a href="https://en.wikipedia.org/wiki/Physically_based_rendering">Physically based rendering</a> at some point,
+but I&rsquo;m done with ray tracing for the foreseeable future. The next thing is to
+build a rasterizer to explore the other face of 3D rendering. See you then.</p>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div style="margin-right: auto">
+            © 2019 Daniele D'Orazio
+        </div>
+
+        <div class="footer-icon">
+            <a href="https://github.com/d-dorazio">
+                <i class="fab fa-github" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            <a href="https://twitter.com/danieled__">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            
+        </div>
+    </div>
+
+</footer>
+</body>
+
+</html>
+

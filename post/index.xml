@@ -6,10 +6,19 @@
     <description>Recent content in Posts on dapo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 22 Mar 2019 10:35:15 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 22:29:14 +0200</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Buzz, the ray tracer!</title>
+      <link>https://d-dorazio.github.io/post/buzz/</link>
+      <pubDate>Sun, 23 Jun 2019 22:29:14 +0200</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/buzz/</guid>
+      <description>Recently I&amp;rsquo;ve been working on a toy ray tracer to learn a bit about how 3D renderers work. I also took the opportunity to learn a little bit of math and a whole ton about computer graphics in general. This post isn&amp;rsquo;t a tutorial on how to build a ray tracer because there&amp;rsquo;s a ton of resources online already; it is mostly the journey I went through when writing Buzz, my toy ray tracer.</description>
+    </item>
     
     <item>
       <title>JV</title>
