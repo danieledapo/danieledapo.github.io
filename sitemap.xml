@@ -8,6 +8,18 @@
   </url>
   
   <url>
+    <loc>https://d-dorazio.github.io/post/</loc>
+    <lastmod>2019-03-22T10:35:15+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://d-dorazio.github.io/</loc>
+    <lastmod>2019-03-22T10:35:15+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://d-dorazio.github.io/post/chip8-emulator-rs/</loc>
     <lastmod>2019-01-27T22:31:44+01:00</lastmod>
   </url>
@@ -53,18 +65,6 @@
   
   <url>
     <loc>https://d-dorazio.github.io/library/</loc>
-  </url>
-  
-  <url>
-    <loc>https://d-dorazio.github.io/post/</loc>
-    <lastmod>2019-03-22T10:35:15+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://d-dorazio.github.io/</loc>
-    <lastmod>2019-03-22T10:35:15+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>
