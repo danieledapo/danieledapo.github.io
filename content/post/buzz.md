@@ -1,7 +1,6 @@
 ---
 title: "Buzz, the ray tracer!"
 date: 2019-06-23T22:29:14+02:00
-draft: true
 ---
 
 Recently I've been working on a toy ray tracer to learn a bit about how 3D
