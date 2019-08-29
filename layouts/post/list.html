@@ -3,9 +3,8 @@
 
 <section class="container posts-list">
     <div>
-        {{ range .Data.Pages }} {{ .Render "summary" }} {{ end }}
+        {{ range .Site.RegularPages }} {{ .Render "summary" }} {{ end }}
     </div>
-
 </section>
 
 {{ partial "footer.html" . }}
