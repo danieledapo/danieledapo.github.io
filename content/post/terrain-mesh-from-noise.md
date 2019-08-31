@@ -47,7 +47,25 @@ numbers that would look smooth when plotted in sequence.
 
 ## Noise functions
 
+After a bit of searching online, I came across the concept of noise functions
+which can be seen as pseudo random number generators that are guaranteed to be
+smooth ad continuos. Exactly wat I needed!
+
+Albeit conceptually similar to PRNGs they're a bit different to use, because
+you need to provide a "coordinate" to calculate the random value at. Asking the
+noise value at a given position will _always_ give you the same results (i.e.
+the noise function is deterministic) but you can change the seed of the
+generator get new random results.
+
+Since noise functions involve a position, it should come as no surprise that
+there are noise functions for 1D, 2D, 3D and even infinite dimensions!
+
+Here's a plot of [Perlin noise][perlin-noise] in 1D
+
 ![noise-plot](/post/terrain-mesh/noise-plot.svg)
+
+This looks much more smooth and organic. If you squint hard enough you might
+see the outline of a landscape which almost what I needed.
 
 
 ## Terrain meshes
@@ -59,3 +77,4 @@ faces.
 ## Conclusions
 
 [terrain-mesh]: https://github.com/d-dorazio/terrain-mesh
+[perlin-noise]: https://en.wikipedia.org/wiki/Perlin_noise
