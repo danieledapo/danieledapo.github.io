@@ -70,11 +70,46 @@ see the outline of a landscape which almost what I needed.
 
 ## Terrain meshes
 
-Explain a bit more how the terrain-mesh algorithm works. Especially the quads
-faces.
+At this point I had a way to generate smooth random values by using 2D Perlin
+Noise, what was left to do was to actually create the faces and vertices of the
+mesh which revealed to be tricky, but not too hard.
+
+The overall algorithm I use to generate terrain can be summerized as:
+
+- generate a widthxdepth grid of 2d perlin noise values that represent the
+  height of the terrain at those specific points;
+
+- build the faces using quadrilaterals and not triangles because they're a bit
+  easier to implement. Converting this quad mesh to a triangle mesh shouldn't
+  be difficult, but I didn't bother to because most 3D software can handle quad
+  meshes just fine;
+
+- optionally add some support faces to the bottom and to the sides of the mesh
+  which are necessary for 3D printing;
+
+- save the mesh as an obj file.
+
+
+Here's a rendering of a terrain created by `terrain-mesh`.
+
+![terrain.png](/post/terrain-mesh/terrain.png)
 
 
 ## Conclusions
+
+I'm quite satisfied with the terrains I'm able to generate and with their
+diversity. Eventually I managed to 3d print some of these terrains, here's a
+photo of two of them
+
+<!-- FIXME: photo -->
+
+I think they're super cool and they have deserved a spot on my desk at work.
+Next step is to use some real heightmaps to create the mesh of some real
+terrain like the Moon or Mars. To be completely honest, I'm already able to do
+so, but the way I'm doing so is too silly and the final meshes are not really
+usable because they have way too many vertices and faces than needed. Anyway,
+see you in a while.
+
 
 [terrain-mesh]: https://github.com/d-dorazio/terrain-mesh
 [perlin-noise]: https://en.wikipedia.org/wiki/Perlin_noise
