@@ -101,7 +101,7 @@ I'm quite satisfied with the terrains I'm able to generate and with their
 diversity. Eventually I managed to 3d print some of these terrains, here's a
 photo of two of them
 
-<!-- FIXME: photo -->
+![3d-printed.jpg](/post/terrain-mesh/3d-printed-small.jpg)
 
 I think they're super cool and they have deserved a spot on my desk at work.
 Next step is to use some real heightmaps to create the mesh of some real
