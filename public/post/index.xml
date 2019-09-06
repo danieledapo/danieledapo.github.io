@@ -6,10 +6,20 @@
     <description>Recent content in Posts on dapo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 23 Jun 2019 22:29:14 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 29 Aug 2019 21:52:25 +0200</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Generating terrain mesh from noise functions</title>
+      <link>https://d-dorazio.github.io/post/terrain-mesh-from-noise/</link>
+      <pubDate>Thu, 29 Aug 2019 21:52:25 +0200</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/terrain-mesh-from-noise/</guid>
+      <description>Recently at work we bought a 3d printer and sure enought I wanted something cool to print to try out the new toy. I didn&amp;rsquo;t want to just search for ready to print models online because that didn&amp;rsquo;t sound fun. Instead, I figured I should print something that I created.
+Since I don&amp;rsquo;t know how to use 3d modeling software (e.g. Blender) to create good looking models, my only option left was to build a program able to generate them.</description>
+    </item>
     
     <item>
       <title>Buzz, the ray tracer!</title>
