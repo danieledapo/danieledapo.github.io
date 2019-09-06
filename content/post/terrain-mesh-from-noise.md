@@ -1,7 +1,6 @@
 ---
 title: "Generating terrain mesh from noise functions"
 date: 2019-08-29T21:52:25+02:00
-draft: true
 ---
 
 Recently at work we bought a 3d printer and sure enought I wanted something
@@ -51,11 +50,11 @@ After a bit of searching online, I came across the concept of noise functions
 which can be seen as pseudo random number generators that are guaranteed to be
 smooth ad continuos. Exactly wat I needed!
 
-Albeit conceptually similar to PRNGs they're a bit different to use, because
+Albeit conceptually similar to PRNGs, they're a bit different to use because
 you need to provide a "coordinate" to calculate the random value at. Asking the
 noise value at a given position will _always_ give you the same results (i.e.
 the noise function is deterministic) but you can change the seed of the
-generator get new random results.
+generator to get new random results.
 
 Since noise functions involve a position, it should come as no surprise that
 there are noise functions for 1D, 2D, 3D and even infinite dimensions!
@@ -65,14 +64,14 @@ Here's a plot of [Perlin noise][perlin-noise] in 1D
 ![noise-plot](/post/terrain-mesh/noise-plot.svg)
 
 This looks much more smooth and organic. If you squint hard enough you might
-see the outline of a landscape which almost what I needed.
+see the outline of a mountain or hill which is almost what I needed.
 
 
 ## Terrain meshes
 
 At this point I had a way to generate smooth random values by using 2D Perlin
 Noise, what was left to do was to actually create the faces and vertices of the
-mesh which revealed to be tricky, but not too hard.
+mesh. This revealed to be tricky, but not too hard.
 
 The overall algorithm I use to generate terrain can be summerized as:
 
@@ -107,8 +106,8 @@ I think they're super cool and they have deserved a spot on my desk at work.
 Next step is to use some real heightmaps to create the mesh of some real
 terrain like the Moon or Mars. To be completely honest, I'm already able to do
 so, but the way I'm doing so is too silly and the final meshes are not really
-usable because they have way too many vertices and faces than needed. Anyway,
-see you in a while.
+usable because they have way too many vertices and faces. Anyway, see you in a
+while.
 
 
 [terrain-mesh]: https://github.com/d-dorazio/terrain-mesh
