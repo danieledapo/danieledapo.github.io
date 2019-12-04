@@ -2,7 +2,7 @@
 
 set -eux
 
-pipenv run hugo
+hugo
 
 git add .
 git commit

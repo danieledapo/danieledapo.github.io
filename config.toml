@@ -7,13 +7,11 @@ title = "dapo"
 
 enableEmoji = true
 
-pygmentsCodeFences = true
-pygmentsStyle = "friendly"
-
-# chroma is still too immature
-pygmentsUseClassic = true
-
 disableKinds = ["taxonomy", "taxonomyTerm"]
+
+[markup]
+  [markup.highlight]
+    style = "friendly"
 
 [author]
     name = "Daniele D'Orazio"

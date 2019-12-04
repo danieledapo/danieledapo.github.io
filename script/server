@@ -2,4 +2,4 @@
 
 set -eux
 
-pipenv run hugo server --buildDrafts
+hugo server --buildDrafts
