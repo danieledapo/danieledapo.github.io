@@ -15,3 +15,6 @@ disableKinds = ["taxonomy", "taxonomyTerm"]
 
 [author]
     name = "Daniele D'Orazio"
+
+[markup.goldmark.renderer]
+unsafe= true
