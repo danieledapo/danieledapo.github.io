@@ -1,7 +1,6 @@
 ---
 title: "2019 in Review"
 date: 2019-12-31T09:22:56+01:00
-draft: true
 ---
 
 The year is coming to an end and I guess it's time to take a look at what one
