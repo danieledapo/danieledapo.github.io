@@ -5,7 +5,7 @@ draft: true
 ---
 
 The year is coming to an end and I guess it's time to take a look at what one
-has accomplished during this year.
+has accomplished in the past 365 days.
 
 I had two main goals this year: do more side projects and blog more. My plan
 was to do at least a project per month and as soon as it's in a "reasonably"
@@ -23,11 +23,13 @@ running simple games like PONG.
 It was a ton of fun because I learned a bit more about how emulators work and I
 got to play with WebAssembly and Rust. Under a non technology point of view,
 this project was interesting because I realized that even if I had the core of
-project done in a couple of days, I spent a lot more time polishing things like
-making the web ui nicer. A project is not only the core algorithm I guess.
+the project done in a couple of days, I spent a lot more time polishing things
+like making the web ui nicer. A project is not only the core algorithm I guess.
 
 Anyway, you can find the emulator at <https://d-dorazio.github.io/chip8> and a
 blog post [here](/post/chip8-emulator-rs).
+
+![chip8-screenshot](chip8-screenshot.png)
 
 
 ## [Sudoku solver](https://github.com/d-dorazio/sudoku-rs)
@@ -35,31 +37,35 @@ blog post [here](/post/chip8-emulator-rs).
 I like Sudoku, it's a fun game that I usually play when I'm bored at the
 airport, but still. I decided to write a solver (and generator) for it.
 
-I thought it was a hard problem given the search space, but it turns out that
-you can prune the search space aggressively by just following the rules. It
-didn't took me very long to come up with a reasonably fast solver. I also
-implemented a couple (probably unneeded) optimizations because bit twiddling is
-always a fun thing to do.
+I thought it was a hard problem given the quite big search space, but it turns
+out that you can prune the search space aggressively by just following the
+rules. It didn't took me very long to come up with a reasonably fast solver and
+then a generator. I also implemented a couple (probably unneeded) optimizations
+because bit twiddling is always a fun thing to do.
+
+![sudoku-screenshot](sudoku-screenshot.png)
 
 
 ## [JV](https://github.com/d-dorazio/jv)
 
-I don't know if this was a fun project, but sure it was frustrating. It's a
-"simple" json viewer that allows to use
-[jq](https://stedolan.github.io/jq/)-like queries to jump to definition. It
-also supports automatic jumping to the path under the cursor if it's a query.
-Incidentally this also works as a simple file viewer.
+I don't know if this was a fun project, but sure enough it was frustrating.
+It's a "simple" json viewer that allows to use
+[jq](https://stedolan.github.io/jq/)-like queries to search for elements in a
+JSON document. It also supports automatic jumping to the path under the cursor
+if it's a valid query. Incidentally this also works as a simple file viewer.
 
 The part that was annoying was text rendering, in particular handling the width
 of a character. I thought that as long as we stick with ASCII (I'm sorry, but
-handling width of unicode codepoints is really a pain) it should always be one.
-Then the tab '\t' character came along and I started crying...
+handling the width of unicode codepoints is really a pain) it should always be
+one. Then the tab '\t' character came along and I started crying...
 
 Anyway, I'm proud to say that tab characters are properly handled by JV and
 that it proved useful a bunch of times.
 
 If you really want to know more about my frustrutations then I wrote a
 [post](/post/jv) for you.
+
+![jv-screenshot](jv-screenshot.png)
 
 
 ## [Buzz](https://github.com/d-dorazio/r3d)
@@ -69,11 +75,16 @@ I've done this year. It's a toy ray tracer that I wrote to learn more about the
 topic and about rendering in general.
 
 It was a blast, I learned a bunch of things and I realized the effort it goes
-into making a scene look good. This was my entry point to the world of computer
-graphics which is something I realized I like playing with from time to time.
+into making a scene look good. Even more so if it's just a frame of an
+animation!
+
+This was my entry point to the world of computer graphics which is something I
+realized I like playing with from time to time.
 
 Since this was a big project I definitely wanted to write a post and
 [there](/post/buzz) you have it!
+
+![buzz-csg](/post/buzz/csg.png)
 
 
 ## [Diffusion limited aggregation](https://github.com/d-dorazio/dla)
@@ -90,6 +101,8 @@ least in 2D and 3D the resulting patterns are quite interesting.
 I intended to write a blog post about this because I particularly enjoyed
 working on this project, but for whatever reason I did not. Maybe in the
 future.
+
+<img src="/post/2019-in-review/dla-small.png" alt="dla-small" class="image-centered">
 
 
 ## [Isolines - marching squares](https://github.com/d-dorazio/marching-squares-rs)
@@ -109,6 +122,7 @@ I'm thinking about printing (or even pen plotting) some just for fun.
 
 I think this was worth a blog post, but I was lazy and didn't write any.
 
+![italy.png](italy.png)
 
 ## [Terrain mesh generation](https://github.com/d-dorazio/terrain-mesh)
 
@@ -119,10 +133,12 @@ noise](https://en.wikipedia.org/wiki/Perlin_noise). I spent more time writing
 the code that actually connects the mesh than tuning the terrain generation
 parameters.
 
-The best thing about this project is that I eventually was able to 3d print
+The best thing about this project is that eventually I was able to 3d print
 some of the generated meshes!
 
 I wrote a [post](/post/terrain-mesh-from-noise) about this, yay!
+
+![random-terrain](/post/terrain-mesh/terrain.png)
 
 
 ## [Delaunay mesh](https://github.com/d-dorazio/delaunay-mesh)
@@ -132,6 +148,8 @@ playing around with triangulation with no clear goal in mind. You won't find
 anything too interesting here, it's just an (inefficient) implementation of a
 triangulation algorithm.
 
+![delaunay](delaunay.png)
+
 
 ## [Morse CLI](https://github.com/d-dorazio/morse)
 
@@ -139,6 +157,8 @@ This was a funny one, not particularly challenging but it was nice nonetheless.
 It's a very simple CLI that allows to encode and decode ASCII text in [Morse
 code](https://en.wikipedia.org/wiki/Morse_code). I also implemented a very
 simple play feature that allows to actually hear what Morse sounds like.
+
+![morse](morse-screenshot.png)
 
 
 ## [Four-Color maps](https://github.com/d-dorazio/4color-map)
@@ -157,6 +177,8 @@ reasonably well, but I think there are better ways.
 
 Also, this made me realize that I like maps more than I thought.
 
+![4color-map](4color-map.svg)
+
 
 ## Conclusions
 
@@ -167,7 +189,6 @@ or because I put a lot of effort in them, but I was too lazy or tired to
 actually write it.
 
 My resolutions for 2020 are basically the same that is a project per month and
-blog post about it except that this time I want to be more strict about writing
-posts.
+blog post about it except that this time I want to be more strict on the latter.
 
 Happy new year!
