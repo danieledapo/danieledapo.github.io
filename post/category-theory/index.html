@@ -88,7 +88,7 @@ objects are types and the arrows are the functions between them. In Haskell this
 category is called <em>Hask</em>, but this concepts can be translated to other type
 systems with almost no changes.</p>
 <p>Here's an example of a simple category</p>
-<!-- raw HTML omitted -->
+<img src="/post/category-theory/simple-category.svg" alt="simple category" class="image-centered">
 <h2 id="isomorphism">Isomorphism</h2>
 <p>Another core concept of category theory is the concept of <em>isomorphism</em>. This
 buzzword means that there's an invertible arrow, a morphism, between two objects
@@ -108,7 +108,7 @@ identity arrow. In pseudo Haskell notation this could be expressed as <code>f . 
 <span style="color:#60a0b0;font-style:italic">-- statements shouldn&#39;t be too hard to verify</span>
 <span style="color:#60a0b0;font-style:italic">-- isJust . justIf = id</span>
 <span style="color:#60a0b0;font-style:italic">-- justIf . isJust = id</span>
-</code></pre></div><!-- raw HTML omitted -->
+</code></pre></div><img src="/post/category-theory/isomorphism-example.svg" alt="isomorphism example" class="image-centered">
 <p>Clearly, <code>Maybe ()</code> is not semantically the same as <code>Bool</code> (i.e. they're not the
 same type), but they actually carry the same amount of information albeit in a
 different shape.</p>
@@ -119,16 +119,16 @@ efficient.</p>
 <h2 id="duality">Duality</h2>
 <p>Since a category is just a collection of objects and arrows it's always possible
 to create the dual of a category by inverting the direction of the arrows. The
-dual category is also called the <em>opposite</em> category or <strong>C</strong><!-- raw HTML omitted -->_op_<!-- raw HTML omitted -->.
+dual category is also called the <em>opposite</em> category or <strong>C</strong><sup>_op_</sup>.
 This duality is interesting because it also means that structures built on a
-category <strong>C</strong> also have a dual shape in <strong>C</strong><!-- raw HTML omitted -->_op_<!-- raw HTML omitted -->. Usually the dual
+category <strong>C</strong> also have a dual shape in <strong>C</strong><sup>_op_</sup>. Usually the dual
 shapes are called with the same name with a <em>co</em> prefix.</p>
 <p>For example, here's the opposite category of first example category</p>
-<!-- raw HTML omitted -->
+<img src="/post/category-theory/simple-category-op.svg" alt="simple category" class="image-centered">
 <p>Note how the identity arrows are preserved since their source and target are the
 same object.</p>
 <p>Also note that the dual of the dual of a category is the category itself that is
-(<strong>C</strong><!-- raw HTML omitted -->_op_<!-- raw HTML omitted -->) <!-- raw HTML omitted -->_op_<!-- raw HTML omitted --> = <strong>C</strong>. This is why you can give a nut
+(<strong>C</strong><sup>_op_</sup>) <sup>_op_</sup> = <strong>C</strong>. This is why you can give a nut
 to a category theorist even though he asked you a <em>coco</em>-nut.</p>
 <h2 id="product">Product</h2>
 <p>At this point we have the tools to understand one of the core shapes in category
@@ -147,7 +147,7 @@ cannot be built from any other candidate product object. In other words, the
 product object has less structure than the other candidate products.</p>
 <p>Here's the graph for the product <strong>P</strong>. Note that I've omitted the identity
 morphisms for simplicity only.</p>
-<!-- raw HTML omitted -->
+<img src="/post/category-theory/product.svg" alt="product" class="image-centered">
 <p>In this diagram, there are two candidate product objects: <strong>P</strong> and <strong>P&rsquo;</strong>.
 However, only <strong>P</strong> is the product between <strong>A</strong> and <strong>B</strong> because there's a
 morphism <em>h</em> that can be used to go from <strong>P&rsquo;</strong> to <strong>P</strong>.</p>
@@ -165,7 +165,7 @@ let's consider <code>(a, b, Int)</code>. It's easy to show that the morphism tha
 apply the duality concept to find its dual pattern. In our case let's build the
 dual of the product: the <em>coproduct</em>.</p>
 <p>This is the product diagram with the arrows inverted.</p>
-<!-- raw HTML omitted -->
+<img src="/post/category-theory/sum.svg" alt="sum" class="image-centered">
 <p>The intuition behind this is that a <em>coproduct</em> is an object that can be built
 either by <strong>A</strong> or by <strong>B</strong>. In fact, there are two morphisms, also known as
 injections, that create a coproduct. Sure enough, there could be multiple
@@ -229,7 +229,7 @@ is just a composition over Sums and Products (if we can create any number we can
 create any type). This allows the creation of a generic framework to manipulate
 data types which is how the Haskell compiler is able to implement a lot of
 typeclasses automatically.</p>
-<h2 id="curryhoward-isomorphism">Curry-Howard isomorphism</h2>
+<h2 id="curry-howard-isomorphism">Curry-Howard isomorphism</h2>
 <p>It's possible to show that products and sums can be transformed into constructs
 in logic. In particular a product would be <em>logical and</em> or <code>&amp;&amp;</code> and a sum would
 be a <em>logical or</em> or <code>||</code>. Furthermore, Zero would correspond to <em>false</em> and One
