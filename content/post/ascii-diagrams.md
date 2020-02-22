@@ -1,6 +1,6 @@
 ---
 title: "Ascii Diagrams"
-date: 2020-01-28T19:13:37+01:00
+date: 2020-02-21T21:13:37+01:00
 draft: true
 ---
 
@@ -16,19 +16,15 @@ wanted the final diagram to be ASCII so that I could embed it in source files.
 As of now, graphviz has no such backend.
 
 Now, a sane person might have looked into how to write such backend, but
-instead I tried to create an ASCII diagram renderer from scratch. I started
+instead I tried to create an ASCII diagram renderer from scratch. I created
 then [ascii-diagrams](github.com/d-dorazio/ascii-diagrams).
-
-This is an example of a diagram rendered using `ascii-diagrams`.
-
-TODO: image
 
 
 ## Problem
 
 I decided to start very small so I decided to render blocks only at fixed
-positions while trying to find the best edge arrangement to connect such
-blocks automatically.
+positions while trying to find the best edge arrangement to connect such blocks
+automatically.
 
 Given that positions are already known, rendering blocks was not particularly
 hard. I had to pay a bit of attention to handle padding and margins properly,
@@ -52,18 +48,32 @@ The strategy I used eventually boils down to:
   solution, discard it otherwise
 
 This process is repeated a bunch of times until no intersections are found or
-up to a number of times.
+up to a given number of times.
 
 This simple process is actually able to give decent results, but all the magic
 lies in how the initial solution is built.
 
+For example, edges between adjacent blocks are always placed in the most
+obvious way (just straight lines) because that's almost always the correct
+layout. These edges are then excluded from the main tweaking algorithm as
+they're hardly wrong.
 
-## Initial solution
-
-
-## Easy algorithm
-
+The remaining edges are sorted by the logical distance between the blocks and
+then placed in the best way. The reason the edges are processed according to
+their "logical" lenght is that short edges are easier to get right, but more
+importantly we don't want to get them too wrong because shorter edges should be
+visually simpler than longer ones to make the overall diagram easier to read.
 
 ## Conclusions
 
-As simple as it might sound, it does give some pretty good results like the following.
+This was a short post and probably not that exciting, I know. To be frank I
+didn't really feel like writing (or publishing) it, but given that this year
+resolution is to publish a post per month and that I'm already one month late I
+figured I should just write it anyway.
+
+I'll end this post with a couple of diagrams `ascii-diagrams` is able to
+generate.  Take a look at the
+[repo](https://github.com/d-dorazio/ascii-diagrams) if you'd like to know more
+about how to actually use it.
+
+![diag3](diag3.png)
