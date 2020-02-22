@@ -3,8 +3,9 @@ title: "About"
 ---
 
 I am a developer working at [develer](https://develer.com) where I can build a
-lot of cool stuff working with great people. Currently I'm working on a 3D CAD
-for fashion shoes that runs in the browser!
+lot of cool stuff working with great people. Currently I'm working on the
+software for CNC leather cutting machines ranging from computer vision to
+motion planning algorithms.
 
 My interests are functional programming and programming language design.
 
