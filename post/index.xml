@@ -6,10 +6,20 @@
     <description>Recent content in Posts on dapo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 Dec 2019 09:22:56 +0100</lastBuildDate>
+    <lastBuildDate>Fri, 21 Feb 2020 21:13:37 +0100</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Ascii Diagrams</title>
+      <link>https://d-dorazio.github.io/post/ascii-diagrams/</link>
+      <pubDate>Fri, 21 Feb 2020 21:13:37 +0100</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/ascii-diagrams/</guid>
+      <description>The 25th challenge of last year AoC was particularly funny to solve because it didn&#39;t require a lot of programming, but a bit of play and intuition. I don&#39;t want to reveal too much about the challenge, but it&#39;s enough to say that drawing a chart or diagrams is quite useful.
+At the time I used Graphviz without thinking too much about it as it&#39;s a great piece of software and it worked great.</description>
+    </item>
     
     <item>
       <title>2019 in Review</title>
