@@ -4,7 +4,7 @@ date: 2020-02-21T21:13:37+01:00
 draft: true
 ---
 
-The 25th challenge of [last year Aoc](https://adventofcode.com/2019/) was
+The 25th challenge of [last year AoC](https://adventofcode.com/2019/) was
 particularly funny to solve because it didn't require a lot of programming, but
 a bit of play and intuition. I don't want to reveal too much about the
 challenge, but it's enough to say that drawing a chart or diagrams is quite
@@ -17,7 +17,7 @@ As of now, graphviz has no such backend.
 
 Now, a sane person might have looked into how to write such backend, but
 instead I tried to create an ASCII diagram renderer from scratch. I created
-then [ascii-diagrams](github.com/d-dorazio/ascii-diagrams).
+[ascii-diagrams](github.com/d-dorazio/ascii-diagrams).
 
 
 ## Problem
@@ -39,13 +39,13 @@ possible solutions to find the best one. We have to resort to some form of
 dynamic programming to find a solution "good enough" for our use cases.
 
 The strategy I used eventually boils down to:
-- start from the current best solution
-- select an edge randomly
+- start from the current best solution,
+- select an edge randomly,
 - select two points randomly on the blocks that are connected by the selected
   edge,
-- find the shortest path between those two points
-- if the overall diagram is simpler than the current solution then keep the new
-  solution, discard it otherwise
+- find the shortest path between those two points,
+- if the overall diagram is "simpler" than the current solution then keep the
+  new solution, discard it otherwise.
 
 This process is repeated a bunch of times until no intersections are found or
 up to a given number of times.
@@ -60,9 +60,10 @@ they're hardly wrong.
 
 The remaining edges are sorted by the logical distance between the blocks and
 then placed in the best way. The reason the edges are processed according to
-their "logical" lenght is that short edges are easier to get right, but more
+their "logical" length is that short edges are easier to get right, but more
 importantly we don't want to get them too wrong because shorter edges should be
 visually simpler than longer ones to make the overall diagram easier to read.
+
 
 ## Conclusions
 
