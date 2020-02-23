@@ -1,7 +1,6 @@
 ---
 title: "Ascii Diagrams"
 date: 2020-02-21T21:13:37+01:00
-draft: true
 ---
 
 The 25th challenge of [last year AoC](https://adventofcode.com/2019/) was
