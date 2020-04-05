@@ -99,7 +99,7 @@
   font-size: 1.75em;
 }
 
-.post .image-centered {
+.post .image-centered, .post .video-centered {
   display: block;
   margin-left: auto;
   margin-right: auto;

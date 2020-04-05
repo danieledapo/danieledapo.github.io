@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on dapo</title>
@@ -6,10 +6,21 @@
     <description>Recent content in Posts on dapo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Feb 2020 21:13:37 +0100</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 16:25:08 +0200</lastBuildDate>
     
 	<atom:link href="https://d-dorazio.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Reaction Diffusion using the Gray-Scott model</title>
+      <link>https://d-dorazio.github.io/post/rd/</link>
+      <pubDate>Sun, 05 Apr 2020 16:25:08 +0200</pubDate>
+      
+      <guid>https://d-dorazio.github.io/post/rd/</guid>
+      <description>Recently I&amp;rsquo;ve been playing around with Reaction Diffusion mainly because I was intrigued by the patterns it was able to generate and because a lot of cool people were doing the same.
+I then started the dead-simple project rd. I think I like short names.
+What even is Reaction Diffusion Reaction Diffusion is a simulation of two chemicals reacting together where one uses the other to grow and expand. Think of it like having a bowl where you pour something into at a given rate and inside the bowl there&amp;rsquo;s also another substance that absorbes the first substance.</description>
+    </item>
     
     <item>
       <title>Ascii Diagrams</title>
@@ -17,8 +28,8 @@
       <pubDate>Fri, 21 Feb 2020 21:13:37 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/ascii-diagrams/</guid>
-      <description>The 25th challenge of last year AoC was particularly funny to solve because it didn&#39;t require a lot of programming, but a bit of play and intuition. I don&#39;t want to reveal too much about the challenge, but it&#39;s enough to say that drawing a chart or diagrams is quite useful.
-At the time I used Graphviz without thinking too much about it as it&#39;s a great piece of software and it worked great.</description>
+      <description>The 25th challenge of last year AoC was particularly funny to solve because it didn&amp;rsquo;t require a lot of programming, but a bit of play and intuition. I don&amp;rsquo;t want to reveal too much about the challenge, but it&amp;rsquo;s enough to say that drawing a chart or diagrams is quite useful.
+At the time I used Graphviz without thinking too much about it as it&amp;rsquo;s a great piece of software and it worked great.</description>
     </item>
     
     <item>
@@ -27,9 +38,9 @@ At the time I used Graphviz without thinking too much about it as it&#39;s a gre
       <pubDate>Tue, 31 Dec 2019 09:22:56 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/2019-in-review/</guid>
-      <description>The year is coming to an end and I guess it&#39;s time to take a look at what one has accomplished in the past 365 days.
-I had two main goals this year: do more side projects and blog more. My plan was to do at least a project per month and as soon as it&#39;s in a &amp;ldquo;reasonably&amp;rdquo; complete state write a post about it.
-So let&#39;s see what projects I made during this year.</description>
+      <description>The year is coming to an end and I guess it&amp;rsquo;s time to take a look at what one has accomplished in the past 365 days.
+I had two main goals this year: do more side projects and blog more. My plan was to do at least a project per month and as soon as it&amp;rsquo;s in a &amp;ldquo;reasonably&amp;rdquo; complete state write a post about it.
+So let&amp;rsquo;s see what projects I made during this year.</description>
     </item>
     
     <item>
@@ -38,8 +49,8 @@ So let&#39;s see what projects I made during this year.</description>
       <pubDate>Thu, 29 Aug 2019 21:52:25 +0200</pubDate>
       
       <guid>https://d-dorazio.github.io/post/terrain-mesh-from-noise/</guid>
-      <description>Recently at work we bought a 3d printer and sure enought I wanted something cool to print to try out the new toy. I didn&#39;t want to just search for ready to print models online because that didn&#39;t sound fun. Instead, I figured I should print something that I created.
-Since I don&#39;t know how to use 3d modeling software (e.g. Blender) to create good looking models, my only option left was to build a program able to generate them.</description>
+      <description>Recently at work we bought a 3d printer and sure enought I wanted something cool to print to try out the new toy. I didn&amp;rsquo;t want to just search for ready to print models online because that didn&amp;rsquo;t sound fun. Instead, I figured I should print something that I created.
+Since I don&amp;rsquo;t know how to use 3d modeling software (e.g. Blender) to create good looking models, my only option left was to build a program able to generate them.</description>
     </item>
     
     <item>
@@ -48,7 +59,7 @@ Since I don&#39;t know how to use 3d modeling software (e.g. Blender) to create 
       <pubDate>Sun, 23 Jun 2019 22:29:14 +0200</pubDate>
       
       <guid>https://d-dorazio.github.io/post/buzz/</guid>
-      <description>Recently I&#39;ve been working on a toy ray tracer to learn a bit about how 3D renderers work. I also took the opportunity to learn a little bit of math and a whole ton about computer graphics in general. This post isn&#39;t a tutorial on how to build a ray tracer because there&#39;s a ton of resources online already; it is mostly the journey I went through when writing Buzz, my toy ray tracer.</description>
+      <description>Recently I&amp;rsquo;ve been working on a toy ray tracer to learn a bit about how 3D renderers work. I also took the opportunity to learn a little bit of math and a whole ton about computer graphics in general. This post isn&amp;rsquo;t a tutorial on how to build a ray tracer because there&amp;rsquo;s a ton of resources online already; it is mostly the journey I went through when writing Buzz, my toy ray tracer.</description>
     </item>
     
     <item>
@@ -57,9 +68,8 @@ Since I don&#39;t know how to use 3d modeling software (e.g. Blender) to create 
       <pubDate>Fri, 22 Mar 2019 10:35:15 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/jv/</guid>
-      <description>JSON is a really common format and I think it works well 90% of the time. However, it&#39;s not perfect and it lacks some features that would be handy sometimes.
-In particular, it doesn&#39;t have a way to specify a reference to a value in the document. A common solution is to store the id of the referenced object, but it&#39;s not always possible (or convenient) to do so.
-Anyway, it&#39;s trivial to come up with a custom string format that represents a path to a value.</description>
+      <description>JSON is a really common format and I think it works well 90% of the time. However, it&amp;rsquo;s not perfect and it lacks some features that would be handy sometimes.
+In particular, it doesn&amp;rsquo;t have a way to specify a reference to a value in the document. A common solution is to store the id of the referenced object, but it&amp;rsquo;s not always possible (or convenient) to do so.</description>
     </item>
     
     <item>
@@ -68,7 +78,7 @@ Anyway, it&#39;s trivial to come up with a custom string format that represents 
       <pubDate>Sun, 27 Jan 2019 22:31:44 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/chip8-emulator-rs/</guid>
-      <description>Some coworkers of mine are really into game development and emulators in particular. In fact, these days they&#39;re building emulators for the Playstation 1 and the Game Boy! I decided to write an emulator too just for fun. However, I didn&#39;t want to implement such complex consoles, but I wanted to start off with a simpler platform first. According to the internet the simplest emulator you can build is a Chip8 emulator so I went for it.</description>
+      <description>Some coworkers of mine are really into game development and emulators in particular. In fact, these days they&amp;rsquo;re building emulators for the Playstation 1 and the Game Boy! I decided to write an emulator too just for fun. However, I didn&amp;rsquo;t want to implement such complex consoles, but I wanted to start off with a simpler platform first. According to the internet the simplest emulator you can build is a Chip8 emulator so I went for it.</description>
     </item>
     
     <item>
@@ -78,7 +88,7 @@ Anyway, it&#39;s trivial to come up with a custom string format that represents 
       
       <guid>https://d-dorazio.github.io/post/category-theory/</guid>
       <description>During the holiday season I finally decided to learn something about Category theory because it seems to be the hot topic in the Haskell community. The book I used to guide me in this journey is Category theory for programmers by Bartosz Milewski.
-I cannot say I fully understood it, I&#39;m far away from doing so, but I want to write down what I think I learned nonetheless. I hope this will clarify my thoughts and maybe help someone else.</description>
+I cannot say I fully understood it, I&amp;rsquo;m far away from doing so, but I want to write down what I think I learned nonetheless. I hope this will clarify my thoughts and maybe help someone else.</description>
     </item>
     
     <item>
@@ -87,7 +97,7 @@ I cannot say I fully understood it, I&#39;m far away from doing so, but I want t
       <pubDate>Fri, 30 Nov 2018 21:21:53 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/terminal-graphics-braille/</guid>
-      <description>At work, I&#39;m currently developing a 3D web CAD for modeling shoes which is a really interesting project, but also very challenging! Since writing geometric code is really tricky, we spend a lot of time writing tests and making sure the code is well documented. However, documentation is made up by text for the most part, but sometimes a drawing is way more useful than a lot of words. For example, try to explain what perpendicular and parallel mean without drawing anything.</description>
+      <description>At work, I&amp;rsquo;m currently developing a 3D web CAD for modeling shoes which is a really interesting project, but also very challenging! Since writing geometric code is really tricky, we spend a lot of time writing tests and making sure the code is well documented. However, documentation is made up by text for the most part, but sometimes a drawing is way more useful than a lot of words. For example, try to explain what perpendicular and parallel mean without drawing anything.</description>
     </item>
     
     <item>
@@ -96,7 +106,7 @@ I cannot say I fully understood it, I&#39;m far away from doing so, but I want t
       <pubDate>Thu, 13 Sep 2018 23:03:31 +0200</pubDate>
       
       <guid>https://d-dorazio.github.io/post/property-based-testing/</guid>
-      <description>Recently I had to implement some geometric data structures and algorithms in Rust so that I could use them in matto. In particular, I built a simple K-d tree, an algorithm to find the convex hull, the K-means clustering algorithm and a couple of polygon related utilities. Building such things is relatively easy for the most part, but the corner cases are really tricky to handle properly. In this post I&#39;d like to show how I used property based testing to even recognize those corner cases.</description>
+      <description>Recently I had to implement some geometric data structures and algorithms in Rust so that I could use them in matto. In particular, I built a simple K-d tree, an algorithm to find the convex hull, the K-means clustering algorithm and a couple of polygon related utilities. Building such things is relatively easy for the most part, but the corner cases are really tricky to handle properly. In this post I&amp;rsquo;d like to show how I used property based testing to even recognize those corner cases.</description>
     </item>
     
     <item>
@@ -105,7 +115,7 @@ I cannot say I fully understood it, I&#39;m far away from doing so, but I want t
       <pubDate>Mon, 30 Apr 2018 12:08:32 +0200</pubDate>
       
       <guid>https://d-dorazio.github.io/post/my-take-on-documenting-code/</guid>
-      <description>Recently we had a workshop at my workplace about how to document code. Unfortunately I wasn&#39;t able to attend it, but the topic was in the air in the following days and I chatted about it a few times with my colleagues. I thought this was a solved problem because a lot of ink has already been spilled on it, but after a lot of discussions it became clear to me that it is not the case.</description>
+      <description>Recently we had a workshop at my workplace about how to document code. Unfortunately I wasn&amp;rsquo;t able to attend it, but the topic was in the air in the following days and I chatted about it a few times with my colleagues. I thought this was a solved problem because a lot of ink has already been spilled on it, but after a lot of discussions it became clear to me that it is not the case.</description>
     </item>
     
     <item>
@@ -124,7 +134,7 @@ This is not rocket science since a Turing Machine is a simple idea(like all the 
       <pubDate>Sun, 07 Jan 2018 23:22:02 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/2018-resolutions/</guid>
-      <description>I&#39;ve just finished watching Interstellar for probably the 7th time since it came out and I really enjoy it every time. The soundtrack is amazing and it adds a completely new dimension to the movie. The plot is literally mind blowing, but I know that a lot of people don&#39;t get it. I don&#39;t care, I understand the amount of pieces I need to find it interesting and that&#39;s enough for me.</description>
+      <description>I&amp;rsquo;ve just finished watching Interstellar for probably the 7th time since it came out and I really enjoy it every time. The soundtrack is amazing and it adds a completely new dimension to the movie. The plot is literally mind blowing, but I know that a lot of people don&amp;rsquo;t get it. I don&amp;rsquo;t care, I understand the amount of pieces I need to find it interesting and that&amp;rsquo;s enough for me.</description>
     </item>
     
     <item>
@@ -133,7 +143,7 @@ This is not rocket science since a Turing Machine is a simple idea(like all the 
       <pubDate>Sun, 26 Mar 2017 01:30:06 +0100</pubDate>
       
       <guid>https://d-dorazio.github.io/post/signals-from-the-past/</guid>
-      <description>It&#39;s just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell. How cool is that? But, how does it work?
+      <description>It&amp;rsquo;s just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell. How cool is that? But, how does it work?
 Every developer that has done some little system programming on Linux knows that the answer is signals. They are defined in the POSIX standard and are a (very) limited form of inter-process communication. The idea is really simple: a signal is sent to a program to notify it that an event has occurred.</description>
     </item>
     

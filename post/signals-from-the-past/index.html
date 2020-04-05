@@ -55,76 +55,96 @@
     </a>
   </p>
   <div class="post">
-    <p>It's just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell.
+    
+
+<p>It&rsquo;s just common knowledge that pressing Ctrl-C will usually terminate a long running command in a shell.
 How cool is that? But, how does it work?</p>
+
 <p>Every developer that has done some little system programming on Linux knows that
 the answer is <em>signals</em>. They are defined in the POSIX standard and are a (very)
 limited form of inter-process communication. The idea is really simple: a signal
 is sent to a program to notify it that an event has occurred. It could be the
 Ctrl-C event(aka <code>SIGINT</code>) or the request of program termination(<code>SIGTERM</code>).</p>
+
 <p>The really interesting part is that programs can react to those events providing really cool features.
-It's extremely convenient to abort the compilation(without corrupting anything)
-of the Linux kernel just by pressing Ctrl-C, isn't it? Therefore one would think that such a useful
-thing to have would be <em>trivial</em> to implement, right? Wrong. It's really a pain. Let's see why.</p>
+It&rsquo;s extremely convenient to abort the compilation(without corrupting anything)
+of the Linux kernel just by pressing Ctrl-C, isn&rsquo;t it? Therefore one would think that such a useful
+thing to have would be <em>trivial</em> to implement, right? Wrong. It&rsquo;s really a pain. Let&rsquo;s see why.</p>
+
 <h2 id="at-the-beginning-there-was-signal">At the beginning there was signal</h2>
+
 <p>As defined in the POSIX standard, the primitive for registering a callback to a signal is
 <a href="http://man7.org/linux/man-pages/man7/signal.7.html"><code>signal</code></a>. The semantic is pretty easy,
-just call it with the signal you're interested in and provide the proper callback.</p>
+just call it with the signal you&rsquo;re interested in and provide the proper callback.</p>
+
 <p>It turns out writing a correct signal handler is way more harder than writing a multi-threaded
 program. The problem is that your program stops as soon as it catches the signal, no matter what it was
 doing. That means that <em>everything</em> could possibly be in an inconsistent state(yes, even if you protect
-your code with locks). At this point I'm hearing you saying: &ldquo;hey, what can I do in the handler then?&quot;. Well,
-there are some system calls that are <em>guaranteed</em> to work(<code>open</code> for example), but they're really
+your code with locks). At this point I&rsquo;m hearing you saying: &ldquo;hey, what can I do in the handler then?&rdquo;. Well,
+there are some system calls that are <em>guaranteed</em> to work(<code>open</code> for example), but they&rsquo;re really
 just a few and even basic functions like <code>printf</code> are not in there because they acquire locks internally.</p>
+
 <p>The probably safest way to write a signal handler is to set a <code>sig_atomic_t</code> flag(that is guaranteed to work)
-once a signal arrives and then poll that flag and do something useful when it's set. Polling is always your friend.</p>
-<p>But let's ignore the above for now, there is another pitfall in using <code>signal</code>: the signal handler gets reset
-after the signal is received. Ok, you say, I'm gonna register the handler again in the handler itself and that's it.
-Unfortunately no, because it's possible that another signal arrives in the meantime and that's a race condition.</p>
-<p>Ok, <code>signal</code> is broken, let's build something new.</p>
+once a signal arrives and then poll that flag and do something useful when it&rsquo;s set. Polling is always your friend.</p>
+
+<p>But let&rsquo;s ignore the above for now, there is another pitfall in using <code>signal</code>: the signal handler gets reset
+after the signal is received. Ok, you say, I&rsquo;m gonna register the handler again in the handler itself and that&rsquo;s it.
+Unfortunately no, because it&rsquo;s possible that another signal arrives in the meantime and that&rsquo;s a race condition.</p>
+
+<p>Ok, <code>signal</code> is broken, let&rsquo;s build something new.</p>
+
 <h2 id="then-sigaction-came">Then sigaction came</h2>
+
 <p><code>signal</code> was replaced by <a href="http://man7.org/linux/man-pages/man2/rt_sigaction.2.html"><code>sigaction</code></a> and
 obviously that works perfectly&hellip;&lt;/sarcasm&gt; It suffers the same usability problem of <code>signal</code>. However,
-it introduced some interesting ideas. For example it's possible to retrieve some useful information
+it introduced some interesting ideas. For example it&rsquo;s possible to retrieve some useful information
 about the signal like the sender process pid or the user id(see the <code>siginfo_t</code> struct
 and the <code>sa_sigaction</code> attribute in <code>sigaction</code>).</p>
+
 <h2 id="along-with-sigwait">&hellip;along with sigwait</h2>
+
 <p>Then some clever folks thought that we could just block the current thread until a signal arrives;
-<a href="http://man7.org/linux/man-pages/man3/sigwait.3.html"><code>sigwait</code></a> was born. It turns out that's a pretty usable
+<a href="http://man7.org/linux/man-pages/man3/sigwait.3.html"><code>sigwait</code></a> was born. It turns out that&rsquo;s a pretty usable
 and easy API. Just spawn another thread that blocks until one of a given set of signals arrives and do something
 according to the signal received. This way the code would run &ldquo;normally&rdquo; without interrupting the normal execution
-of the code eliminating the limitation of the signal handler. That's awesome.</p>
+of the code eliminating the limitation of the signal handler. That&rsquo;s awesome.</p>
+
 <p>Though, with threads come great responsibility. You need to properly protect shared variables with locks
-and so forth, but we're more confident with these kind of problems than with weird interrupt ones.
+and so forth, but we&rsquo;re more confident with these kind of problems than with weird interrupt ones.
 Moreover, threads have their own sigmask and that can cause some problems, because a thread could
 ignore some signals that are worth catching.</p>
+
 <p>This works, but we can do better.</p>
+
 <h2 id="and-signalfd-eventually-killed-them-all">&hellip;and signalfd eventually killed them all</h2>
+
 <p>Some other folks then thought that we could just expose the events via a file descriptor following
 the UNIX philosophy. That rocks, UNIX rocks. Once we have a file descriptor we can rule the world!
 We can integrate with existing event loops such as <a href="http://man7.org/linux/man-pages/man7/epoll.7.html"><code>epoll</code></a>
 or <a href="http://man7.org/linux/man-pages/man2/select.2.html"><code>select</code></a> or we can just call the
-sync functions. Everything that's left to us is just reading the <code>siginfo_t</code> from the file descriptor
-and call the appropriate function for the signal received. That's what I mean for &ldquo;easy&rdquo;.</p>
-<hr>
+sync functions. Everything that&rsquo;s left to us is just reading the <code>siginfo_t</code> from the file descriptor
+and call the appropriate function for the signal received. That&rsquo;s what I mean for &ldquo;easy&rdquo;.</p>
+
+<hr />
+
 <h3 id="funny-things">Funny things</h3>
+
 <ul>
-<li>
-<p>signals are aggregated, that means that on the imaginary &ldquo;signals queue&rdquo; there
+<li><p>signals are aggregated, that means that on the imaginary &ldquo;signals queue&rdquo; there
 will be at most one instance of any signals. This problem affects
 <a href="http://man7.org/linux/man-pages/man2/signalfd.2.html"><code>signalfd</code></a> as well as
-<code>signal</code> and <code>sigaction</code>, but I don't really see where the problem is, because
-you eventually get the signal&hellip;;</p>
-</li>
-<li>
-<p>most system calls can be interrupted by a signal and in those cases they
+<code>signal</code> and <code>sigaction</code>, but I don&rsquo;t really see where the problem is, because
+you eventually get the signal&hellip;;</p></li>
+
+<li><p>most system calls can be interrupted by a signal and in those cases they
 return <code>EINTR</code> that is &ldquo;the call was interrupted, please retry but consider
-what we've done so far&rdquo;; I always wondered why there are that big warnings in
+what we&rsquo;ve done so far&rdquo;; I always wondered why there are that big warnings in
 several programming languages docs saying that the API could return less
-things than it was asked for. This is certainly a reason.</p>
-</li>
+things than it was asked for. This is certainly a reason.</p></li>
 </ul>
+
 <h3 id="literature">Literature</h3>
+
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Unix_signal">https://en.wikipedia.org/wiki/Unix_signal</a></li>
 <li><a href="https://ldpreload.com/blog/signalfd-is-useless">https://ldpreload.com/blog/signalfd-is-useless</a> &lt;- this is really interesting</li>
