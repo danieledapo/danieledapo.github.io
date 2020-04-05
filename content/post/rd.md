@@ -1,7 +1,6 @@
 ---
 title: "Reaction Diffusion using the Gray-Scott model"
 date: 2020-04-05T16:25:08+02:00
-draft: true
 ---
 
 Recently I've been playing around with [Reaction Diffusion][reaction-diffusion]

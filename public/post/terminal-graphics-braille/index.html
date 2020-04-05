@@ -55,7 +55,9 @@
     </a>
   </p>
   <div class="post">
-    <p>At work, I'm currently developing a 3D web CAD for modeling shoes which is a
+    
+
+<p>At work, I&rsquo;m currently developing a 3D web CAD for modeling shoes which is a
 really interesting project, but also very challenging! Since writing geometric
 code is really tricky, we spend a lot of time writing
 <a href="/post/property-based-testing/">tests</a> and making sure the code is <a href="/post/my-take-on-documenting-code/">well
@@ -63,40 +65,48 @@ documented</a>. However, documentation is made up by text for the
 most part, but sometimes a drawing is way more useful than a lot of words. For
 example, try to explain what perpendicular and parallel mean without drawing
 anything. Chances are you already understand what they mean, but try to give a
-text only definition nonetheless. It's quite hard.</p>
+text only definition nonetheless. It&rsquo;s quite hard.</p>
+
 <p>The obvious way to add drawings to the documentation is to add links to images
-and then render it in a browser or something. However, I'm not a big fan of this
-solution because I don't like to context switch between my editor and the
+and then render it in a browser or something. However, I&rsquo;m not a big fan of this
+solution because I don&rsquo;t like to context switch between my editor and the
 browser.</p>
+
 <p>The only other option I could think of is to use ASCII art! I really love ASCII
 art, but I find it really difficult to do by hand. Being a lazy programmer, I
 did what I do best: search existing solutions to use. Unfortunately, there
-didn't seem to be any tools that would allow me to draw arbitrary shapes using
+didn&rsquo;t seem to be any tools that would allow me to draw arbitrary shapes using
 only text. I was surprised by this because I saw a lot of cool projects that
 draw complex shapes on the terminal over the years. As I was googling more and
 more I was getting convinced that drawing 3D geometries on the terminal is
 possible, but that nobody was crazy enough to do. Since I had a free weekend, I
 decided to give it a shot.</p>
+
 <h2 id="braille-characters">Braille characters</h2>
+
 <p>Initially, I tried to use the canonical <code>/</code>, <code>|</code>, <code>-</code>, <code>_</code> and <code>\</code> characters to
-draw lines but that didn't work well because I couldn't find a way to draw a non
-vertical or horizontal line that didn't look like a staircase.</p>
+draw lines but that didn&rsquo;t work well because I couldn&rsquo;t find a way to draw a non
+vertical or horizontal line that didn&rsquo;t look like a staircase.</p>
+
 <p>I did some research and eventually I stumbled upon the <a href="https://github.com/asciimoo/drawille"><code>drawille</code></a>
 project which looked quite promising! By going through the <code>README.md</code> and the
 examples I quickly noticed that it was able to render curves and lines in the
 terminal very smoothly. Also, among the examples I found a program that renders
 a 3D rotating cube in the terminal. This was quite reassuring because it was a
 proof that what I wanted to do was doable!</p>
+
 <p>However, <code>drawille</code> is written in Python, but I planned to use Rust to build the
 tool so I needed to understand how <code>drawille</code> worked in order to port it to
 Rust. I took a look at the code and I realized how cool the underlying idea is:
 leverage the dots in <a href="https://en.wikipedia.org/wiki/Braille_Patterns">Braille patterns</a> to draw smooth lines
 and curves.</p>
-<p>In case you don't know, Braille is a tactile writing system used by blind people
+
+<p>In case you don&rsquo;t know, Braille is a tactile writing system used by blind people
 where each symbol can contain at most 8 dots arranged in a 4 x 2 grid depending
 on the symbol itself. We can then see each symbol as a collection of 8 pixels
 that we can turn on and off independently and since each pixel is represented by
 a circle drawing curves would not look too bad. Neat!</p>
+
 <p>The Unicode standard obviously supports the whole Braille Patterns block, but it
 is also quite clever in how it defines the codepoints. In fact, it maps each of
 the eight dots of a Braille symbol to one bit in a byte which is the offset from
@@ -105,78 +115,100 @@ Braille character by simply turning on the bits that map to a raised dot of a
 byte and add that value to <code>U+2800</code>. It also means that if we have two different
 Braille characters we can combine them into a character that has all the raised
 dots of both characters by simply doing a bitwise or between the offsets.</p>
-<p>In Python this idea can be summarized by the following snippet.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">braille</span>(off):
-    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">chr</span>(<span style="color:#40a070">0x2800</span> <span style="color:#666">+</span> off)
 
-braille(<span style="color:#40a070">0x1</span>) <span style="color:#60a0b0;font-style:italic"># &#39;⠁&#39;</span>
-braille(<span style="color:#40a070">0x2</span>) <span style="color:#60a0b0;font-style:italic"># &#39;⠂&#39;</span>
-braille(<span style="color:#40a070">0x1</span> <span style="color:#666">|</span> <span style="color:#40a070">0x2</span>) <span style="color:#60a0b0;font-style:italic"># &#39;⠃&#39;</span>
-braille(<span style="color:#40a070">0x1</span> <span style="color:#666">|</span> <span style="color:#40a070">0x2</span> <span style="color:#666">|</span> <span style="color:#40a070">0x04</span>) <span style="color:#60a0b0;font-style:italic"># &#39;⠇&#39;</span>
-braille(<span style="color:#40a070">0x1</span> <span style="color:#666">|</span> <span style="color:#40a070">0x2</span> <span style="color:#666">|</span> <span style="color:#40a070">0x04</span> <span style="color:#666">|</span> <span style="color:#40a070">0x08</span> <span style="color:#666">|</span> <span style="color:#40a070">0x10</span> <span style="color:#666">|</span> <span style="color:#40a070">0x20</span> <span style="color:#666">|</span> <span style="color:#40a070">0x40</span> <span style="color:#666">|</span> <span style="color:#40a070">0x80</span>) <span style="color:#60a0b0;font-style:italic"># &#39;⣿&#39;</span>
-</code></pre></div><h2 id="termesh">Termesh</h2>
+<p>In Python this idea can be summarized by the following snippet.</p>
+
+<pre><code class="language-python">def braille(off):
+    return chr(0x2800 + off)
+
+braille(0x1) # '⠁'
+braille(0x2) # '⠂'
+braille(0x1 | 0x2) # '⠃'
+braille(0x1 | 0x2 | 0x04) # '⠇'
+braille(0x1 | 0x2 | 0x04 | 0x08 | 0x10 | 0x20 | 0x40 | 0x80) # '⣿'
+</code></pre>
+
+<h2 id="termesh">Termesh</h2>
+
 <p>Ok, so back where we started. I decided to use the same underlying ideas of
 <code>drawille</code> to build <a href="https://github.com/d-dorazio/termesh"><code>termesh</code></a>: an interactive mesh
 explorer in the terminal.</p>
+
 <p>I started with implementing a very simple canvas inspired by <code>drawille</code> that
 would allow me to turn on dots in a grid of Braille characters according to
 which pixels I wanted to draw. Even though it only supports basic primitives
 like lines and triangles, I am quite satisfied and honestly really surprised by
 how good the results are!</p>
+
 <p>As I was starting to have a more refined canvas implementation, I thought that
-implementing a simple interactive STL renderer wouldn't be that difficult and
-could be very exciting. And indeed they were. Somewhat. At this point I didn't
+implementing a simple interactive STL renderer wouldn&rsquo;t be that difficult and
+could be very exciting. And indeed they were. Somewhat. At this point I didn&rsquo;t
 have any form of shading whatsoever so shapes looked strange to say the least.
 However, once I implemented a dead simple flat shading technique I was able to
 view 3D shapes in a decent way.</p>
+
 <p>Here are a couple of screenshots rendering the Utah teapot.</p>
-<p><img src="https://raw.githubusercontent.com/d-dorazio/termesh/master/images/teapot2.png" alt="teapot2.png">
-<img src="https://raw.githubusercontent.com/d-dorazio/termesh/master/images/teapot3.png" alt="teapot3.png"></p>
-<p>They're far from being perfect, but I can live with those.</p>
+
+<p><img src="https://raw.githubusercontent.com/d-dorazio/termesh/master/images/teapot2.png" alt="teapot2.png" />
+<img src="https://raw.githubusercontent.com/d-dorazio/termesh/master/images/teapot3.png" alt="teapot3.png" /></p>
+
+<p>They&rsquo;re far from being perfect, but I can live with those.</p>
+
 <p>The only problem that bothers me a bit is that I cannot set the color of each
 pixel separately because I can only change the color on a by character
 granularity, but each character can contain 8 pixels! This is particularly
 annoying for intersections because the intersecting lines could be of different
 colors. Unfortunately, I have no idea how to solve this.</p>
+
 <h2 id="dsl">DSL</h2>
+
 <p>After having implemented a somewhat good renderer my main issue was solved
 because I could render 3D shapes in the terminal and I could then copy and paste
 the lines directly in the documentation.</p>
+
 <p>However I was still a bit unsatisfied because I still had to manually create an
 STL to then render. Therefore I decided to write a very simple domain specific
 language (DSL) that I could use to describe arbitrary shapes in. Also, a bonus
 point of having a DSL is that I can version control the &ldquo;programs&rdquo; easily
-because it's not a binary format, but just text!</p>
-<p>Here's an example of the language.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#60a0b0;font-style:italic"># define vertices</span>
-vertex tip  <span style="color:#666">=</span> <span style="color:#40a070">1</span> <span style="color:#40a070">1</span> <span style="color:#40a070">2</span>
-vertex b1   <span style="color:#666">=</span> <span style="color:#40a070">0</span> <span style="color:#40a070">0</span> <span style="color:#40a070">0</span>
-vertex b2   <span style="color:#666">=</span> <span style="color:#40a070">0</span> <span style="color:#40a070">2</span> <span style="color:#40a070">0</span>
-vertex b3   <span style="color:#666">=</span> <span style="color:#40a070">2</span> <span style="color:#40a070">2</span> <span style="color:#40a070">0</span>
-vertex b4   <span style="color:#666">=</span> <span style="color:#40a070">2</span> <span style="color:#40a070">0</span> <span style="color:#40a070">0</span>
+because it&rsquo;s not a binary format, but just text!</p>
 
-<span style="color:#60a0b0;font-style:italic"># build triangles</span>
+<p>Here&rsquo;s an example of the language.</p>
+
+<pre><code class="language-python"># define vertices
+vertex tip  = 1 1 2
+vertex b1   = 0 0 0
+vertex b2   = 0 2 0
+vertex b3   = 2 2 0
+vertex b4   = 2 0 0
+
+# build triangles
 triangle tip b1 b2
 triangle tip b2 b3
 triangle tip b3 b4
 triangle tip b4 b1
 
-<span style="color:#60a0b0;font-style:italic"># build lines</span>
-vertex v0 <span style="color:#666">=</span> <span style="color:#666">-</span><span style="color:#40a070">0.5</span> <span style="color:#666">-</span><span style="color:#40a070">0.5</span> <span style="color:#40a070">0</span>
-vertex v1 <span style="color:#666">=</span>  <span style="color:#40a070">2.5</span>  <span style="color:#40a070">2.5</span> <span style="color:#40a070">2</span>
+# build lines
+vertex v0 = -0.5 -0.5 0
+vertex v1 =  2.5  2.5 2
 line v0 v1
-</code></pre></div><p>As you can see, the language is really minimal as of now, but it's already
+</code></pre>
+
+<p>As you can see, the language is really minimal as of now, but it&rsquo;s already
 possible to build relatively complex objects. However, I plan to add more
 features to the language to make it more ergonomic to use in the near
-future(namely I'd like to support arithmetic operations at least).</p>
+future(namely I&rsquo;d like to support arithmetic operations at least).</p>
+
 <h2 id="conclusion">Conclusion</h2>
+
 <p>This was probably the most fun project I did in a while. Not only because I knew
 only a few things about meshes and 3D in general, but because it was also about
 terminals which I love!</p>
+
 <p>Also, I find quite funny that symbols made for blind people can make non-blind
-people see more. Now that I think about it, it's probably more philosophical
-than funny, but that's really not my thing.</p>
-<p>Anyway, if you'd like to give a look at the code you can checkout the <a href="https://github.com/d-dorazio/termesh"><code>termesh</code>
+people see more. Now that I think about it, it&rsquo;s probably more philosophical
+than funny, but that&rsquo;s really not my thing.</p>
+
+<p>Anyway, if you&rsquo;d like to give a look at the code you can checkout the <a href="https://github.com/d-dorazio/termesh"><code>termesh</code>
 repository</a>.</p>
 
   </div>
