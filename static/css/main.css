@@ -134,7 +134,7 @@ blockquote {
   background: #f9f9f9;
 }
 
-img {
+img, video {
   max-width: 100%;
 }
 
