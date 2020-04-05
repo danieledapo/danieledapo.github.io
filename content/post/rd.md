@@ -78,7 +78,7 @@ my logo as the seed which I find particularly cool.
 
 Stay home, I guess. See ya.
 
-<video class="video-centered" autoplay loop>
+<video class="video-centered" muted autoplay loop>
   <source src="rd.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
