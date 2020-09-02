@@ -55,104 +55,80 @@
     </a>
   </p>
   <div class="post">
-    
-
-<p>Recently at work we bought a 3d printer and sure enought I wanted something
+    <p>Recently at work we bought a 3d printer and sure enought I wanted something
 cool to print to try out the new toy. I didn&rsquo;t want to just search for ready to
 print models online because that didn&rsquo;t sound fun. Instead, I figured I should
 print something that I created.</p>
-
 <p>Since I don&rsquo;t know how to use 3d modeling software (e.g. Blender) to create
 good looking models, my only option left was to build a program able to
 generate them.</p>
-
 <p>With regard to what to generate, I&rsquo;ve always been fascinated by those super
 detailed models of terrain and landscapes and so I decided to create something
 like that. This was the beginning of <a href="https://github.com/d-dorazio/terrain-mesh">terrain-mesh</a>.</p>
-
 <h2 id="when-random-is-too-random">When random is too random</h2>
-
 <p>I didn&rsquo;t want to write a program that was able to generate a single model only,
 but I thought it was a good idea to have it generate different models each time
 the program is run. This way I could choose which models I like the most and 3d
 print them.</p>
-
 <p>No problem I thought, after all pseudo random number generators are not rocket
 science and they&rsquo;re quite easy to use. I&rsquo;ll just generate some numbers that
 represent the height of the terrain at several points, connect those vertices
 together and voilà. Here are the results</p>
-
-<p><img src="/post/terrain-mesh/random-terrain.png" alt="random-terrain" /></p>
-
+<p><img src="/post/terrain-mesh/random-terrain.png" alt="random-terrain"></p>
 <p>Does it look like real terrain to you? I doubt so.</p>
-
 <p>The problem is that pseudo random generators are too good and produce numbers
 that really look unrelated to each other. In fact, if you ever tried to plot
 some random numbers you will likely have seen something like</p>
-
-<p><img src="/post/terrain-mesh/random-plot.svg" alt="random-plot" /></p>
-
+<p><img src="/post/terrain-mesh/random-plot.svg" alt="random-plot"></p>
 <p>which looks pretty random, but doesn&rsquo;t look organic or realistic at all. At
 this point I realized that I had to look for other ways to generate random
 numbers that would look smooth when plotted in sequence.</p>
-
 <h2 id="noise-functions">Noise functions</h2>
-
 <p>After a bit of searching online, I came across the concept of noise functions
 which can be seen as pseudo random number generators that are guaranteed to be
 smooth ad continuos. Exactly wat I needed!</p>
-
 <p>Albeit conceptually similar to PRNGs, they&rsquo;re a bit different to use because
 you need to provide a &ldquo;coordinate&rdquo; to calculate the random value at. Asking the
 noise value at a given position will <em>always</em> give you the same results (i.e.
 the noise function is deterministic) but you can change the seed of the
 generator to get new random results.</p>
-
 <p>Since noise functions involve a position, it should come as no surprise that
 there are noise functions for 1D, 2D, 3D and even infinite dimensions!</p>
-
 <p>Here&rsquo;s a plot of <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin noise</a> in 1D</p>
-
-<p><img src="/post/terrain-mesh/noise-plot.svg" alt="noise-plot" /></p>
-
+<p><img src="/post/terrain-mesh/noise-plot.svg" alt="noise-plot"></p>
 <p>This looks much more smooth and organic. If you squint hard enough you might
 see the outline of a mountain or hill which is almost what I needed.</p>
-
 <h2 id="terrain-meshes">Terrain meshes</h2>
-
 <p>At this point I had a way to generate smooth random values by using 2D Perlin
 Noise, what was left to do was to actually create the faces and vertices of the
 mesh. This revealed to be tricky, but not too hard.</p>
-
 <p>The overall algorithm I use to generate terrain can be summerized as:</p>
-
 <ul>
-<li><p>generate a widthxdepth grid of 2d perlin noise values that represent the
-height of the terrain at those specific points;</p></li>
-
-<li><p>build the faces using quadrilaterals and not triangles because they&rsquo;re a bit
+<li>
+<p>generate a widthxdepth grid of 2d perlin noise values that represent the
+height of the terrain at those specific points;</p>
+</li>
+<li>
+<p>build the faces using quadrilaterals and not triangles because they&rsquo;re a bit
 easier to implement. Converting this quad mesh to a triangle mesh shouldn&rsquo;t
 be difficult, but I didn&rsquo;t bother to because most 3D software can handle quad
-meshes just fine;</p></li>
-
-<li><p>optionally add some support faces to the bottom and to the sides of the mesh
-which are necessary for 3D printing;</p></li>
-
-<li><p>save the mesh as an obj file.</p></li>
+meshes just fine;</p>
+</li>
+<li>
+<p>optionally add some support faces to the bottom and to the sides of the mesh
+which are necessary for 3D printing;</p>
+</li>
+<li>
+<p>save the mesh as an obj file.</p>
+</li>
 </ul>
-
 <p>Here&rsquo;s a rendering of a terrain created by <code>terrain-mesh</code>.</p>
-
-<p><img src="/post/terrain-mesh/terrain.png" alt="terrain.png" /></p>
-
+<p><img src="/post/terrain-mesh/terrain.png" alt="terrain.png"></p>
 <h2 id="conclusions">Conclusions</h2>
-
 <p>I&rsquo;m quite satisfied with the terrains I&rsquo;m able to generate and with their
 diversity. Eventually I managed to 3d print some of these terrains, here&rsquo;s a
 photo of two of them</p>
-
-<p><img src="/post/terrain-mesh/3d-printed-small.jpg" alt="3d-printed.jpg" /></p>
-
+<p><img src="/post/terrain-mesh/3d-printed-small.jpg" alt="3d-printed.jpg"></p>
 <p>I think they&rsquo;re super cool and they have deserved a spot on my desk at work.
 Next step is to use some real heightmaps to create the mesh of some real
 terrain like the Moon or Mars. To be completely honest, I&rsquo;m already able to do

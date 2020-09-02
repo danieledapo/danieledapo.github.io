@@ -46,7 +46,7 @@
 
   <span>
     
-    Jan 27, 2019 - 5 Minute Read
+    Jan 27, 2019 - 4 Minute Read
     
   </span>
   <p class="post-title">
@@ -55,33 +55,24 @@
     </a>
   </p>
   <div class="post">
-    
-
-<p>Some coworkers of mine are really into game development and emulators in
+    <p>Some coworkers of mine are really into game development and emulators in
 particular. In fact, these days they&rsquo;re building emulators for the Playstation 1
 and the Game Boy! I decided to write an emulator too just for fun. However, I
 didn&rsquo;t want to implement such complex consoles, but I wanted to start off with a
 simpler platform first. According to the internet the simplest emulator you can
 build is a Chip8 emulator so I went for it.</p>
-
 <p>This blog post is not meant to be a comprehensive tutorial of how to build a
 Chip8 emulator, but it&rsquo;s just a quick summary of me building it.</p>
-
 <p>You can find the source code for my emulator at
 <a href="https://github.com/d-dorazio/chip8">https://github.com/d-dorazio/chip8</a>.</p>
-
 <h2 id="what-is-a-chip8">What is a Chip8</h2>
-
 <p>First things first, if we want to build a <a href="https://en.wikipedia.org/wiki/CHIP-8">Chip8</a> emulator we must first
 understand what it is. The Chip8 is a really simple platform that can run simple
 games such as PONG and TETRIS.</p>
-
 <p>It turns out that the Chip8 is not a proper gaming console, but rather it&rsquo;s a
 specification of a virtual machine. This virtual machine could then be
 implemented on all the systems that wanted to run Chip8 games.</p>
-
 <p>A proper Chip8 virtual machine has:</p>
-
 <ul>
 <li>4K of memory of which the first 512 bytes are reserved for the virtual machine
 itself. I stored the font data in this section.</li>
@@ -94,41 +85,33 @@ will beep when the timer is not 0.</li>
 <li>an input keyboard with 16 keys.</li>
 <li>a 64x32 monochrome display.</li>
 </ul>
-
 <p>I won&rsquo;t explain all the instructions because they are not particularly
 interesting and there are already tons of resources available online.</p>
-
 <p>The clock of virtual machine is not specified, but it seems that most games work
 best with a clock speed of 500Hz.</p>
-
 <h2 id="the-good-old-times">The good old times</h2>
-
 <p>After a couple of hours implementing the virtual machine I was able to play most
 of the games flawlessly, but some games were flickering a lot. I initially
 thought my emulator was slow, but it turned out to not be the case. I then
 investigated whether my naive main game loop was working properly</p>
-
-<pre><code class="language-rust">loop {
-    handle_input(sdl_events());
-
-    for _ in freq / 60 {
-        chip8.emulate_cycle();
-    }
-    chip8.decrease_timers();
-
-    refresh_sound();
-    refresh_screen();
-
-    thread::sleep(Duration::new(0, 1_000_000_000u32 / 60))
-}
-</code></pre>
-
-<p>The general idea is quite straightforward. The screen is meant to be refreshed
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#007020;font-weight:bold">loop</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>handle_input(sdl_events());<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">for</span><span style="color:#bbb"> </span>_<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">in</span><span style="color:#bbb"> </span>freq<span style="color:#bbb"> </span><span style="color:#666">/</span><span style="color:#bbb"> </span><span style="color:#40a070">60</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span><span style="color:#bbb">        </span>chip8.emulate_cycle();<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>chip8.decrease_timers();<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>refresh_sound();<span style="color:#bbb">
+</span><span style="color:#bbb">    </span>refresh_screen();<span style="color:#bbb">
+</span><span style="color:#bbb">
+</span><span style="color:#bbb">    </span>thread::sleep(Duration::new(<span style="color:#40a070">0</span>,<span style="color:#bbb"> </span><span style="color:#40a070">1_000_000_000</span><span style="color:#007020;font-weight:bold">u32</span><span style="color:#bbb"> </span><span style="color:#666">/</span><span style="color:#bbb"> </span><span style="color:#40a070">60</span>))<span style="color:#bbb">
+</span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></code></pre></div><p>The general idea is quite straightforward. The screen is meant to be refreshed
 at 60FPS and in each frame we first process the user input, then we run some
 instructions according to the clock speed, decrease the timers, update the audio
 status and eventually redraw the screen. After staring a bit at the code I was
 convinced that that was not the problem.</p>
-
 <p>After more time I&rsquo;d like to admit, I found the cause of the flickering. It has
 to do with how the Chip8 draws sprites onto the screen. The Chip8 doesn&rsquo;t simply
 overwrite what&rsquo;s on the screen with the new data, but it performs a bitwise xor
@@ -136,39 +119,30 @@ between the new pixels and the old ones! This allows clearing the screen by
 simply redrawing the sprites that are currently visible. Unfortunately, this
 also means that unnecessarily redrawing a sprite makes it flicker. That&rsquo;s why
 some games flicker a lot in my emulator!</p>
-
 <p>I think that Chip8 consoles that do not flicker use some kind of monochrome
 display that is slow to turn pixels off. In fact, this phenomena, known as
 <a href="https://en.wikipedia.org/wiki/Monochrome_monitor#Screen_burn"><em>ghosting</em></a> was a known behavior of old phosphor displays.</p>
-
 <h2 id="wasm">WASM</h2>
-
 <p>At this point I had the core of the emulator in pure Rust with a simple frontend
 in SDL2. Since Rust boats great support for WebAssembly I decided to also write
 a frontend able to run in the browser. I also imposed myself to not write any
 Javascript in the process (other than the generated one).</p>
-
 <p>Before doing anything wasm related I separated the core library from the SDL
 frontend in different crates so that the Wasm frontend crate would depend only
 on the core crate. Code reuse for the win!</p>
-
 <p>I then used <code>cargo generate</code> to create a new crate for the Wasm frontend from
 the official <a href="https://github.com/rustwasm/wasm-pack-template">rust wasm template</a>. This crate was already
 configured to use <code>webpack</code> and <a href="https://rustwasm.github.io/wasm-pack/"><code>wasm-pack</code></a> to automatically
 compile and bundle my wasm binary. Neat!</p>
-
 <p>Now I was able to start the development server with <code>npm start</code>, write the Rust
 code I needed and have Webpack recompile and refresh everything automatically.
 Just like some vanilla Javascript project!</p>
-
 <p>Eventually, I was able to not write any Javascript by leveraging the awesome
 <a href="https://rustwasm.github.io/wasm-bindgen/api/web_sys/"><code>web-sys</code></a> crate which wraps <em>all</em> the Apis browsers offer in Rust.
 However, I cannot say I would recommend being so drastic because working with
 the web Apis is way easier in Javascript than it is in Rust. The only fact that
 it can be done in Rust anyway is pretty cool though!</p>
-
 <p>Kudos to the Rust Wasm working group for making this whole process that easy!</p>
-
 <p>To convince yourself that this actually works, just go to
 <a href="https://d-dorazio.github.io/chip8">https://d-dorazio.github.io/chip8</a> and play some games.</p>
 
