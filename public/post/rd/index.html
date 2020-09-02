@@ -55,37 +55,28 @@
     </a>
   </p>
   <div class="post">
-    
-
-<p>Recently I&rsquo;ve been playing around with <a href="https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system">Reaction Diffusion</a>
+    <p>Recently I&rsquo;ve been playing around with <a href="https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system">Reaction Diffusion</a>
 mainly because I was intrigued by the patterns it was able to generate and because
 a lot of cool people were doing the same.</p>
-
 <p>I then started the dead-simple project <a href="https://github.com/d-dorazio/rd">rd</a>. I think I like short names.</p>
-
 <h2 id="what-even-is-reaction-diffusion">What even is Reaction Diffusion</h2>
-
 <p>Reaction Diffusion is a simulation of two chemicals reacting together where one
 uses the other to grow and expand. Think of it like having a bowl where you
 pour something into at a given rate and inside the bowl there&rsquo;s also another
 substance that absorbes the first substance. The second substance also dies
 &ldquo;naturally&rdquo; at a given rate.</p>
-
 <p>The key parameters here are the rate at which the first chemical is fed into
 the system (feed_rate), the rate at which the second chemical is killed
 (kill_rate) and the initial state of the system before pouring the first
 chemical into it. Changing any of these parameters greatly affects the final
 results of simulation.</p>
-
 <p>Now, the Wikipedia article on Reaction Diffusion was not very helpful to me
 because it&rsquo;s way more &ldquo;math-y&rdquo; and complicated that what I can digest, but I
 was lucky enough to find another very clear and <a href="https://www.karlsims.com/rd.html">simple
 explanation</a> of a model used to approximate this
 process. It&rsquo;s a short read, but I suggest you to take a look at it even to just
 look at the images.</p>
-
 <p>Anyway, the whole simulation can be summarized in the following way:</p>
-
 <ul>
 <li>initialize the system to be a grid filled only with chemical A (the one
 that&rsquo;s poured into it). Note that it&rsquo;s not strictly necessary to use a grid,
@@ -100,37 +91,27 @@ updating the quantities of the two chemicals at each cell. I won&rsquo;t try to
 explain the exact formulas used in the simulation because I don&rsquo;t pretend
 I&rsquo;ve fully understood them, but I can ensure they&rsquo;re not too hard to code.</li>
 </ul>
-
 <p>Eventually, to render the system to an image I simply take the amount of
 chemical B at each cell and convert to a grayscale pixel using a bit of
 interpolation. Nothing too complicated.</p>
-
 <h2 id="rd">Rd</h2>
-
 <p>So, it didn&rsquo;t take me too much time to code something up to generate some
 images representing the system and hacking something together to generate a
 video from such frames. I&rsquo;m not too proud of the overall design as I don&rsquo;t feel
 like saving a bunch of images on disk just to call <code>ffmpeg</code> to then create a
 video is a reasonable thing to do, but it works and it&rsquo;s good enough for now.</p>
-
 <p>Rd can either start from a random seed state or take a grayscale image to
 initialize the initial system. I like the former because the animation it
 produces are quite lovely sometimes, but most often than not they&rsquo;re quite
 boring. The latter is simply cool to watch.</p>
-
 <p>Anyway, if you&rsquo;re interested take a look at the <a href="https://github.com/d-dorazio/rd">repo</a>.</p>
-
 <h2 id="conclusions">Conclusions</h2>
-
 <p>I&rsquo;m ok with the results and this new toy already proved quite entertaining for
 quite some time. There are a lot of other things to try out, but I&rsquo;m done with
 Reaction Diffusion for now.</p>
-
 <p>Anyway, I&rsquo;d like to leave you with an animation of the simulation running with
 my logo as the seed which I find particularly cool.</p>
-
 <p>Stay home, I guess. See ya.</p>
-
 <video class="video-centered" muted autoplay loop>
   <source src="rd.mp4" type="video/mp4">
   Your browser does not support the video tag.

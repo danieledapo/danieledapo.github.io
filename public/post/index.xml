@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on dapo</title>
@@ -69,7 +69,8 @@ Since I don&amp;rsquo;t know how to use 3d modeling software (e.g. Blender) to c
       
       <guid>https://d-dorazio.github.io/post/jv/</guid>
       <description>JSON is a really common format and I think it works well 90% of the time. However, it&amp;rsquo;s not perfect and it lacks some features that would be handy sometimes.
-In particular, it doesn&amp;rsquo;t have a way to specify a reference to a value in the document. A common solution is to store the id of the referenced object, but it&amp;rsquo;s not always possible (or convenient) to do so.</description>
+In particular, it doesn&amp;rsquo;t have a way to specify a reference to a value in the document. A common solution is to store the id of the referenced object, but it&amp;rsquo;s not always possible (or convenient) to do so.
+Anyway, it&amp;rsquo;s trivial to come up with a custom string format that represents a path to a value.</description>
     </item>
     
     <item>

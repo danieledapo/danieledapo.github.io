@@ -55,185 +55,129 @@
     </a>
   </p>
   <div class="post">
-    
-
-<p>The year is coming to an end and I guess it&rsquo;s time to take a look at what one
+    <p>The year is coming to an end and I guess it&rsquo;s time to take a look at what one
 has accomplished in the past 365 days.</p>
-
 <p>I had two main goals this year: do more side projects and blog more. My plan
 was to do at least a project per month and as soon as it&rsquo;s in a &ldquo;reasonably&rdquo;
 complete state write a post about it.</p>
-
 <p>So let&rsquo;s see what projects I made during this year.</p>
-
-<h2 id="chip8-emulator-https-github-com-d-dorazio-chip8"><a href="https://github.com/d-dorazio/chip8">Chip8 emulator</a></h2>
-
+<h2 id="chip8-emulatorhttpsgithubcomd-doraziochip8"><a href="https://github.com/d-dorazio/chip8">Chip8 emulator</a></h2>
 <p>This was the first project of the year and I think it was one of funniest. It&rsquo;s
 a simple <a href="https://en.wikipedia.org/wiki/CHIP-8">chip8</a> emulator capable of
 running simple games like PONG.</p>
-
 <p>It was a ton of fun because I learned a bit more about how emulators work and I
 got to play with WebAssembly and Rust. Under a non technology point of view,
 this project was interesting because I realized that even if I had the core of
 the project done in a couple of days, I spent a lot more time polishing things
 like making the web ui nicer. A project is not only the core algorithm I guess.</p>
-
 <p>Anyway, you can find the emulator at <a href="https://d-dorazio.github.io/chip8">https://d-dorazio.github.io/chip8</a> and a
 blog post <a href="/post/chip8-emulator-rs">here</a>.</p>
-
-<p><img src="chip8-screenshot.png" alt="chip8-screenshot" /></p>
-
-<h2 id="sudoku-solver-https-github-com-d-dorazio-sudoku-rs"><a href="https://github.com/d-dorazio/sudoku-rs">Sudoku solver</a></h2>
-
+<p><img src="chip8-screenshot.png" alt="chip8-screenshot"></p>
+<h2 id="sudoku-solverhttpsgithubcomd-doraziosudoku-rs"><a href="https://github.com/d-dorazio/sudoku-rs">Sudoku solver</a></h2>
 <p>I like Sudoku, it&rsquo;s a fun game that I usually play when I&rsquo;m bored at the
 airport, but still. I decided to write a solver (and generator) for it.</p>
-
 <p>I thought it was a hard problem given the quite big search space, but it turns
 out that you can prune the search space aggressively by just following the
 rules. It didn&rsquo;t took me very long to come up with a reasonably fast solver and
 then a generator. I also implemented a couple (probably unneeded) optimizations
 because bit twiddling is always a fun thing to do.</p>
-
-<p><img src="sudoku-screenshot.png" alt="sudoku-screenshot" /></p>
-
-<h2 id="jv-https-github-com-d-dorazio-jv"><a href="https://github.com/d-dorazio/jv">JV</a></h2>
-
+<p><img src="sudoku-screenshot.png" alt="sudoku-screenshot"></p>
+<h2 id="jvhttpsgithubcomd-doraziojv"><a href="https://github.com/d-dorazio/jv">JV</a></h2>
 <p>I don&rsquo;t know if this was a fun project, but sure enough it was frustrating.
 It&rsquo;s a &ldquo;simple&rdquo; json viewer that allows to use
 <a href="https://stedolan.github.io/jq/">jq</a>-like queries to search for elements in a
 JSON document. It also supports automatic jumping to the path under the cursor
 if it&rsquo;s a valid query. Incidentally this also works as a simple file viewer.</p>
-
 <p>The part that was annoying was text rendering, in particular handling the width
 of a character. I thought that as long as we stick with ASCII (I&rsquo;m sorry, but
 handling the width of unicode codepoints is really a pain) it should always be
 one. Then the tab &lsquo;\t&rsquo; character came along and I started crying&hellip;</p>
-
 <p>Anyway, I&rsquo;m proud to say that tab characters are properly handled by JV and
 that it proved useful a bunch of times.</p>
-
 <p>If you really want to know more about my frustrutations then I wrote a
 <a href="/post/jv">post</a> for you.</p>
-
-<p><img src="jv-screenshot.png" alt="jv-screenshot" /></p>
-
-<h2 id="buzz-https-github-com-d-dorazio-r3d"><a href="https://github.com/d-dorazio/r3d">Buzz</a></h2>
-
+<p><img src="jv-screenshot.png" alt="jv-screenshot"></p>
+<h2 id="buzzhttpsgithubcomd-dorazior3d"><a href="https://github.com/d-dorazio/r3d">Buzz</a></h2>
 <p>This was the hardest, but most satisfying project among all the other projects
 I&rsquo;ve done this year. It&rsquo;s a toy ray tracer that I wrote to learn more about the
 topic and about rendering in general.</p>
-
 <p>It was a blast, I learned a bunch of things and I realized the effort it goes
 into making a scene look good. Even more so if it&rsquo;s just a frame of an
 animation!</p>
-
 <p>This was my entry point to the world of computer graphics which is something I
 realized I like playing with from time to time.</p>
-
 <p>Since this was a big project I definitely wanted to write a post and
 <a href="/post/buzz">there</a> you have it!</p>
-
-<p><img src="/post/buzz/csg.png" alt="buzz-csg" /></p>
-
-<h2 id="diffusion-limited-aggregation-https-github-com-d-dorazio-dla"><a href="https://github.com/d-dorazio/dla">Diffusion limited aggregation</a></h2>
-
+<p><img src="/post/buzz/csg.png" alt="buzz-csg"></p>
+<h2 id="diffusion-limited-aggregationhttpsgithubcomd-doraziodla"><a href="https://github.com/d-dorazio/dla">Diffusion limited aggregation</a></h2>
 <p>As soon as Buzz got into a &ldquo;working&rdquo; state I wanted to use it to render some
 cool looking scenes and <a href="https://en.wikipedia.org/wiki/Diffusion-limited_aggregation">diffusion limited
 aggregation</a>
 seemed like a cool thing to try.</p>
-
 <p>DLA is a process that simulates Brownian motion which results in dendric and
 snowflaky shapes. I think it can be done in any number of dimensions but at
 least in 2D and 3D the resulting patterns are quite interesting.</p>
-
 <p>I intended to write a blog post about this because I particularly enjoyed
 working on this project, but for whatever reason I did not. Maybe in the
 future.</p>
-
-<p><img src="/post/2019-in-review/dla-small.png" alt="dla-small" class="image-centered"></p>
-
-<h2 id="isolines-marching-squares-https-github-com-d-dorazio-marching-squares-rs"><a href="https://github.com/d-dorazio/marching-squares-rs">Isolines - marching squares</a></h2>
-
+<img src="/post/2019-in-review/dla-small.png" alt="dla-small" class="image-centered">
+<h2 id="isolines---marching-squareshttpsgithubcomd-doraziomarching-squares-rs"><a href="https://github.com/d-dorazio/marching-squares-rs">Isolines - marching squares</a></h2>
 <p>At this point, I needed a break from Buzz because it&rsquo;s best not to overdo and I
 decided to play around with isolines. I&rsquo;ve always been fascinated by
 topographic maps. I&rsquo;m not sure why, I guess I like lines.</p>
-
 <p>Anyway, I decided to implement the <a href="https://en.wikipedia.org/wiki/Marching_squares">marching square
 algorithm</a> that allows to find
 the paths in an image at a given &ldquo;height&rdquo; (technically speaking above a given
 threshold, but meh&hellip;). If we simply use it to find the paths at different
 heights then we have a simple topographic map!</p>
-
 <p>I like the topographic maps I&rsquo;m able to generate starting from an heightmap and
 I&rsquo;m thinking about printing (or even pen plotting) some just for fun.</p>
-
 <p>I think this was worth a blog post, but I was lazy and didn&rsquo;t write any.</p>
-
-<p><img src="italy.png" alt="italy.png" /></p>
-
-<h2 id="terrain-mesh-generation-https-github-com-d-dorazio-terrain-mesh"><a href="https://github.com/d-dorazio/terrain-mesh">Terrain mesh generation</a></h2>
-
+<p><img src="italy.png" alt="italy.png"></p>
+<h2 id="terrain-mesh-generationhttpsgithubcomd-dorazioterrain-mesh"><a href="https://github.com/d-dorazio/terrain-mesh">Terrain mesh generation</a></h2>
 <p>On the same note as the previous project, I started wondering if I could
 generate a 3D mesh resembling a mountain or terrain. It turned out to be quite
 easy once I found out about <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin
 noise</a>. I spent more time writing
 the code that actually connects the mesh than tuning the terrain generation
 parameters.</p>
-
 <p>The best thing about this project is that eventually I was able to 3d print
 some of the generated meshes!</p>
-
 <p>I wrote a <a href="/post/terrain-mesh-from-noise">post</a> about this, yay!</p>
-
-<p><img src="/post/terrain-mesh/terrain.png" alt="random-terrain" /></p>
-
-<h2 id="delaunay-mesh-https-github-com-d-dorazio-delaunay-mesh"><a href="https://github.com/d-dorazio/delaunay-mesh">Delaunay mesh</a></h2>
-
+<p><img src="/post/terrain-mesh/terrain.png" alt="random-terrain"></p>
+<h2 id="delaunay-meshhttpsgithubcomd-doraziodelaunay-mesh"><a href="https://github.com/d-dorazio/delaunay-mesh">Delaunay mesh</a></h2>
 <p>This was more of an experiment than an actual project since I was mostly
 playing around with triangulation with no clear goal in mind. You won&rsquo;t find
 anything too interesting here, it&rsquo;s just an (inefficient) implementation of a
 triangulation algorithm.</p>
-
-<p><img src="delaunay.png" alt="delaunay" /></p>
-
-<h2 id="morse-cli-https-github-com-d-dorazio-morse"><a href="https://github.com/d-dorazio/morse">Morse CLI</a></h2>
-
+<p><img src="delaunay.png" alt="delaunay"></p>
+<h2 id="morse-clihttpsgithubcomd-doraziomorse"><a href="https://github.com/d-dorazio/morse">Morse CLI</a></h2>
 <p>This was a funny one, not particularly challenging but it was nice nonetheless.
 It&rsquo;s a very simple CLI that allows to encode and decode ASCII text in <a href="https://en.wikipedia.org/wiki/Morse_code">Morse
 code</a>. I also implemented a very
 simple play feature that allows to actually hear what Morse sounds like.</p>
-
-<p><img src="morse-screenshot.png" alt="morse" /></p>
-
-<h2 id="four-color-maps-https-github-com-d-dorazio-4color-map"><a href="https://github.com/d-dorazio/4color-map">Four-Color maps</a></h2>
-
+<p><img src="morse-screenshot.png" alt="morse"></p>
+<h2 id="four-color-mapshttpsgithubcomd-dorazio4color-map"><a href="https://github.com/d-dorazio/4color-map">Four-Color maps</a></h2>
 <p>This was the last project of the year, it&rsquo;s an absolutely non mathematical
 proof that the <a href="https://en.wikipedia.org/wiki/Four_color_theorem">Four-Color
 theorem</a> holds. The theorem
 says that any given planar map can be colored using at most four colors and
 what&rsquo;s the best way to test it than actually generating some maps and trying to
 color them? That&rsquo;s exactly what I did.</p>
-
 <p>Ironically, the hardest part of the project was not finding whether a map (or
 graph) could be colored with at most four colors, but instead generating a good
 looking random map. I implemented a voronoi like map generation which works
 reasonably well, but I think there are better ways.</p>
-
 <p>Also, this made me realize that I like maps more than I thought.</p>
-
-<p><img src="4color-map.svg" alt="4color-map" /></p>
-
+<p><img src="4color-map.svg" alt="4color-map"></p>
 <h2 id="conclusions">Conclusions</h2>
-
 <p>If I&rsquo;m ok with the amount and kind of projects I managed to do, I&rsquo;m definitely
 not with the amount of posts I&rsquo;ve written as I&rsquo;ve written only five. There are
 some projects that I think are worth a post either because they&rsquo;re interesting
 or because I put a lot of effort in them, but I was too lazy or tired to
 actually write it.</p>
-
 <p>My resolutions for 2020 are basically the same that is a project per month and
 blog post about it except that this time I want to be more strict on the latter.</p>
-
 <p>Happy new year!</p>
 
   </div>

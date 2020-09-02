@@ -55,23 +55,17 @@
     </a>
   </p>
   <div class="post">
-    
-
-<p>A week ago or so I managed to complete the <a href="http://adventofcode.com/2017">Advent of Code
+    <p>A week ago or so I managed to complete the <a href="http://adventofcode.com/2017">Advent of Code
 2017</a> and it was a really fun experience. Most of
 the problems was really interesting(the spiral memory is probably my favorite),
 but the problem for day 25 especially attracted me. Basically it was about
 implementing a <a href="https://en.wikipedia.org/wiki/Turing_machine">Turing Machine</a>.</p>
-
 <p>This is not rocket science since a Turing Machine is a simple idea(like all the
 brilliant ideas) and a lot of ink has been spilled on it. However, since I was
 using Haskell to solve the problem, I started to think at ways to model a Turing
 Machine using functional programming.</p>
-
 <h2 id="quick-refresher-about-turing-machines">Quick refresher about Turing Machines</h2>
-
 <p>The Turing Machine was invented by Alan Turing and it consists of:</p>
-
 <ul>
 <li>an infinite tape of cells all initialized to 0</li>
 <li>a cursor that reads and writes data from the cell under it</li>
@@ -81,50 +75,41 @@ value of the current cell. An instruction can overwrite the value stored at
 the current cell, move the cursor left or right and eventually change the
 state of the machine.</li>
 </ul>
-
 <p>It should come as no surprise that this model is at the foundation of imperative
 programming since it&rsquo;s all about changing state and telling the processor how to
 do things. Put it in another way: it is all about mutability.</p>
-
 <h2 id="naive-mutable-implementation">Naive mutable implementation</h2>
-
 <p>The easiest implementation of a Turing machine is probably to have a vector as
 the tape, an index into that vector as the cursor and another variable as the
 current state. For the sake of simplicity let&rsquo;s assume that the instructions are
 known ahead of time and that we can model them as functions in the source code.</p>
-
 <p>Here&rsquo;s some example python code that should make the idea crystal clear:</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">class</span> <span style="color:#0e84b5;font-weight:bold">TuringMachine</span>:
+    <span style="color:#007020;font-weight:bold">def</span> __init__(self):
+      self<span style="color:#666">.</span>tape <span style="color:#666">=</span> [<span style="color:#40a070">0</span>] <span style="color:#666">*</span> <span style="color:#40a070">32</span>
+      self<span style="color:#666">.</span>cursor <span style="color:#666">=</span> <span style="color:#40a070">0</span>
+      self<span style="color:#666">.</span>state <span style="color:#666">=</span> <span style="color:#40a070">0</span> <span style="color:#60a0b0;font-style:italic"># could be anything really</span>
 
-<pre><code class="language-python">class TuringMachine:
-    def __init__(self):
-      self.tape = [0] * 32
-      self.cursor = 0
-      self.state = 0 # could be anything really
+    <span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">example_instruction</span>(self):
+      <span style="color:#007020;font-weight:bold">if</span> self<span style="color:#666">.</span>state <span style="color:#666">==</span> <span style="color:#40a070">0</span>:
+        self<span style="color:#666">.</span>tape[self<span style="color:#666">.</span>cursor] <span style="color:#666">+=</span> <span style="color:#40a070">1</span>
+        self<span style="color:#666">.</span>cursor <span style="color:#666">+=</span> <span style="color:#40a070">1</span>
+        self<span style="color:#666">.</span>state <span style="color:#666">=</span> <span style="color:#40a070">1</span>
+      <span style="color:#007020;font-weight:bold">else</span>:
+        self<span style="color:#666">.</span>tape[self<span style="color:#666">.</span>cursor] <span style="color:#666">-=</span> <span style="color:#40a070">1</span>
+        self<span style="color:#666">.</span>cursor <span style="color:#666">-=</span> <span style="color:#40a070">1</span>
+        self<span style="color:#666">.</span>state <span style="color:#666">=</span> <span style="color:#40a070">0</span>
 
-    def example_instruction(self):
-      if self.state == 0:
-        self.tape[self.cursor] += 1
-        self.cursor += 1
-        self.state = 1
-      else:
-        self.tape[self.cursor] -= 1
-        self.cursor -= 1
-        self.state = 0
+tm <span style="color:#666">=</span> TuringMachine()
+tm<span style="color:#666">.</span>example_instruction()
+<span style="color:#007020;font-weight:bold">print</span>(tm<span style="color:#666">.</span>tape, tm<span style="color:#666">.</span>cursor, tm<span style="color:#666">.</span>state)
+<span style="color:#60a0b0;font-style:italic"># ([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1, 1)</span>
 
-tm = TuringMachine()
-tm.example_instruction()
-print(tm.tape, tm.cursor, tm.state)
-# ([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 1, 1)
-
-tm.example_instruction()
-print(tm.tape, tm.cursor, tm.state)
-# ([1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0, 0)
-</code></pre>
-
-<p>Dead simple yet working.</p>
-
+tm<span style="color:#666">.</span>example_instruction()
+<span style="color:#007020;font-weight:bold">print</span>(tm<span style="color:#666">.</span>tape, tm<span style="color:#666">.</span>cursor, tm<span style="color:#666">.</span>state)
+<span style="color:#60a0b0;font-style:italic"># ([1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 0, 0)</span>
+</code></pre></div><p>Dead simple yet working.</p>
 <p>Mostly.</p>
-
 <p>The main problem is that it ignores the fact that the tape is potentially
 infinite. &ldquo;No problem, I&rsquo;ll just wrap all the accesses to the current cell and
 reallocate the vector when necessary&rdquo; I hear you say. It surely works, but it
@@ -135,30 +120,24 @@ the benefits. Therefore we could allocate more space than what we actually need
 to overcome this issue. Let&rsquo;s ignore the fact that in this way we loose the
 possibility of knowing which cells were actually visited(without adding other
 variables). A possible implementation could look like the following:</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_current_cell</span>(self):
+  <span style="color:#007020;font-weight:bold">if</span> self<span style="color:#666">.</span>cursor <span style="color:#666">&lt;</span> <span style="color:#40a070">0</span>:
+    self<span style="color:#666">.</span>tape <span style="color:#666">=</span> [<span style="color:#40a070">0</span>] <span style="color:#666">*</span> <span style="color:#40a070">32</span> <span style="color:#666">+</span> self<span style="color:#666">.</span>tape
+    self<span style="color:#666">.</span>cursor <span style="color:#666">=</span> <span style="color:#40a070">32</span>
+  <span style="color:#007020;font-weight:bold">elif</span> self<span style="color:#666">.</span>cursor <span style="color:#666">&gt;=</span> <span style="color:#007020">len</span>(self<span style="color:#666">.</span>tape):
+    self<span style="color:#666">.</span>tape<span style="color:#666">.</span>extend([<span style="color:#40a070">0</span>] <span style="color:#666">*</span> <span style="color:#40a070">32</span>)
 
-<pre><code class="language-python">def get_current_cell(self):
-  if self.cursor &lt; 0:
-    self.tape = [0] * 32 + self.tape
-    self.cursor = 32
-  elif self.cursor &gt;= len(self.tape):
-    self.tape.extend([0] * 32)
-
-  return self.tape[self.cursor]
-</code></pre>
-
-<p>This implementation has some problems though. First of all, the method is meant
+  <span style="color:#007020;font-weight:bold">return</span> self<span style="color:#666">.</span>tape[self<span style="color:#666">.</span>cursor]
+</code></pre></div><p>This implementation has some problems though. First of all, the method is meant
 to be a getter method(it&rsquo;s named <code>get_current_cell</code> after all), but it&rsquo;s
 actually mutating the internal state of the Turing machine! This is certain
 cause of bugs. Please don&rsquo;t do this. Ever.</p>
-
 <p>Another concern is that this implementation is potentially wasteful in terms of
 memory. Consider, for example, a program that steps to the left causing a
 reallocation and then always moves to the right. It should be obvious that we&rsquo;d
 be storing data we won&rsquo;t need since we&rsquo;ve allocated much more cells than what
 were actually visited.</p>
-
 <p>Last but not least, working with indexes is never fun and always error prone.</p>
-
 <p>It looks like that a vector is not the best data structure to model a Turing
 machine after all. In fact a
 <a href="https://docs.python.org/3/library/collections.html"><code>defaultdict(int)</code></a> would
@@ -167,18 +146,14 @@ efficiency since we&rsquo;d only store elements that are required(if you ignore 
 fact that hashmaps do not occupy all the available slots internally). I&rsquo;d be
 quite satisfied with an implementation like this, but I feel we can do better
 especially in a functional programming mindset.</p>
-
 <h2 id="functional-turing-machine">Functional Turing Machine</h2>
-
 <p>Let&rsquo;s take a moment and rethink about what the tape is and which operations we
 can perform on it.</p>
-
 <p>A good implementation should allow us to change the current cell&rsquo;s value and
 move either to the left or right. It doesn&rsquo;t look like we need random access
 operations at all since the position can move in sequential order only. Also, I
 like living in a world without indices as much as possible since we all know
 that off by 1 errors are extremely common 😉.</p>
-
 <p>After a bit of thinking, I realized that a tape can be seen as three parts: the
 current cell, the cells to its left and the cells to its right. Moving basically
 means pushing the current cell to either the left or right cells and replacing
@@ -186,112 +161,90 @@ the current cell with the last value of the other cells. Therefore, the left and
 right cells can be seen as stacks since the last element pushed in is the first
 element that&rsquo;s popped out(LIFO order). Given that stacks can support pushing and
 popping in O(1) time then all the operations on the tape are O(1)! Nice!</p>
-
 <p>Here is an Haskell implementation of this idea(note that the left stack is
 actually in reverse order because lists in Haskell support O(1) deletes from the
 head only):</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#007020;font-weight:bold">data</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span>
+ { _leftCells  <span style="color:#007020;font-weight:bold">::</span> [<span style="color:#902000">Int</span>] <span style="color:#60a0b0;font-style:italic">-- reverse order</span>
+ , _curCell    <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Int</span>
+ , _rightCells <span style="color:#007020;font-weight:bold">::</span> [<span style="color:#902000">Int</span>]
+ } <span style="color:#007020;font-weight:bold">deriving</span> (<span style="color:#902000">Show</span>)
 
-<pre><code class="language-haskell">data Tape = Tape
- { _leftCells  :: [Int] -- reverse order
- , _curCell    :: Int
- , _rightCells :: [Int]
- } deriving (Show)
+<span style="color:#06287e">incrCur</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">Tape</span>
+<span style="color:#06287e">incrCur</span> t <span style="color:#007020;font-weight:bold">=</span> t { _curCell <span style="color:#007020;font-weight:bold">=</span> _curCell t <span style="color:#666">+</span> <span style="color:#40a070">1</span> }
 
-incrCur :: Tape -&gt; Tape
-incrCur t = t { _curCell = _curCell t + 1 }
+<span style="color:#06287e">decrCur</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">Tape</span>
+<span style="color:#06287e">decrCur</span> t <span style="color:#007020;font-weight:bold">=</span> t { _curCell <span style="color:#007020;font-weight:bold">=</span> _curCell t <span style="color:#666">-</span> <span style="color:#40a070">1</span> }
 
-decrCur :: Tape -&gt; Tape
-decrCur t = t { _curCell = _curCell t - 1 }
+<span style="color:#06287e">moveRight</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">Tape</span>
+<span style="color:#06287e">moveRight</span> (<span style="color:#902000">Tape</span> l c (c&#39;<span style="color:#902000">:</span>r)) <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span> (c <span style="color:#902000">:</span> l) c&#39; r
 
-moveRight :: Tape -&gt; Tape
-moveRight (Tape l c (c':r)) = Tape (c : l) c' r
-
-moveLeft :: Tape -&gt; Tape
-moveLeft (Tape (c':l) c r) = Tape l c' (c : r)
-</code></pre>
-
-<p>Note that all the functions return a new <code>Tape</code> object since Haskell is
+<span style="color:#06287e">moveLeft</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">Tape</span>
+<span style="color:#06287e">moveLeft</span> (<span style="color:#902000">Tape</span> (c&#39;<span style="color:#902000">:</span>l) c r) <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span> l c&#39; (c <span style="color:#902000">:</span> r)
+</code></pre></div><p>Note that all the functions return a new <code>Tape</code> object since Haskell is
 <del>mostly</del> an immutable language.</p>
-
 <p>Accurate readers(and GHC itself) will complain that <code>moveRight</code> and <code>moveLeft</code>
 are <a href="https://en.wikipedia.org/wiki/Partial_function">partial functions</a>. That&rsquo;s
 only a fancy term that means that we&rsquo;re not considering the possibility that
 either the right or left stack could be empty. Time to ask ourselves what we
 should do in these cases. Well, the tape is actually infinite so an empty list
 can be seen as full of 0.</p>
-
 <p>Here are the final versions that support the infiniteness of the tape.</p>
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#06287e">moveRight</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">Tape</span>
+<span style="color:#06287e">moveRight</span> (<span style="color:#902000">Tape</span> l c <span style="color:#902000">[]</span>    ) <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span> (c <span style="color:#902000">:</span> l) <span style="color:#40a070">0</span> <span style="color:#902000">[]</span>
+<span style="color:#06287e">moveRight</span> (<span style="color:#902000">Tape</span> l c (c&#39;<span style="color:#902000">:</span>r)) <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span> (c <span style="color:#902000">:</span> l) c&#39; r
 
-<pre><code class="language-haskell">moveRight :: Tape -&gt; Tape
-moveRight (Tape l c []    ) = Tape (c : l) 0 []
-moveRight (Tape l c (c':r)) = Tape (c : l) c' r
-
-moveLeft :: Tape -&gt; Tape
-moveLeft (Tape []     c r) = Tape [] 0 (c : r)
-moveLeft (Tape (c':l) c r) = Tape l c' (c : r)
-</code></pre>
-
-<p>The compiler not only prevented us to include an obvious bug in the program, but
+<span style="color:#06287e">moveLeft</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">Tape</span>
+<span style="color:#06287e">moveLeft</span> (<span style="color:#902000">Tape</span> <span style="color:#902000">[]</span>     c r) <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span> <span style="color:#902000">[]</span> <span style="color:#40a070">0</span> (c <span style="color:#902000">:</span> r)
+<span style="color:#06287e">moveLeft</span> (<span style="color:#902000">Tape</span> (c&#39;<span style="color:#902000">:</span>l) c r) <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">Tape</span> l c&#39; (c <span style="color:#902000">:</span> r)
+</code></pre></div><p>The compiler not only prevented us to include an obvious bug in the program, but
 it actually forced us to implement a feature! This is super cool!</p>
-
 <p>Now that we have an efficient model to represent a <code>Tape</code> it&rsquo;s not hard to write
 the definition of a <code>TuringMachine</code>.</p>
-
-<pre><code class="language-haskell">data TuringMachine = TuringMachine
- { _state :: Int
- , _tape  :: Tape
- } deriving (Show)
-</code></pre>
-
-<p>The last thing we need to model are the instructions. In our simplified model
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#007020;font-weight:bold">data</span> <span style="color:#902000">TuringMachine</span> <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">TuringMachine</span>
+ { _state <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Int</span>
+ , _tape  <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">Tape</span>
+ } <span style="color:#007020;font-weight:bold">deriving</span> (<span style="color:#902000">Show</span>)
+</code></pre></div><p>The last thing we need to model are the instructions. In our simplified model
 they are just pure functions that given a <code>TuringMachine</code> they return another
 <code>TuringMachine</code>. However, it&rsquo;s not difficult to represent them as an
 <a href="https://en.wikipedia.org/wiki/Algebraic_data_type">ADT</a> and then to interpret
 them given a <code>Tape</code>, but we&rsquo;ll keep it simple for now.</p>
-
 <p>Here&rsquo;s the <code>example_instruction</code> from before implemented in Haskell along with
 an example <code>main</code> function:</p>
-
-<pre><code class="language-haskell">exampleInstruction :: TuringMachine -&gt; TuringMachine
-exampleInstruction ma
-  | _state ma == 0 = TuringMachine
-    { _state = 1
-    , _tape  = moveRight . incrCur . _tape $ ma
+<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-haskell" data-lang="haskell"><span style="color:#06287e">exampleInstruction</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">TuringMachine</span> <span style="color:#007020;font-weight:bold">-&gt;</span> <span style="color:#902000">TuringMachine</span>
+<span style="color:#06287e">exampleInstruction</span> ma
+  <span style="color:#666">|</span> _state ma <span style="color:#666">==</span> <span style="color:#40a070">0</span> <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">TuringMachine</span>
+    { _state <span style="color:#007020;font-weight:bold">=</span> <span style="color:#40a070">1</span>
+    , _tape  <span style="color:#007020;font-weight:bold">=</span> moveRight <span style="color:#666">.</span> incrCur <span style="color:#666">.</span> _tape <span style="color:#666">$</span> ma
     }
-  | otherwise = TuringMachine
-    { _state = 0
-    , _tape  = moveLeft . decrCur . _tape $ ma
+  <span style="color:#666">|</span> otherwise <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">TuringMachine</span>
+    { _state <span style="color:#007020;font-weight:bold">=</span> <span style="color:#40a070">0</span>
+    , _tape  <span style="color:#007020;font-weight:bold">=</span> moveLeft <span style="color:#666">.</span> decrCur <span style="color:#666">.</span> _tape <span style="color:#666">$</span> ma
     }
 
-main :: IO ()
-main = do
-  let tm  = TuringMachine 0 (Tape [] 0 [])
-  let tm' = exampleInstruction tm
-  print tm'
-  -- TuringMachine {_state = 1, _tape = Tape {_leftCells = [1], _curCell = 0, _rightCells = []}}
+<span style="color:#06287e">main</span> <span style="color:#007020;font-weight:bold">::</span> <span style="color:#902000">IO</span> <span style="color:#007020">()</span>
+<span style="color:#06287e">main</span> <span style="color:#007020;font-weight:bold">=</span> <span style="color:#007020;font-weight:bold">do</span>
+  <span style="color:#007020;font-weight:bold">let</span> tm  <span style="color:#007020;font-weight:bold">=</span> <span style="color:#902000">TuringMachine</span> <span style="color:#40a070">0</span> (<span style="color:#902000">Tape</span> <span style="color:#902000">[]</span> <span style="color:#40a070">0</span> <span style="color:#902000">[]</span>)
+  <span style="color:#007020;font-weight:bold">let</span> tm&#39; <span style="color:#007020;font-weight:bold">=</span> exampleInstruction tm
+  print tm&#39;
+  <span style="color:#60a0b0;font-style:italic">-- TuringMachine {_state = 1, _tape = Tape {_leftCells = [1], _curCell = 0, _rightCells = []}}</span>
 
-  print . exampleInstruction $ tm'
-  -- TuringMachine {_state = 0, _tape = Tape {_leftCells = [], _curCell = 1, _rightCells = [-1]}}
-</code></pre>
-
-<h2 id="conclusion">Conclusion</h2>
-
+  print <span style="color:#666">.</span> exampleInstruction <span style="color:#666">$</span> tm&#39;
+  <span style="color:#60a0b0;font-style:italic">-- TuringMachine {_state = 0, _tape = Tape {_leftCells = [], _curCell = 1, _rightCells = [-1]}}</span>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>Am I saying that even problems that look inherently mutable are better modeled
 using functional programming and immutability? Maybe. In this case I think so.</p>
-
 <p>However, if you&rsquo;re looking for the most performant implementation of a Turing
 machine then I think the mutable one is still more efficient mainly because
 vectors can leverage the cache much more than lists can. To be completely fair,
 GHC is actually able to optimize <em>a lot</em> and in fact the Haskell version is
 faster than the mutable Python version, but I don&rsquo;t think it can beat a mutable
 Rust implementation.</p>
-
 <p>On the other hand, if you&rsquo;re interested in pure algorithm complexity, then the
 functional Turing machine is, theoretically speaking, always O(1) while the
 naive Turing machine one is O(1) amortized.</p>
-
 <h3 id="links">Links</h3>
-
 <ul>
 <li>my Advent of Code 2017 solutions: <a href="https://github.com/d-dorazio/hs-misc/tree/master/aoc17">https://github.com/d-dorazio/hs-misc/tree/master/aoc17</a></li>
 </ul>
