@@ -6,11 +6,7 @@
     <description>Recent content on dapo</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Apr 2020 16:25:08 +0200</lastBuildDate>
-    
-	<atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 05 Apr 2020 16:25:08 +0200</lastBuildDate><atom:link href="https://d-dorazio.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reaction Diffusion using the Gray-Scott model</title>
       <link>https://d-dorazio.github.io/post/rd/</link>
@@ -154,10 +150,9 @@ Every developer that has done some little system programming on Linux knows that
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://d-dorazio.github.io/about/</guid>
-      <description>I am a developer working at develer where I can build a lot of cool stuff working with great people. Currently I&amp;rsquo;m working on the software for CNC leather cutting machines ranging from computer vision to motion planning algorithms.
-My interests are functional programming and programming language design.
-This blog will collect my ramblings about whatever I find interesting or worth to be written down.
-If you wish to reach out to me, you can find me on twitter and github.</description>
+      <description>I am a developer working at develer where I can build a lot of cool stuff working with great people. Currently I&amp;rsquo;m working on the software for CNC cutting machines ranging from computer vision to motion planning algorithms.
+I have a broad range of interests, from functional programming and programming language design to 3D renderers. Recently, I&amp;rsquo;ve been dabbling with generative art and plotters.
+This blog will collect my ramblings about whatever I find interesting or worth to be written down.</description>
     </item>
     
     <item>

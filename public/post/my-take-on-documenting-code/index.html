@@ -62,50 +62,50 @@ this was a solved problem because a lot of ink has already been spilled on it,
 but after a lot of discussions it became clear to me that it is not the case.</p>
 <p>I&rsquo;m going to use the following snippet(that I slightly adapted from real
 production code) to show the guidelines I tend to use in most cases.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">should_analyze</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
-    <span style="color:#007020;font-weight:bold">return</span> True
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_category</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
-    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#4070a0">&#34;cat1&#34;</span>
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_last_event_timestamp</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
-    <span style="color:#007020;font-weight:bold">return</span> datetime<span style="color:#666">.</span>datetime(<span style="color:#40a070">2010</span>, <span style="color:#40a070">1</span>, <span style="color:#40a070">1</span>)
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze_all</span>(objects):
-    res <span style="color:#666">=</span> {}
-
-    <span style="color:#007020;font-weight:bold">for</span> obj <span style="color:#007020;font-weight:bold">in</span> objects:
-        category, analysis <span style="color:#666">=</span> analyze(obj)
-
-        <span style="color:#007020;font-weight:bold">if</span> category <span style="color:#007020;font-weight:bold">not</span> <span style="color:#007020;font-weight:bold">in</span> res:
-            res[category] <span style="color:#666">=</span> []
-
-        res[category]<span style="color:#666">.</span>append(analysis)
-
-    <span style="color:#007020;font-weight:bold">return</span> res
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># Categorize the object</span>
-    category <span style="color:#666">=</span> get_category(obj)
-    <span style="color:#60a0b0;font-style:italic"># Find object&#39;s last event timestamp</span>
-    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
-    <span style="color:#60a0b0;font-style:italic"># Find out if the object should be analyzed</span>
-    analyze <span style="color:#666">=</span> should_analyze(obj)
-    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
-        <span style="color:#007020;font-weight:bold">return</span> None, None
-    <span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
-    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
-    analysis <span style="color:#666">=</span> {
-        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
-        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
-        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
-    }
-
-    <span style="color:#007020;font-weight:bold">return</span> category, analysis
-</code></pre></div><h2 id="first-things-first">First things first</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">should_analyze</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020;font-weight:bold">True</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_category</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#4070a0">&#34;cat1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_last_event_timestamp</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> datetime<span style="color:#666">.</span>datetime(<span style="color:#40a070">2010</span>, <span style="color:#40a070">1</span>, <span style="color:#40a070">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze_all</span>(objects):
+</span></span><span style="display:flex;"><span>    res <span style="color:#666">=</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">for</span> obj <span style="color:#007020;font-weight:bold">in</span> objects:
+</span></span><span style="display:flex;"><span>        category, analysis <span style="color:#666">=</span> analyze(obj)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">if</span> category <span style="color:#007020;font-weight:bold">not</span> <span style="color:#007020;font-weight:bold">in</span> res:
+</span></span><span style="display:flex;"><span>            res[category] <span style="color:#666">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        res[category]<span style="color:#666">.</span>append(analysis)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> res
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Categorize the object</span>
+</span></span><span style="display:flex;"><span>    category <span style="color:#666">=</span> get_category(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Find object&#39;s last event timestamp</span>
+</span></span><span style="display:flex;"><span>    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Find out if the object should be analyzed</span>
+</span></span><span style="display:flex;"><span>    analyze <span style="color:#666">=</span> should_analyze(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020;font-weight:bold">None</span>, <span style="color:#007020;font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
+</span></span><span style="display:flex;"><span>    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
+</span></span><span style="display:flex;"><span>    analysis <span style="color:#666">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> category, analysis
+</span></span></code></pre></div><h2 id="first-things-first">First things first</h2>
 <p>The snippet from above has multiple functions in it and we&rsquo;ll assume it&rsquo;s part
 of a single file. Let&rsquo;s also assume that you didn&rsquo;t write this code and that
 you&rsquo;re trying to understand what it does. You&rsquo;ll have to read the code of a lot
@@ -133,49 +133,49 @@ long time before it can be useful. I don&rsquo;t know about you, but if I don&rs
 notions my brain will likely forget them. Therefore, I think it&rsquo;s best to define
 variables near to the location of first use.</p>
 <p>Let&rsquo;s reorganize the above snippet following this idea.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze_all</span>(objects):
-    res <span style="color:#666">=</span> {}
-
-    <span style="color:#007020;font-weight:bold">for</span> obj <span style="color:#007020;font-weight:bold">in</span> objects:
-        category, analysis <span style="color:#666">=</span> analyze(obj)
-
-        <span style="color:#007020;font-weight:bold">if</span> category <span style="color:#007020;font-weight:bold">not</span> <span style="color:#007020;font-weight:bold">in</span> res:
-            res[category] <span style="color:#666">=</span> []
-
-        res[category]<span style="color:#666">.</span>append(analysis)
-
-    <span style="color:#007020;font-weight:bold">return</span> res
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># Find object&#39;s last event timestamp</span>
-    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
-    <span style="color:#60a0b0;font-style:italic"># Find out if the object should be analyzed</span>
-    analyze <span style="color:#666">=</span> should_analyze(obj)
-    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
-        <span style="color:#007020;font-weight:bold">return</span> None, None
-    <span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
-    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
-    analysis <span style="color:#666">=</span> {
-        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
-        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
-        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
-    }
-    <span style="color:#60a0b0;font-style:italic"># Categorize the object</span>
-    category <span style="color:#666">=</span> get_category(obj)
-    <span style="color:#007020;font-weight:bold">return</span> category, analysis
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_category</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
-    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#4070a0">&#34;cat1&#34;</span>
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_last_event_timestamp</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
-    <span style="color:#007020;font-weight:bold">return</span> datetime<span style="color:#666">.</span>datetime(<span style="color:#40a070">2010</span>, <span style="color:#40a070">1</span>, <span style="color:#40a070">1</span>)
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">should_analyze</span>(obj):
-    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
-    <span style="color:#007020;font-weight:bold">return</span> True
-</code></pre></div><p>I think that at this point, we:</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze_all</span>(objects):
+</span></span><span style="display:flex;"><span>    res <span style="color:#666">=</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">for</span> obj <span style="color:#007020;font-weight:bold">in</span> objects:
+</span></span><span style="display:flex;"><span>        category, analysis <span style="color:#666">=</span> analyze(obj)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">if</span> category <span style="color:#007020;font-weight:bold">not</span> <span style="color:#007020;font-weight:bold">in</span> res:
+</span></span><span style="display:flex;"><span>            res[category] <span style="color:#666">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        res[category]<span style="color:#666">.</span>append(analysis)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> res
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Find object&#39;s last event timestamp</span>
+</span></span><span style="display:flex;"><span>    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Find out if the object should be analyzed</span>
+</span></span><span style="display:flex;"><span>    analyze <span style="color:#666">=</span> should_analyze(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020;font-weight:bold">None</span>, <span style="color:#007020;font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
+</span></span><span style="display:flex;"><span>    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
+</span></span><span style="display:flex;"><span>    analysis <span style="color:#666">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># Categorize the object</span>
+</span></span><span style="display:flex;"><span>    category <span style="color:#666">=</span> get_category(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> category, analysis
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_category</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#4070a0">&#34;cat1&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">get_last_event_timestamp</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> datetime<span style="color:#666">.</span>datetime(<span style="color:#40a070">2010</span>, <span style="color:#40a070">1</span>, <span style="color:#40a070">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">should_analyze</span>(obj):
+</span></span><span style="display:flex;"><span>    <span style="color:#60a0b0;font-style:italic"># ...business logic</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020;font-weight:bold">True</span>
+</span></span></code></pre></div><p>I think that at this point, we:</p>
 <ul>
 <li>made clear where&rsquo;s the meat of the file that is in the <code>analyze</code> function because it&rsquo;s at very top;</li>
 <li>optimized the amount of scrolling you have to do to read the entire file.</li>
@@ -212,9 +212,9 @@ well commented and the comments are there for a purpose. Well, imho the comments
 in the <code>analyze</code> function are quite useless. They do not provide any additional
 information I don&rsquo;t already know just by looking at the code. Let&rsquo;s consider the
 very first comment for example:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#60a0b0;font-style:italic"># Find object&#39;s last event timestamp</span>
-last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
-</code></pre></div><p>What is the comment telling us that the code is not already expressing? The only
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#60a0b0;font-style:italic"># Find object&#39;s last event timestamp</span>
+</span></span><span style="display:flex;"><span>last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
+</span></span></code></pre></div><p>What is the comment telling us that the code is not already expressing? The only
 thing I could think of is that maybe <code>get_last_event_timestamp</code> is not a simple
 getter function, but it needs to perform some heavier computation to find the
 timestamp of the last event. If that&rsquo;s the case then I&rsquo;d rather change the
@@ -223,48 +223,48 @@ think the comment is just superfluous and can be removed. A similar reasoning
 can be applied to the second and fourth comments.</p>
 <p>The third comment is worse imho and I&rsquo;ll go as far as to say that it&rsquo;s actually
 misleading and is harming code clarity.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
-timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
-analysis <span style="color:#666">=</span> {
-    <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
-    <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
-    <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
-}
-</code></pre></div><p>We can break the comment into two propositions: <code>Calculate the delta</code> and <code>add the result to the category</code>. I won&rsquo;t spend too much time on the former because
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
+</span></span><span style="display:flex;"><span>timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
+</span></span><span style="display:flex;"><span>analysis <span style="color:#666">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
+</span></span><span style="display:flex;"><span>    <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
+</span></span><span style="display:flex;"><span>    <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>We can break the comment into two propositions: <code>Calculate the delta</code> and <code>add the result to the category</code>. I won&rsquo;t spend too much time on the former because
 it&rsquo;s of the same &ldquo;type&rdquo; of the comments we have already considered. I&rsquo;d like to
 concentrate on the latter. The proposition doesn&rsquo;t make any sense, because the
 code is not appending anything to anything. I think the comment got outdated and
 I think I also see how. At the origin there was no <code>analyze_all</code> function and
 everything was done in <code>analyze</code> and as such there was some code like the
 following:</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
-timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
-analysis <span style="color:#666">=</span> {
-    <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
-    <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
-    <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
-}
-res[category]<span style="color:#666">.</span>append(analysis)
-</code></pre></div><p>which aligns to what the comment is saying. The problem is that eventually the
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#60a0b0;font-style:italic"># Calculate the delta and add the result to the category</span>
+</span></span><span style="display:flex;"><span>timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
+</span></span><span style="display:flex;"><span>analysis <span style="color:#666">=</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
+</span></span><span style="display:flex;"><span>    <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
+</span></span><span style="display:flex;"><span>    <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>res[category]<span style="color:#666">.</span>append(analysis)
+</span></span></code></pre></div><p>which aligns to what the comment is saying. The problem is that eventually the
 code was rightly refactored into an <code>analyze_all</code> and <code>analyze</code> functions but
 the comments were not updated. This is a major problem because it leads to more
 confusion than other. Remember, the source of truth is <em>always</em> the code. I
 think that at this point we all agree to nuke that misleading comment.</p>
 <p>The resulting code of the <code>analyze</code> function looks like the following now.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
-    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
-    analyze <span style="color:#666">=</span> should_analyze(obj)
-    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
-        <span style="color:#007020;font-weight:bold">return</span> None, None
-    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
-    analysis <span style="color:#666">=</span> {
-        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
-        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
-        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
-    }
-    category <span style="color:#666">=</span> get_category(obj)
-    <span style="color:#007020;font-weight:bold">return</span> category, analysis
-</code></pre></div><p>I can say we definitely didn&rsquo;t lost any clarity with the benefit of having less
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
+</span></span><span style="display:flex;"><span>    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
+</span></span><span style="display:flex;"><span>    analyze <span style="color:#666">=</span> should_analyze(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020;font-weight:bold">None</span>, <span style="color:#007020;font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span>    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
+</span></span><span style="display:flex;"><span>    analysis <span style="color:#666">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    category <span style="color:#666">=</span> get_category(obj)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> category, analysis
+</span></span></code></pre></div><p>I can say we definitely didn&rsquo;t lost any clarity with the benefit of having less
 text to read.</p>
 <h2 id="whitespace-matters">Whitespace matters</h2>
 <p>As of now the <code>analyze</code> function looks like a complex algorithm because
@@ -278,24 +278,24 @@ paragraphs). I usually group lines in the following sections:</p>
 <li>any <code>for</code>, <code>while</code>, <code>if</code> or whatever constructs your language has to offer.</li>
 </ul>
 <p>Let&rsquo;s modify the <code>analyze</code> function to follow this principle.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
-    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
-    analyze <span style="color:#666">=</span> should_analyze(obj)
-
-    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
-        <span style="color:#007020;font-weight:bold">return</span> None, None
-
-    category <span style="color:#666">=</span> get_category(obj)
-
-    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
-    analysis <span style="color:#666">=</span> {
-        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
-        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
-        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
-    }
-
-    <span style="color:#007020;font-weight:bold">return</span> category, analysis
-</code></pre></div><p>Even though the diff is small, I think the benefits are quite big because the
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">analyze</span>(obj):
+</span></span><span style="display:flex;"><span>    last_event_timestamp <span style="color:#666">=</span> get_last_event_timestamp(obj)
+</span></span><span style="display:flex;"><span>    analyze <span style="color:#666">=</span> should_analyze(obj)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">if</span> <span style="color:#007020;font-weight:bold">not</span> analyze <span style="color:#007020;font-weight:bold">or</span> <span style="color:#007020;font-weight:bold">not</span> last_event_timestamp:
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020;font-weight:bold">None</span>, <span style="color:#007020;font-weight:bold">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    category <span style="color:#666">=</span> get_category(obj)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    timestamp <span style="color:#666">=</span> datetime<span style="color:#666">.</span>datetime<span style="color:#666">.</span>now()
+</span></span><span style="display:flex;"><span>    analysis <span style="color:#666">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;timestamp&#34;</span>: timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;delta&#34;</span>: timestamp <span style="color:#666">-</span> last_event_timestamp,
+</span></span><span style="display:flex;"><span>        <span style="color:#4070a0">&#34;last_event_timestamp&#34;</span>: last_event_timestamp,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> category, analysis
+</span></span></code></pre></div><p>Even though the diff is small, I think the benefits are quite big because the
 logical sections in the functions are crystal clear now. Also, did I mention
 that refactoring the different sections into separate functions is as easy as
 cut and paste?</p>
@@ -319,7 +319,7 @@ the code should look complex though.</p>
 <footer class="footer">
     <div class="container footer-container">
         <div style="margin-right: auto">
-            © 2020 Daniele D'Orazio
+            © 2022 Daniele D'Orazio
         </div>
 
         <div class="footer-icon">

@@ -1,93 +1,57 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://d-dorazio.github.io/</loc>
     <lastmod>2020-04-05T16:25:08+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/</loc>
     <lastmod>2020-04-05T16:25:08+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/rd/</loc>
     <lastmod>2020-04-05T16:25:08+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/ascii-diagrams/</loc>
     <lastmod>2020-02-21T21:13:37+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/2019-in-review/</loc>
     <lastmod>2019-12-31T09:22:56+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/terrain-mesh-from-noise/</loc>
     <lastmod>2019-08-29T21:52:25+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/buzz/</loc>
     <lastmod>2019-06-23T22:29:14+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/jv/</loc>
     <lastmod>2019-03-22T10:35:15+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/chip8-emulator-rs/</loc>
     <lastmod>2019-01-27T22:31:44+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/category-theory/</loc>
     <lastmod>2019-01-10T13:39:08+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/terminal-graphics-braille/</loc>
     <lastmod>2018-11-30T21:21:53+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/property-based-testing/</loc>
     <lastmod>2018-09-13T23:03:31+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/my-take-on-documenting-code/</loc>
     <lastmod>2018-04-30T12:08:32+02:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/functional-turing-machine/</loc>
     <lastmod>2018-01-23T21:30:52+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/2018-resolutions/</loc>
     <lastmod>2018-01-07T23:22:02+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/post/signals-from-the-past/</loc>
     <lastmod>2017-03-26T01:30:06+01:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/about/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://d-dorazio.github.io/library/</loc>
   </url>
-  
 </urlset>
