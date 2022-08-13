@@ -46,7 +46,7 @@
 
   <span>
     
-    Jan 27, 2019 - 4 Minute Read
+    Jan 27, 2019 - 5 Minute Read
     
   </span>
   <p class="post-title">
@@ -94,20 +94,20 @@ best with a clock speed of 500Hz.</p>
 of the games flawlessly, but some games were flickering a lot. I initially
 thought my emulator was slow, but it turned out to not be the case. I then
 investigated whether my naive main game loop was working properly</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#007020;font-weight:bold">loop</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>handle_input(sdl_events());<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">for</span><span style="color:#bbb"> </span>_<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">in</span><span style="color:#bbb"> </span>freq<span style="color:#bbb"> </span><span style="color:#666">/</span><span style="color:#bbb"> </span><span style="color:#40a070">60</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
-</span><span style="color:#bbb">        </span>chip8.emulate_cycle();<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>}<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>chip8.decrease_timers();<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>refresh_sound();<span style="color:#bbb">
-</span><span style="color:#bbb">    </span>refresh_screen();<span style="color:#bbb">
-</span><span style="color:#bbb">
-</span><span style="color:#bbb">    </span>thread::sleep(Duration::new(<span style="color:#40a070">0</span>,<span style="color:#bbb"> </span><span style="color:#40a070">1_000_000_000</span><span style="color:#007020;font-weight:bold">u32</span><span style="color:#bbb"> </span><span style="color:#666">/</span><span style="color:#bbb"> </span><span style="color:#40a070">60</span>))<span style="color:#bbb">
-</span><span style="color:#bbb"></span>}<span style="color:#bbb">
-</span></code></pre></div><p>The general idea is quite straightforward. The screen is meant to be refreshed
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">loop</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>handle_input(sdl_events());<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">for</span><span style="color:#bbb"> </span>_<span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">in</span><span style="color:#bbb"> </span>freq<span style="color:#bbb"> </span><span style="color:#666">/</span><span style="color:#bbb"> </span><span style="color:#40a070">60</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>chip8.emulate_cycle();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>}<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>chip8.decrease_timers();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>refresh_sound();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>refresh_screen();<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>thread::sleep(Duration::new(<span style="color:#40a070">0</span>,<span style="color:#bbb"> </span><span style="color:#40a070">1_000_000_000</span><span style="color:#007020;font-weight:bold">u32</span><span style="color:#bbb"> </span><span style="color:#666">/</span><span style="color:#bbb"> </span><span style="color:#40a070">60</span>))<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></span></span></code></pre></div><p>The general idea is quite straightforward. The screen is meant to be refreshed
 at 60FPS and in each frame we first process the user input, then we run some
 instructions according to the clock speed, decrease the timers, update the audio
 status and eventually redraw the screen. After staring a bit at the code I was
@@ -155,7 +155,7 @@ it can be done in Rust anyway is pretty cool though!</p>
 <footer class="footer">
     <div class="container footer-container">
         <div style="margin-right: auto">
-            © 2020 Daniele D'Orazio
+            © 2022 Daniele D'Orazio
         </div>
 
         <div class="footer-icon">

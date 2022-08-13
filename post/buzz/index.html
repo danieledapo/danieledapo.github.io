@@ -85,11 +85,11 @@ in the final image.</p>
 than <a href="https://en.wikipedia.org/wiki/Rasterisation">rasterisation</a> for example, but on the other hand the
 rendered image is way closer to reality especially when looking at shadows.</p>
 <p>The core idea of the algorithm can be summarized by the following code snippet.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">for</span> (x, y) <span style="color:#007020;font-weight:bold">in</span> output_image:
-    <span style="color:#007020;font-weight:bold">for</span> _ <span style="color:#007020;font-weight:bold">in</span> <span style="color:#40a070">0.</span><span style="color:#666">.</span>nsamples:
-        color <span style="color:#666">=</span> shoot_ray(ray_going_through(camera, (x, y)))
-        output_image<span style="color:#666">.</span>blend_pixel(x, y, color)
-</code></pre></div><p>Quite neat, isn&rsquo;t it? Obviously I&rsquo;ve omitted where all the magic happens (that
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">for</span> (x, y) <span style="color:#007020;font-weight:bold">in</span> output_image:
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">for</span> _ <span style="color:#007020;font-weight:bold">in</span> <span style="color:#40a070">0.</span><span style="color:#666">.</span>nsamples:
+</span></span><span style="display:flex;"><span>        color <span style="color:#666">=</span> shoot_ray(ray_going_through(camera, (x, y)))
+</span></span><span style="display:flex;"><span>        output_image<span style="color:#666">.</span>blend_pixel(x, y, color)
+</span></span></code></pre></div><p>Quite neat, isn&rsquo;t it? Obviously I&rsquo;ve omitted where all the magic happens (that
 is in <code>shoot_ray</code>) but I think that is a good overview of how ray tracing
 works. It basically goes through each pixel of the final image, shoots slightly
 different rays into the scene and eventually blends all the potentially
@@ -108,17 +108,17 @@ materials because they seemed the easiest to implement.</p>
 turns out that a relatively good model consists in simply bouncing the incoming
 ray approximately along the normal of the intersected object. This ends up in
 simulating a perfectly diffuse material.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">lambertian_bounce</span>(ray, obj):
-    (intersection_point, normal) <span style="color:#666">=</span> obj<span style="color:#666">.</span>intersect(ray)
-    <span style="color:#007020;font-weight:bold">return</span> Ray(intersection_point, normal <span style="color:#666">+</span> randUnitVector())
-</code></pre></div><p>Metal materials were a bit harder to implement because they do not simply make
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">lambertian_bounce</span>(ray, obj):
+</span></span><span style="display:flex;"><span>    (intersection_point, normal) <span style="color:#666">=</span> obj<span style="color:#666">.</span>intersect(ray)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> Ray(intersection_point, normal <span style="color:#666">+</span> randUnitVector())
+</span></span></code></pre></div><p>Metal materials were a bit harder to implement because they do not simply make
 the incoming ray bounce in a random direction but instead such ray is reflected
 and then slightly perturbed. Intuitively this makes sense because pure metals
 simply reflect light rays.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">diffuse_bounce</span>(ray, obj):
-    (intersection_point, normal) <span style="color:#666">=</span> obj<span style="color:#666">.</span>intersect(ray)
-    <span style="color:#007020;font-weight:bold">return</span> Ray(intersection_point, reflect(ray<span style="color:#666">.</span>direction, normal) <span style="color:#666">+</span> randUnitVector())
-</code></pre></div><p>Dielectric materials were the hardest to understand and to code. These materials
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">diffuse_bounce</span>(ray, obj):
+</span></span><span style="display:flex;"><span>    (intersection_point, normal) <span style="color:#666">=</span> obj<span style="color:#666">.</span>intersect(ray)
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> Ray(intersection_point, reflect(ray<span style="color:#666">.</span>direction, normal) <span style="color:#666">+</span> randUnitVector())
+</span></span></code></pre></div><p>Dielectric materials were the hardest to understand and to code. These materials
 look like glass and do not simply reflect incoming rays but instead they let
 some amount of rays go through the object (refraction) and others are reflected.
 The ratio between reflected and refracted rays are ruled by the <a href="https://en.wikipedia.org/wiki/Fresnel_equations">Fresnel
@@ -128,20 +128,20 @@ a ray hits a dielectric material Buzz randomly generates a probability and
 according to whether it&rsquo;s greater or smaller than the Fresnel factor for that
 particular material it reflects or refracts the incoming ray. Quite mouthful I
 know, but hopefully the following code snippet will clarify things a bit.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">dielectric_bounce</span>(ray, obj):
-    intersection_point, normal <span style="color:#666">=</span> obj<span style="color:#666">.</span>intersect(ray)
-    refracted_ray, cos <span style="color:#666">=</span> refract(ray, intersection_point, normal)
-
-    <span style="color:#007020;font-weight:bold">if</span> refracted_ray <span style="color:#007020;font-weight:bold">is</span> None:
-        <span style="color:#007020;font-weight:bold">return</span> reflect(ray<span style="color:#666">.</span>direction, normal)
-
-    reflect_prob <span style="color:#666">=</span> schlick(cos, refractive_index)
-
-    <span style="color:#007020;font-weight:bold">if</span> rand() <span style="color:#666">&lt;</span> reflect_prob:
-        <span style="color:#007020;font-weight:bold">return</span> reflect(ray<span style="color:#666">.</span>direction, normal)
-
-    <span style="color:#007020;font-weight:bold">return</span> refracted
-</code></pre></div><p>With just these three types of materials it&rsquo;s possible to render quite
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">dielectric_bounce</span>(ray, obj):
+</span></span><span style="display:flex;"><span>    intersection_point, normal <span style="color:#666">=</span> obj<span style="color:#666">.</span>intersect(ray)
+</span></span><span style="display:flex;"><span>    refracted_ray, cos <span style="color:#666">=</span> refract(ray, intersection_point, normal)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">if</span> refracted_ray <span style="color:#007020;font-weight:bold">is</span> <span style="color:#007020;font-weight:bold">None</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> reflect(ray<span style="color:#666">.</span>direction, normal)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    reflect_prob <span style="color:#666">=</span> schlick(cos, refractive_index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">if</span> rand() <span style="color:#666">&lt;</span> reflect_prob:
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> reflect(ray<span style="color:#666">.</span>direction, normal)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> refracted
+</span></span></code></pre></div><p>With just these three types of materials it&rsquo;s possible to render quite
 interesting and pleasing scenes like the following even though the materials do
 not look very realistic because real materials are actually a mix of the
 diffuse, metal and dielectric components, but I&rsquo;m ok with what I have for now.</p>
@@ -173,14 +173,13 @@ functions are a way to look at objects as functions that return the distance
 from a point to the object&rsquo;s surface. If the distance is negative then the point
 is inside the object, if it&rsquo;s zero then it&rsquo;s exactly on the surface and if it&rsquo;s
 positive it&rsquo;s outside the object. Here&rsquo;s an example SDF for spheres</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">class</span> <span style="color:#0e84b5;font-weight:bold">Sphere</span>:
-    center: Vec3
-    radius: <span style="color:#007020">float</span>
-
-    <span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">dist</span>(self, point):
-        <span style="color:#007020;font-weight:bold">return</span> (point <span style="color:#666">-</span> self<span style="color:#666">.</span>center)<span style="color:#666">.</span>norm() <span style="color:#666">-</span> self<span style="color:#666">.</span>radius
-
-</code></pre></div><p>Implementing the boolean operators on these primitives took me a bit of time,
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">class</span> <span style="color:#0e84b5;font-weight:bold">Sphere</span>:
+</span></span><span style="display:flex;"><span>    center: Vec3
+</span></span><span style="display:flex;"><span>    radius: <span style="color:#007020">float</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">dist</span>(self, point):
+</span></span><span style="display:flex;"><span>        <span style="color:#007020;font-weight:bold">return</span> (point <span style="color:#666">-</span> self<span style="color:#666">.</span>center)<span style="color:#666">.</span>norm() <span style="color:#666">-</span> self<span style="color:#666">.</span>radius
+</span></span></code></pre></div><p>Implementing the boolean operators on these primitives took me a bit of time,
 but I enjoyed the process nonetheless. The union between two SDF is simply the
 minimum distance between the two while the intersection is simply taking the
 maximum. Intuitively this means that the distance of a union object to a point
@@ -189,15 +188,15 @@ intersection object. The difference operator is a bit more involved but it boils
 down to taking the intersection between the first object and everything but the
 second that is the intersection between the first object and the negation of the
 second. The negation can be done by simply changing the sign of a SDF.</p>
-<div class="highlight"><pre style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">union</span>(sdf1, sdf2, point):
-    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">min</span>(sdf1<span style="color:#666">.</span>dist(point), sdf2<span style="color:#666">.</span>dist(point))
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">intersection</span>(sdf1, sdf2, point):
-    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">max</span>(sdf1<span style="color:#666">.</span>dist(point), sdf2<span style="color:#666">.</span>dist(point))
-
-<span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">difference</span>(sdf1, sdf2, point):
-    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">max</span>(sdf1<span style="color:#666">.</span>dist(point), <span style="color:#666">-</span>sdf2<span style="color:#666">.</span>dist(point))
-</code></pre></div><p>This is all pretty cool but unfortunately this isn&rsquo;t enough to render CSG
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">union</span>(sdf1, sdf2, point):
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">min</span>(sdf1<span style="color:#666">.</span>dist(point), sdf2<span style="color:#666">.</span>dist(point))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">intersection</span>(sdf1, sdf2, point):
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">max</span>(sdf1<span style="color:#666">.</span>dist(point), sdf2<span style="color:#666">.</span>dist(point))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">def</span> <span style="color:#06287e">difference</span>(sdf1, sdf2, point):
+</span></span><span style="display:flex;"><span>    <span style="color:#007020;font-weight:bold">return</span> <span style="color:#007020">max</span>(sdf1<span style="color:#666">.</span>dist(point), <span style="color:#666">-</span>sdf2<span style="color:#666">.</span>dist(point))
+</span></span></code></pre></div><p>This is all pretty cool but unfortunately this isn&rsquo;t enough to render CSG
 objects because usually ray tracers need to find the intersection point on the
 object to properly calculate the normal for shading, etc&hellip; However, CSG can
 only provide distances because that&rsquo;s the whole point of representing models
@@ -235,7 +234,7 @@ build a rasterizer to explore the other face of 3D rendering. See you then.</p>
 <footer class="footer">
     <div class="container footer-container">
         <div style="margin-right: auto">
-            © 2020 Daniele D'Orazio
+            © 2022 Daniele D'Orazio
         </div>
 
         <div class="footer-icon">
