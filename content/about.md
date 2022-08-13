@@ -4,10 +4,12 @@ title: "About"
 
 I am a developer working at [develer](https://develer.com) where I can build a
 lot of cool stuff working with great people. Currently I'm working on the
-software for CNC leather cutting machines ranging from computer vision to
-motion planning algorithms.
+software for CNC cutting machines ranging from computer vision to motion
+planning algorithms.
 
-My interests are functional programming and programming language design.
+I have a broad range of interests, from functional programming and programming
+language design to 3D renderers. Recently, I've been dabbling with generative
+art and plotters.
 
 This blog will collect my ramblings about whatever I find interesting or worth
 to be written down.
