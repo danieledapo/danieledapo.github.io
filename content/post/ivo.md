@@ -37,7 +37,7 @@ main reason I'm writing this post, maybe someone someday will find this useful
 and hopefully avoid a lot of frustration.
 
 
-## Edge visibility
+## The madness of hidden line removal
 
 The first thing to notice is that with an isometric projection only three faces
 can be visible. This simplifies things a bit because the renderer has to keep
@@ -46,27 +46,76 @@ track of the front, top and right faces, but the choice is completely arbitrary.
 
 <img src="isocube.svg" alt="isometric cube" class="image-centered">
 
+At this point comes the hardest part of the project, that is understanding which
+edges of the faces are visible and which are not because if two (or more) voxels
+are adjacent then some edges may be invisible. Here are a couple of examples
+where the dashed edges are actually invisible and must be hidden.
 
-TODO: explain why we triangulate and how we calculate the visibility of the edges
+<img src="adjacent.svg" alt="some voxels examples" class="image-centered">
+
+At the time, this didn't feel like a huge problem. I was dead wrong. I got stuck
+on this for weeks and lost the few bits of sanity left in me. My initial
+approach was to draw an edge of a face if it wasn't shared by any other voxel.
+This seemed pretty reasonable to me, but there were a lot of subtle details that
+make this approach quite annoying to implement.
+
+First of all, it's actually not true that if an edge is shared between voxels
+it's invisible! Here's an example of this case
+
+<img src="shared_edge.svg" alt="edge that should be visible between two voxels"
+class="image-centered">
+
+Here the edge in red is shared between the two voxels, but it's not invisible at
+all!
+
+But okay, here the problem is that the voxels are not adjacent (e.g. they do not
+touch), just make sure that at least two voxels are adjacent before hiding an
+edge, right? That works, but unfortunately that's not the only problem with this
+approach.
+
+Consider the following scenario
+
+<img src="shared_edge_invisible.svg" alt="edge that should be invisible between
+two voxels" class="image-centered">
+
+Should the red edge be visible or not? Well, clearly it should be invisible
+since it's shared between two adjacent voxels. However, with the current
+approach it's considered visible. Why? Because it's shared between the right
+face of a voxel and the _left_ face of the other, but left faces are not tracked
+by the system and the edge is seen as shared by only one voxel, hence visible!
+
+This was really frustrating to me because it means that I had to still keep
+track of the invisible faces only to check if an edge is visible or not. I was
+starting to think that there must have been a better approach to all of this,
+but I implemented the changes anyway just to see where this was going.
+
+And it was at this point that I hit the wall that led me to rewrite all of this
+insanity. Consider the following example
+
+<img src="death.svg" alt="voxel death combo" class="image-centered">
+
+See how the front and right faces of the voxel in the back get clipped into
+triangles given that there's a voxel in front of them? Well, I didn't even think
+about that because I was so frustrated and annoyed. At this point I didn't
+really want to touch that pile of messy code anymore and I started think about a
+more elegant solution.
+
+Luckily, I was able to find a good enough solution. The idea is to triangulate
+each visible face into two triangles with the edge shared between the triangles
+marked as invisible.
 
 <img src="triangulation.svg" alt="voxel triangulation" class="image-centered">
 
+Using triangles makes the clipping problem quite easy to solve because a
+triangle is not occluded and the other one is, no need to clip anything!
 
--- Triangulation, why?
+Also, determining whether an edge is invisible or not is not more difficult than
+doing so with the quadrilateral faces and I'd argue it's even simpler because
+less cases have to be considered for a triangle rather than a quadrilateral.
 
-The main idea of the rendering algorithm is to triangulate the faces of each
-voxel and then check each edge of the triangle; if it's shared between at least
-two adjacent voxels then the edge is invisible, otherwise it is visible.
-
-
-
-- triangulate the top, front and right quadrilateral faces only since with an
-  isometric projection those are the only visible faces. However, we must also
-  keep track of which edges are invisible and which are actually visible (e.g.
-  the diagonals of a quadrilateral should be invisible)
-- for each edge of every triangle find out if there is more than one voxel
-  sharing that edge with the same `nearness()` value. If there are then the edge is invisible, otherwise is visible.
-
+It took me some time to write down all the visibility rules, but it was not
+difficult, just tedious work. Eventually though it worked almost from the
+get-go! Saying I was ecstatic would be an understatement.
 
 
 ## 3D to 2D projection
