@@ -1,11 +1,11 @@
 ---
 title: "Ivo, the isometric voxel renderer!"
-date: 2022-08-14T11:06:09+02:00
-draft: true
+date: 2022-08-17T11:48:09+02:00
 ---
 
 
-It's been a long time since my last post, but I didn't stop doing things. This time I want to talk about [ivo][ivo-github], my isometric voxel renderer.
+It's been a long time since my last post, but I didn't stop doing things. This
+time I want to talk about [ivo][ivo-github], my isometric voxel renderer.
 
 I've always been inspired by [@wblut][wblut]'s work, it's a great combination
 between coding skills and art. In particular, his isometric pieces are
@@ -111,24 +111,51 @@ triangle is not occluded and the other one is, no need to clip anything!
 
 Also, determining whether an edge is invisible or not is not more difficult than
 doing so with the quadrilateral faces and I'd argue it's even simpler because
-less cases have to be considered for a triangle rather than a quadrilateral.
+less cases have to be considered for a triangle.
 
 It took me some time to write down all the visibility rules, but it was not
 difficult, just tedious work. Eventually though it worked almost from the
 get-go! Saying I was ecstatic would be an understatement.
 
 
+## Render order
+
+Okay, now that the edge visibility problem has been solved it's time to start
+rendering these edges.
+
+The approach I took is to render each voxel from closest to farthest making sure
+no triangles in the isometric space are drawn twice. Note that the state of the
+edges doesn't matter because if the triangle was already drawn it means there's
+a voxel that's closer to the eye that hides whatever edges are in the farthest
+voxel.
+
+To do so there should be a "nearness" value for each voxel that's bigger when
+the voxel is closer to the eye. I'm quite sure there are quite a few different
+approaches and formulas here, the one I went with is
+
+```rust
+pub fn nearness((x, y, z): Voxel) -> i64 {
+    x + y + z
+}
+```
+
+Another way to think about this function is simply the distance between the
+origin and the voxel, the bigger the distance the closer the voxel. Note that
+there's no need to do the correct calculation, but the Manhattan distance can be
+used instead because voxels with the same nearness value end up being in
+different positions in the isometric space.
+
+
 ## 3D to 2D projection
 
-Now that we found out which edges are visible, they have to be projected from
-the 3D coordinate space into the 2D isometric one. The way I do it is to first
-project the 3D point into a regular 2D orthogonal space by removing the z
-component.
+Finally, the last bit I had to figure out is how to project the 3D points into
+the 2D isometric plane.
 
-At this point, the point in the 2D orthogonal plane must be projected into the
-final isometric space. This space is actually just a grid of hexagons which
-means it's made by two axis at 30°. Hence, the orthogonal coordinates just have
-to "follow" these new axes.
+The way I do it is to first project the 3D point into a regular 2D orthogonal
+space by removing the z component. At this point, the point in the 2D orthogonal
+plane must be projected into the final isometric space. This space is actually
+just a grid of hexagons which means it's made by two axis at 30°. Hence, the
+orthogonal coordinates just have to "follow" these new axes.
 
 <img src="projection.svg" alt="isometric projection" class="image-centered">
 
@@ -145,30 +172,6 @@ fn project((x, y, z): Voxel) -> (f64,f64) {
     (i * dx - j * dx, i * dy + j * dy)
 }
 ```
-
-
-## Draw order
-
-Draw each voxel from closest to farthest and making sure no triangles are drawn
-twice. Note that the state of the edges doesn't matter because if the triangle
-was already drawn it means there's a voxel that's closest to the eye that hides
-whatever edges are in the farthest voxel.
-
-To do so there's should be "nearness" value for each value that's bigger when
-the voxel is closer to the eye. I'm quite sure there are quite a few different
-approaches and formulas here, the one I went with is
-
-```rust
-pub fn nearness((x, y, z): Voxel) -> i64 {
-    x + y + z
-}
-```
-
-Another way to think about this function is simply the distance between the
-origin and the voxel, the bigger the distance the closer the voxel. Note that
-there's no need to do the correct calculation, but the Manhattan distance can be
-used instead because voxels with the same nearness value end up being in
-different positions in the isometric space.
 
 
 ## Conclusions
