@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>d&amp;#39;</title>
+    <link rel='icon' href='/favicon.ico' type='image/x-icon' />
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+
+
+    </head>
+
+<body class="site">
+    <main class="site-content">
+ <nav class="container navbar" role="navigation">
+    <div class="logo">
+        <a href='/'>
+            <img src="/logo.svg" alt="d&#39;">
+        </a>
+    </div>
+
+    <ul class="nav-links">
+        <a href='/'>
+            <span>
+                Blog
+            </span>
+        </a>
+        <a href='/about/'>
+            <span>
+                About
+            </span>
+        </a>
+        <a href='/library/'>
+            <span>
+                Library
+            </span>
+        </a>
+    </ul>
+</nav>
+
+
+<section class="container">
+
+  <span>
+    
+    Aug 17, 2022 - 7 Minute Read
+    
+  </span>
+  <p class="post-title">
+    <a href="https://d-dorazio.github.io/post/ivo/">
+      Ivo, the isometric voxel renderer!
+    </a>
+  </p>
+  <div class="post">
+    <p>It&rsquo;s been a long time since my last post, but I didn&rsquo;t stop doing things. This
+time I want to talk about <a href="https://github.com/d-dorazio/r3d/#ivo-the-isometric-voxel-renderer">ivo</a>, my isometric voxel renderer.</p>
+<p>I&rsquo;ve always been inspired by <a href="https://twitter.com/wblut?s=20&amp;t=9dSF2Smqs3FbaDf0J9GgGQ">@wblut</a>&rsquo;s work, it&rsquo;s a great combination
+between coding skills and art. In particular, his isometric pieces are
+absolutely stunning, intricate and coherent at the same time. Just check his
+twitter profile to have an idea of the complexity of his work!</p>
+<p>I decided to try and come up with a similar system mainly to understand how it
+worked. Also, since I recently got a pen plotter (yay!) I wanted the system to
+produce pen-plotter friendly SVGs.</p>
+<h2 id="the-system">The system</h2>
+<p>The system at its core is just a collection of voxels that can be turned on and
+off programmatically, perform hidden line removal and ultimately save the set of
+visible lines onto the SVG. Since I&rsquo;m using the system mostly to plot the SVGs
+I&rsquo;m not interested in doing some cool shading and fills, I just wanted the
+visible outlines of the voxels.</p>
+<p>I could have tried to use some framework of some sort because voxel renderers
+are quite common and useful, but I didn&rsquo;t find one capable of doing hidden line
+removal and outputting SVGs. Hence, I decided to build everything from scratch.
+At the end of the day, how hard can it be to take a set of voxels, project them
+always in the same way and understand which lines are visible and which are not,
+right?</p>
+<p>Turns out it took me quite some time, more that I&rsquo;d like to admit. This is the
+main reason I&rsquo;m writing this post, maybe someone someday will find this useful
+and hopefully avoid a lot of frustration.</p>
+<h2 id="the-madness-of-hidden-line-removal">The madness of hidden line removal</h2>
+<p>The first thing to notice is that with an isometric projection only three faces
+can be visible. This simplifies things a bit because the renderer has to keep
+track of those three faces only and can cut corners if need be. I chose to keep
+track of the front, top and right faces, but the choice is completely arbitrary.</p>
+<img src="isocube.svg" alt="isometric cube" class="image-centered">
+<p>At this point comes the hardest part of the project, that is understanding which
+edges of the faces are visible and which are not because if two (or more) voxels
+are adjacent then some edges may be invisible. Here are a couple of examples
+where the dashed edges are actually invisible and must be hidden.</p>
+<img src="adjacent.svg" alt="some voxels examples" class="image-centered">
+<p>At the time, this didn&rsquo;t feel like a huge problem. I was dead wrong. I got stuck
+on this for weeks and lost the few bits of sanity left in me. My initial
+approach was to draw an edge of a face if it wasn&rsquo;t shared by any other voxel.
+This seemed pretty reasonable to me, but there were a lot of subtle details that
+make this approach quite annoying to implement.</p>
+<p>First of all, it&rsquo;s actually not true that if an edge is shared between voxels
+it&rsquo;s invisible! Here&rsquo;s an example of this case</p>
+<p><img src="shared_edge.svg" alt="edge that should be visible between two voxels"
+class="image-centered"></p>
+<p>Here the edge in red is shared between the two voxels, but it&rsquo;s not invisible at
+all!</p>
+<p>But okay, here the problem is that the voxels are not adjacent (e.g. they do not
+touch), just make sure that at least two voxels are adjacent before hiding an
+edge, right? That works, but unfortunately that&rsquo;s not the only problem with this
+approach.</p>
+<p>Consider the following scenario</p>
+<p><img src="shared_edge_invisible.svg" alt="edge that should be invisible between
+two voxels" class="image-centered"></p>
+<p>Should the red edge be visible or not? Well, clearly it should be invisible
+since it&rsquo;s shared between two adjacent voxels. However, with the current
+approach it&rsquo;s considered visible. Why? Because it&rsquo;s shared between the right
+face of a voxel and the <em>left</em> face of the other, but left faces are not tracked
+by the system and the edge is seen as shared by only one voxel, hence visible!</p>
+<p>This was really frustrating to me because it means that I had to still keep
+track of the invisible faces only to check if an edge is visible or not. I was
+starting to think that there must have been a better approach to all of this,
+but I implemented the changes anyway just to see where this was going.</p>
+<p>And it was at this point that I hit the wall that led me to rewrite all of this
+insanity. Consider the following example</p>
+<img src="death.svg" alt="voxel death combo" class="image-centered">
+<p>See how the front and right faces of the voxel in the back get clipped into
+triangles given that there&rsquo;s a voxel in front of them? Well, I didn&rsquo;t even think
+about that because I was so frustrated and annoyed. At this point I didn&rsquo;t
+really want to touch that pile of messy code anymore and I started think about a
+more elegant solution.</p>
+<p>Luckily, I was able to find a good enough solution. The idea is to triangulate
+each visible face into two triangles with the edge shared between the triangles
+marked as invisible.</p>
+<img src="triangulation.svg" alt="voxel triangulation" class="image-centered">
+<p>Using triangles makes the clipping problem quite easy to solve because a
+triangle is not occluded and the other one is, no need to clip anything!</p>
+<p>Also, determining whether an edge is invisible or not is not more difficult than
+doing so with the quadrilateral faces and I&rsquo;d argue it&rsquo;s even simpler because
+less cases have to be considered for a triangle.</p>
+<p>It took me some time to write down all the visibility rules, but it was not
+difficult, just tedious work. Eventually though it worked almost from the
+get-go! Saying I was ecstatic would be an understatement.</p>
+<h2 id="render-order">Render order</h2>
+<p>Okay, now that the edge visibility problem has been solved it&rsquo;s time to start
+rendering these edges.</p>
+<p>The approach I took is to render each voxel from closest to farthest making sure
+no triangles in the isometric space are drawn twice. Note that the state of the
+edges doesn&rsquo;t matter because if the triangle was already drawn it means there&rsquo;s
+a voxel that&rsquo;s closer to the eye that hides whatever edges are in the farthest
+voxel.</p>
+<p>To do so there should be a &ldquo;nearness&rdquo; value for each voxel that&rsquo;s bigger when
+the voxel is closer to the eye. I&rsquo;m quite sure there are quite a few different
+approaches and formulas here, the one I went with is</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">pub</span><span style="color:#bbb"> </span><span style="color:#007020;font-weight:bold">fn</span> <span style="color:#06287e">nearness</span>((x,<span style="color:#bbb"> </span>y,<span style="color:#bbb"> </span>z): <span style="color:#0e84b5;font-weight:bold">Voxel</span>)<span style="color:#bbb"> </span>-&gt; <span style="color:#902000">i64</span> {<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>x<span style="color:#bbb"> </span><span style="color:#666">+</span><span style="color:#bbb"> </span>y<span style="color:#bbb"> </span><span style="color:#666">+</span><span style="color:#bbb"> </span>z<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></span></span></code></pre></div><p>Another way to think about this function is simply the distance between the
+origin and the voxel, the bigger the distance the closer the voxel. Note that
+there&rsquo;s no need to do the correct calculation, but the Manhattan distance can be
+used instead because voxels with the same nearness value end up being in
+different positions in the isometric space.</p>
+<h2 id="3d-to-2d-projection">3D to 2D projection</h2>
+<p>Finally, the last bit I had to figure out is how to project the 3D points into
+the 2D isometric plane.</p>
+<p>The way I do it is to first project the 3D point into a regular 2D orthogonal
+space by removing the z component. At this point, the point in the 2D orthogonal
+plane must be projected into the final isometric space. This space is actually
+just a grid of hexagons which means it&rsquo;s made by two axis at 30°. Hence, the
+orthogonal coordinates just have to &ldquo;follow&rdquo; these new axes.</p>
+<img src="projection.svg" alt="isometric projection" class="image-centered">
+<p>Here&rsquo;s the projection code in Rust</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#007020;font-weight:bold">fn</span> <span style="color:#06287e">project</span>((x,<span style="color:#bbb"> </span>y,<span style="color:#bbb"> </span>z): <span style="color:#0e84b5;font-weight:bold">Voxel</span>)<span style="color:#bbb"> </span>-&gt; (<span style="color:#902000">f64</span>,<span style="color:#902000">f64</span>)<span style="color:#bbb"> </span>{<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#60a0b0;font-style:italic">// i and j are the coordinates in an orthogonal plane
+</span></span></span><span style="display:flex;"><span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">let</span><span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#902000">f64</span>::from(x<span style="color:#bbb"> </span><span style="color:#666">-</span><span style="color:#bbb"> </span>z);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">let</span><span style="color:#bbb"> </span>j<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span><span style="color:#902000">f64</span>::from(y<span style="color:#bbb"> </span><span style="color:#666">-</span><span style="color:#bbb"> </span>z);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#60a0b0;font-style:italic">// transform the orthogonal plane into the isometric one
+</span></span></span><span style="display:flex;"><span><span style="color:#60a0b0;font-style:italic"></span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">let</span><span style="color:#bbb"> </span>(dy,<span style="color:#bbb"> </span>dx)<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb">  </span><span style="color:#902000">f64</span>::sin_cos(<span style="color:#902000">f64</span>::to_radians(<span style="color:#40a070">30.0</span>));<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span>(i<span style="color:#bbb"> </span><span style="color:#666">*</span><span style="color:#bbb"> </span>dx<span style="color:#bbb"> </span><span style="color:#666">-</span><span style="color:#bbb"> </span>j<span style="color:#bbb"> </span><span style="color:#666">*</span><span style="color:#bbb"> </span>dx,<span style="color:#bbb"> </span>i<span style="color:#bbb"> </span><span style="color:#666">*</span><span style="color:#bbb"> </span>dy<span style="color:#bbb"> </span><span style="color:#666">+</span><span style="color:#bbb"> </span>j<span style="color:#bbb"> </span><span style="color:#666">*</span><span style="color:#bbb"> </span>dy)<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb"></span>}<span style="color:#bbb">
+</span></span></span></code></pre></div><h2 id="conclusions">Conclusions</h2>
+<p>I had a lot of fun working on this project and I&rsquo;m quite proud of it even though
+it was really frustrating from times to times. Especially at the beginning when
+I wasn&rsquo;t sure if what I was looking at was correct or just optical illusions.</p>
+<p>Anyway, here are some images from various sketches that use this framework.
+Until next time.</p>
+<img src="archi.png" alt="isometric architecture" class="image-centered">
+<img src="octa.png" alt="octahedron" class="image-centered">
+
+  </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+    <div class="container footer-container">
+        <div style="margin-right: auto">
+            © 2022 Daniele D'Orazio
+        </div>
+
+        <div class="footer-icon">
+            <a href="https://github.com/d-dorazio">
+                <i class="fab fa-github" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            <a href="https://twitter.com/danieled__">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+            </a>
+        </div>
+        <div class="footer-icon">
+            
+        </div>
+    </div>
+
+</footer>
+</body>
+
+</html>
+
