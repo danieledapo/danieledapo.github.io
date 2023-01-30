@@ -15,5 +15,5 @@ This blog will collect my ramblings about whatever I find interesting or worth
 to be written down.
 
 If you wish to reach out to me, you can find me on
-[twitter](https://twitter.com/danieled__) and
+[twitter](https://twitter.com/danieledapo) and
 [github](https://github.com/d-dorazio).
