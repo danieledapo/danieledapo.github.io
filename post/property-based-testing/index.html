@@ -50,13 +50,13 @@
     
   </span>
   <p class="post-title">
-    <a href="https://d-dorazio.github.io/post/property-based-testing/">
+    <a href="https://danieledapo.github.io/post/property-based-testing/">
       Use Property based testing whenever you can!
     </a>
   </p>
   <div class="post">
     <p>Recently I had to implement some geometric data structures and algorithms in
-Rust so that I could use them in <a href="https://github.com/d-dorazio/mattors">matto</a>. In particular, I built a simple <a href="https://en.wikipedia.org/wiki/K-d_tree">K-d
+Rust so that I could use them in <a href="https://github.com/danieledapo/mattors">matto</a>. In particular, I built a simple <a href="https://en.wikipedia.org/wiki/K-d_tree">K-d
 tree</a>, an algorithm to find the <a href="https://en.wikipedia.org/wiki/Convex_hull">convex hull</a>, the <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means
 clustering</a> algorithm and a couple of polygon related utilities.
 Building such things is relatively easy for the most part, but the corner cases
@@ -114,7 +114,7 @@ in the tree keeping the ones with the lowest distance to the target point. This
 is really inefficient for large numbers of points(that&rsquo;s why I needed a K-d tree
 after all!) but I don&rsquo;t care about speed(too much) when running tests. The code
 I wrote looks like the following:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest<span style="color:#666">!</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest!<span style="color:#bbb"> </span>{<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#![proptest_config(proptest::test_runner::Config::with_cases(500))]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#[test]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">fn</span> <span style="color:#06287e">prop_kdtree_nearest_neight_same_as_loop</span>(<span style="color:#bbb">
@@ -165,7 +165,7 @@ I quickly realized and fixed the bugs.</p>
 the same: <code>proptest</code> found inputs for which the tests failed, I debugged those
 minimal failing inputs and fixed all the things! Here&rsquo;s the test if you&rsquo;re
 curious:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest<span style="color:#666">!</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest!<span style="color:#bbb"> </span>{<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#![proptest_config(proptest::test_runner::Config::with_cases(500))]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#[test]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">fn</span> <span style="color:#06287e">prop_kdtree_in_range_same_as_loop</span>(<span style="color:#bbb">
@@ -219,7 +219,7 @@ that is the function to check whether a point lies inside a polygon or not.
 Since I&rsquo;m a lazy guy, I procrastinated and implemented a simpler property that
 stated that all the points of the convex hull should be in the original set of
 points.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest<span style="color:#666">!</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest!<span style="color:#bbb"> </span>{<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#![proptest_config(proptest::test_runner::Config::with_cases(100))]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#[test]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">fn</span> <span style="color:#06287e">prop_convex_hull_lies_on_boundary</span>(<span style="color:#bbb">
@@ -251,7 +251,7 @@ are multiple points on the same y. Impressive.</p>
 <p>Eventually I had to implement the polygon <code>contains</code> method anyway, so I was
 also able to add the following test which closely matches the definition of a
 convex hull.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest<span style="color:#666">!</span><span style="color:#bbb"> </span>{<span style="color:#bbb">
+<div class="highlight"><pre tabindex="0" style="background-color:#f0f0f0;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>proptest!<span style="color:#bbb"> </span>{<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#![proptest_config(proptest::test_runner::Config::with_cases(500))]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020">#[test]</span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">    </span><span style="color:#007020;font-weight:bold">fn</span> <span style="color:#06287e">prop_convex_contains_all_the_points</span>(<span style="color:#bbb">
@@ -263,7 +263,7 @@ convex hull.</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">            </span>.collect::<span style="color:#666">&lt;</span><span style="color:#007020">Vec</span><span style="color:#666">&lt;</span>_<span style="color:#666">&gt;&gt;</span>();<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#007020;font-weight:bold">let</span><span style="color:#bbb"> </span>hull<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>convex_hull(points.clone());<span style="color:#bbb">
-</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>prop_assume<span style="color:#666">!</span>(hull.len()<span style="color:#bbb"> </span><span style="color:#666">&gt;</span><span style="color:#bbb"> </span><span style="color:#40a070">2</span>);<span style="color:#bbb">
+</span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span>prop_assume!(hull.len()<span style="color:#bbb"> </span><span style="color:#666">&gt;</span><span style="color:#bbb"> </span><span style="color:#40a070">2</span>);<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">        </span><span style="color:#007020;font-weight:bold">let</span><span style="color:#bbb"> </span>hull<span style="color:#bbb"> </span><span style="color:#666">=</span><span style="color:#bbb"> </span>Polygon::new(hull).unwrap();<span style="color:#bbb">
 </span></span></span><span style="display:flex;"><span><span style="color:#bbb">
@@ -330,7 +330,7 @@ the first place!</p>
         </div>
 
         <div class="footer-icon">
-            <a href="https://github.com/d-dorazio">
+            <a href="https://github.com/danieledapo">
                 <i class="fab fa-github" aria-hidden="true"></i>
             </a>
         </div>
