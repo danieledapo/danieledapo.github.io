@@ -16,7 +16,6 @@ With regard to what to generate, I've always been fascinated by those super
 detailed models of terrain and landscapes and so I decided to create something
 like that. This was the beginning of [terrain-mesh][terrain-mesh].
 
-
 ## When random is too random
 
 I didn't want to write a program that was able to generate a single model only,
@@ -43,7 +42,6 @@ which looks pretty random, but doesn't look organic or realistic at all. At
 this point I realized that I had to look for other ways to generate random
 numbers that would look smooth when plotted in sequence.
 
-
 ## Noise functions
 
 After a bit of searching online, I came across the concept of noise functions
@@ -66,7 +64,6 @@ Here's a plot of [Perlin noise][perlin-noise] in 1D
 This looks much more smooth and organic. If you squint hard enough you might
 see the outline of a mountain or hill which is almost what I needed.
 
-
 ## Terrain meshes
 
 At this point I had a way to generate smooth random values by using 2D Perlin
@@ -88,11 +85,9 @@ The overall algorithm I use to generate terrain can be summerized as:
 
 - save the mesh as an obj file.
 
-
 Here's a rendering of a terrain created by `terrain-mesh`.
 
 ![terrain.png](/post/terrain-mesh/terrain.png)
-
 
 ## Conclusions
 
@@ -109,6 +104,5 @@ so, but the way I'm doing so is too silly and the final meshes are not really
 usable because they have way too many vertices and faces. Anyway, see you in a
 while.
 
-
-[terrain-mesh]: https://github.com/d-dorazio/terrain-mesh
+[terrain-mesh]: https://github.com/danieledapo/terrain-mesh
 [perlin-noise]: https://en.wikipedia.org/wiki/Perlin_noise

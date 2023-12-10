@@ -1,4 +1,4 @@
-baseURL = "https://d-dorazio.github.io"
+baseURL = "https://danieledapo.github.io"
 languageCode = "en-us"
 
 # this title is used only for rss readers which do not agree upon whether to
@@ -7,14 +7,14 @@ title = "dapo"
 
 enableEmoji = true
 
-disableKinds = ["taxonomy", "taxonomyTerm"]
+disableKinds = ["taxonomy"]
 
 [markup]
-  [markup.highlight]
-    style = "friendly"
+[markup.highlight]
+style = "friendly"
 
-[author]
-    name = "Daniele D'Orazio"
+[params.author]
+name = "Daniele D'Orazio"
 
 [markup.goldmark.renderer]
-unsafe= true
+unsafe = true

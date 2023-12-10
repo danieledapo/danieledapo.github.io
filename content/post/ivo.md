@@ -3,7 +3,6 @@ title: "Ivo, the isometric voxel renderer!"
 date: 2022-08-17T11:48:09+02:00
 ---
 
-
 It's been a long time since my last post, but I didn't stop doing things. This
 time I want to talk about [ivo][ivo-github], my isometric voxel renderer.
 
@@ -15,7 +14,6 @@ twitter profile to have an idea of the complexity of his work!
 I decided to try and come up with a similar system mainly to understand how it
 worked. Also, since I recently got a pen plotter (yay!) I wanted the system to
 produce pen-plotter friendly SVGs.
-
 
 ## The system
 
@@ -35,7 +33,6 @@ right?
 Turns out it took me quite some time, more that I'd like to admit. This is the
 main reason I'm writing this post, maybe someone someday will find this useful
 and hopefully avoid a lot of frustration.
-
 
 ## The madness of hidden line removal
 
@@ -117,7 +114,6 @@ It took me some time to write down all the visibility rules, but it was not
 difficult, just tedious work. Eventually though it worked almost from the
 get-go! Saying I was ecstatic would be an understatement.
 
-
 ## Render order
 
 Okay, now that the edge visibility problem has been solved it's time to start
@@ -144,7 +140,6 @@ origin and the voxel, the bigger the distance the closer the voxel. Note that
 there's no need to do the correct calculation, but the Manhattan distance can be
 used instead because voxels with the same nearness value end up being in
 different positions in the isometric space.
-
 
 ## 3D to 2D projection
 
@@ -173,7 +168,6 @@ fn project((x, y, z): Voxel) -> (f64,f64) {
 }
 ```
 
-
 ## Conclusions
 
 I had a lot of fun working on this project and I'm quite proud of it even though
@@ -186,5 +180,5 @@ Until next time.
 <img src="archi.png" alt="isometric architecture" class="image-centered">
 <img src="octa.png" alt="octahedron" class="image-centered">
 
-[ivo-github]: https://github.com/d-dorazio/r3d/#ivo-the-isometric-voxel-renderer
+[ivo-github]: https://github.com/danieledapo/r3d/#ivo-the-isometric-voxel-renderer
 [wblut]: https://twitter.com/wblut?s=20&t=9dSF2Smqs3FbaDf0J9GgGQ

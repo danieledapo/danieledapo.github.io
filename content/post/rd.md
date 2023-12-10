@@ -9,7 +9,6 @@ a lot of cool people were doing the same.
 
 I then started the dead-simple project [rd][rd]. I think I like short names.
 
-
 ## What even is Reaction Diffusion
 
 Reaction Diffusion is a simulation of two chemicals reacting together where one
@@ -19,8 +18,8 @@ substance that absorbes the first substance. The second substance also dies
 "naturally" at a given rate.
 
 The key parameters here are the rate at which the first chemical is fed into
-the system (feed\_rate), the rate at which the second chemical is killed
-(kill\_rate) and the initial state of the system before pouring the first
+the system (feed_rate), the rate at which the second chemical is killed
+(kill_rate) and the initial state of the system before pouring the first
 chemical into it. Changing any of these parameters greatly affects the final
 results of simulation.
 
@@ -50,7 +49,6 @@ Eventually, to render the system to an image I simply take the amount of
 chemical B at each cell and convert to a grayscale pixel using a bit of
 interpolation. Nothing too complicated.
 
-
 ## Rd
 
 So, it didn't take me too much time to code something up to generate some
@@ -65,7 +63,6 @@ produces are quite lovely sometimes, but most often than not they're quite
 boring. The latter is simply cool to watch.
 
 Anyway, if you're interested take a look at the [repo][rd].
-
 
 ## Conclusions
 
@@ -84,5 +81,5 @@ Stay home, I guess. See ya.
 </video>
 
 [reaction-diffusion]: https://en.wikipedia.org/wiki/Reaction%E2%80%93diffusion_system
-[rd]: https://github.com/d-dorazio/rd
+[rd]: https://github.com/danieledapo/rd
 [reaction-diffusion-tutorial]: https://www.karlsims.com/rd.html

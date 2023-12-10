@@ -12,8 +12,7 @@ complete state write a post about it.
 
 So let's see what projects I made during this year.
 
-
-## [Chip8 emulator](https://github.com/d-dorazio/chip8)
+## [Chip8 emulator](https://github.com/danieledapo/chip8)
 
 This was the first project of the year and I think it was one of funniest. It's
 a simple [chip8](https://en.wikipedia.org/wiki/CHIP-8) emulator capable of
@@ -25,13 +24,12 @@ this project was interesting because I realized that even if I had the core of
 the project done in a couple of days, I spent a lot more time polishing things
 like making the web ui nicer. A project is not only the core algorithm I guess.
 
-Anyway, you can find the emulator at <https://d-dorazio.github.io/chip8> and a
+Anyway, you can find the emulator at <https://danieledapo.github.io/chip8> and a
 blog post [here](/post/chip8-emulator-rs).
 
 ![chip8-screenshot](chip8-screenshot.png)
 
-
-## [Sudoku solver](https://github.com/d-dorazio/sudoku-rs)
+## [Sudoku solver](https://github.com/danieledapo/sudoku-rs)
 
 I like Sudoku, it's a fun game that I usually play when I'm bored at the
 airport, but still. I decided to write a solver (and generator) for it.
@@ -44,8 +42,7 @@ because bit twiddling is always a fun thing to do.
 
 ![sudoku-screenshot](sudoku-screenshot.png)
 
-
-## [JV](https://github.com/d-dorazio/jv)
+## [JV](https://github.com/danieledapo/jv)
 
 I don't know if this was a fun project, but sure enough it was frustrating.
 It's a "simple" json viewer that allows to use
@@ -66,8 +63,7 @@ If you really want to know more about my frustrutations then I wrote a
 
 ![jv-screenshot](jv-screenshot.png)
 
-
-## [Buzz](https://github.com/d-dorazio/r3d)
+## [Buzz](https://github.com/danieledapo/r3d)
 
 This was the hardest, but most satisfying project among all the other projects
 I've done this year. It's a toy ray tracer that I wrote to learn more about the
@@ -85,8 +81,7 @@ Since this was a big project I definitely wanted to write a post and
 
 ![buzz-csg](/post/buzz/csg.png)
 
-
-## [Diffusion limited aggregation](https://github.com/d-dorazio/dla)
+## [Diffusion limited aggregation](https://github.com/danieledapo/dla)
 
 As soon as Buzz got into a "working" state I wanted to use it to render some
 cool looking scenes and [diffusion limited
@@ -103,8 +98,7 @@ future.
 
 <img src="/post/2019-in-review/dla-small.png" alt="dla-small" class="image-centered">
 
-
-## [Isolines - marching squares](https://github.com/d-dorazio/marching-squares-rs)
+## [Isolines - marching squares](https://github.com/danieledapo/marching-squares-rs)
 
 At this point, I needed a break from Buzz because it's best not to overdo and I
 decided to play around with isolines. I've always been fascinated by
@@ -123,7 +117,7 @@ I think this was worth a blog post, but I was lazy and didn't write any.
 
 ![italy.png](italy.png)
 
-## [Terrain mesh generation](https://github.com/d-dorazio/terrain-mesh)
+## [Terrain mesh generation](https://github.com/danieledapo/terrain-mesh)
 
 On the same note as the previous project, I started wondering if I could
 generate a 3D mesh resembling a mountain or terrain. It turned out to be quite
@@ -139,8 +133,7 @@ I wrote a [post](/post/terrain-mesh-from-noise) about this, yay!
 
 ![random-terrain](/post/terrain-mesh/terrain.png)
 
-
-## [Delaunay mesh](https://github.com/d-dorazio/delaunay-mesh)
+## [Delaunay mesh](https://github.com/danieledapo/delaunay-mesh)
 
 This was more of an experiment than an actual project since I was mostly
 playing around with triangulation with no clear goal in mind. You won't find
@@ -149,8 +142,7 @@ triangulation algorithm.
 
 ![delaunay](delaunay.png)
 
-
-## [Morse CLI](https://github.com/d-dorazio/morse)
+## [Morse CLI](https://github.com/danieledapo/morse)
 
 This was a funny one, not particularly challenging but it was nice nonetheless.
 It's a very simple CLI that allows to encode and decode ASCII text in [Morse
@@ -159,8 +151,7 @@ simple play feature that allows to actually hear what Morse sounds like.
 
 ![morse](morse-screenshot.png)
 
-
-## [Four-Color maps](https://github.com/d-dorazio/4color-map)
+## [Four-Color maps](https://github.com/danieledapo/4color-map)
 
 This was the last project of the year, it's an absolutely non mathematical
 proof that the [Four-Color
@@ -177,7 +168,6 @@ reasonably well, but I think there are better ways.
 Also, this made me realize that I like maps more than I thought.
 
 ![4color-map](4color-map.svg)
-
 
 ## Conclusions
 

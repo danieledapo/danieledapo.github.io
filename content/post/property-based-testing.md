@@ -304,7 +304,7 @@ property tests is really worth it and it can find bugs you never thought of in
 the first place!
 
 [my-take-on-docs]: {{< relref "my-take-on-documenting-code.md" >}}
-[matto]: https://github.com/d-dorazio/mattors
+[matto]: https://github.com/danieledapo/mattors
 [kdtree]: https://en.wikipedia.org/wiki/K-d_tree
 [convex hull]: https://en.wikipedia.org/wiki/Convex_hull
 [k-means]: https://en.wikipedia.org/wiki/K-means_clustering

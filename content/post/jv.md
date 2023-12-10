@@ -132,6 +132,6 @@ now. It's not pretty, but it kinda works. After all, an ugly tool is still
 better than nothing.
 
 [jq]: https://stedolan.github.io/jq/
-[jv]: https://github.com/d-dorazio/jv
+[jv]: https://github.com/danieledapo/jv
 [cjk ideographs]: https://en.wikipedia.org/wiki/CJK_Unified_Ideographs
 [unicode annex #11]: http://www.unicode.org/reports/tr11/

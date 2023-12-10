@@ -96,8 +96,8 @@ view 3D shapes in a decent way.
 
 Here are a couple of screenshots rendering the Utah teapot.
 
-![teapot2.png](https://raw.githubusercontent.com/d-dorazio/termesh/master/images/teapot2.png)
-![teapot3.png](https://raw.githubusercontent.com/d-dorazio/termesh/master/images/teapot3.png)
+![teapot2.png](https://raw.githubusercontent.com/danieledapo/termesh/master/images/teapot2.png)
+![teapot3.png](https://raw.githubusercontent.com/danieledapo/termesh/master/images/teapot3.png)
 
 They're far from being perfect, but I can live with those.
 
@@ -163,4 +163,4 @@ repository][termesh-repository].
 [property-based-testing]: {{< relref "property-based-testing.md" >}}
 [drawille]: https://github.com/asciimoo/drawille
 [braille-patterns]: https://en.wikipedia.org/wiki/Braille_Patterns
-[termesh-repository]: https://github.com/d-dorazio/termesh
+[termesh-repository]: https://github.com/danieledapo/termesh

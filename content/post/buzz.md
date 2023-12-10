@@ -225,7 +225,7 @@ Also, I might try to implement [Physically based rendering][pbr] at some point,
 but I'm done with ray tracing for the foreseeable future. The next thing is to
 build a rasterizer to explore the other face of 3D rendering. See you then.
 
-[r3d-repo]: https://github.com/d-dorazio/r3d.git
+[r3d-repo]: https://github.com/danieledapo/r3d.git
 [wrtiw-repo]: https://github.com/petershirley/raytracinginoneweekend
 [rasterisation]: https://en.wikipedia.org/wiki/Rasterisation
 [fresnel-factor]: https://en.wikipedia.org/wiki/Fresnel_equations

@@ -14,7 +14,7 @@ This blog post is not meant to be a comprehensive tutorial of how to build a
 Chip8 emulator, but it's just a quick summary of me building it.
 
 You can find the source code for my emulator at
-<https://github.com/d-dorazio/chip8>.
+<https://github.com/danieledapo/chip8>.
 
 ## What is a Chip8
 
@@ -115,8 +115,7 @@ it can be done in Rust anyway is pretty cool though!
 Kudos to the Rust Wasm working group for making this whole process that easy!
 
 To convince yourself that this actually works, just go to
-<https://d-dorazio.github.io/chip8> and play some games.
-
+<https://danieledapo.github.io/chip8> and play some games.
 
 [chip8]: https://en.wikipedia.org/wiki/CHIP-8
 [ghosting]: https://en.wikipedia.org/wiki/Monochrome_monitor#Screen_burn

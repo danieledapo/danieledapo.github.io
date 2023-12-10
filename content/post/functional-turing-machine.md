@@ -232,7 +232,7 @@ using functional programming and immutability? Maybe. In this case I think so.
 However, if you're looking for the most performant implementation of a Turing
 machine then I think the mutable one is still more efficient mainly because
 vectors can leverage the cache much more than lists can. To be completely fair,
-GHC is actually able to optimize *a lot* and in fact the Haskell version is
+GHC is actually able to optimize _a lot_ and in fact the Haskell version is
 faster than the mutable Python version, but I don't think it can beat a mutable
 Rust implementation.
 
@@ -242,4 +242,4 @@ naive Turing machine one is O(1) amortized.
 
 ### Links
 
-- my Advent of Code 2017 solutions: https://github.com/d-dorazio/hs-misc/tree/master/aoc17
+- my Advent of Code 2017 solutions: https://github.com/danieledapo/hs-misc/tree/master/aoc17

@@ -16,4 +16,4 @@ to be written down.
 
 If you wish to reach out to me, you can find me on
 [twitter](https://twitter.com/danieledapo) and
-[github](https://github.com/d-dorazio).
+[github](https://github.com/danieledapo).
